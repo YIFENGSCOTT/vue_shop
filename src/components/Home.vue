@@ -158,7 +158,15 @@ export default {
   background-color: #333744;
 }
 .el-main {
-  background-color: #eaedf1;
+  background: white;
+  min-height: 80vh;
+  width: 60%;
+  background: linear-gradient(to right bottom,
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.3));
+  z-index: 2;
+  backdrop-filter: blur(2rem);
+  display: flex;
 }
 
 .toggle-button {

@@ -5,7 +5,6 @@ import Home from "../components/Home.vue";
 import Welcome from "../components/Welcome.vue";
 import Events from "../components/staff/Events.vue";
 import Resources from "../components/staff/Resources.vue"
-import Test from "../components/staff/Test.vue"
 
 Vue.use(Router);
 
@@ -20,7 +19,6 @@ export default new Router({
       children: [{ path: "/welcome", component: Welcome }, 
       { path: "/1-1", component: Events},
       { path: "/1-2", component: Resources},
-      { path: "/1-3", component: Test}
       ],
     },
   ],
