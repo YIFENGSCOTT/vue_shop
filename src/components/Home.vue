@@ -95,9 +95,7 @@
               <span>接报维护</span>
             </template>
             </el-menu-item>
-            
           </el-submenu>
-          
         </el-menu>
       </el-aside>
       <!--右侧内容主体-->
@@ -113,14 +111,14 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       //是否折叠
       isCollapse: false
     }
   },
   methods: {
-    logout() {
+    logout () {
       window.sessionStorage.clear();
       this.$router.push("/login");
     },
