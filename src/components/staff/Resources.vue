@@ -1,3 +1,4 @@
+//工作人员物资维护界面
 <template>
   <div>
     <!-- 面包屑导航区 -->
@@ -15,12 +16,17 @@
       <el-row :gutter="20">
         <el-col :span="6">
           <div>
-            <el-button type="success" round @click="addDialogVisible = true">新增</el-button>
-            <el-button round>修改</el-button>
-        
-          </div></el-col>
-        <el-col :span="6"><div>
-            <el-button round @click="toggleSelection()">取消搜索</el-button></div></el-col>
+            <el-button type="success" round @click="addDialogVisible = true"
+              >新增</el-button
+            >
+            <!-- <el-button round @click="showEditDialog()">修改</el-button> -->
+          </div></el-col
+        >
+        <el-col :span="6"
+          ><div>
+            <el-button round @click="toggleSelection()">取消搜索</el-button>
+          </div></el-col
+        >
         <el-col :span="6"
           ><div>
             <el-tooltip
@@ -42,7 +48,7 @@
         </el-col>
         <el-col :span="6"
           ><div>
-            <el-button type="danger" round>删除</el-button>
+            <!-- <el-button type="danger" round>删除</el-button> -->
           </div></el-col
         >
       </el-row>
@@ -53,25 +59,56 @@
         :data="tableDataEnd"
         tooltip-effect="dark"
         style="width: 100%"
-        @selection-change="handleSelectionChange"
         :default-sort="{ prop: 'id' }"
       >
         <el-table-column type="selection" width="55"> </el-table-column>
-        <el-table-column prop="id" label="ID" sortable="" width="80">
+        <el-table-column prop="id" label="ID" sortable="" width="70">
         </el-table-column>
         <el-table-column prop="name" label="物资名称" width="120">
         </el-table-column>
-        <el-table-column prop="num" label="物资数量" width="100">
+        <el-table-column prop="num" label="物资数量" width="80">
         </el-table-column>
         <el-table-column prop="type" label="物资类型" width="120">
         </el-table-column>
-        <el-table-column prop="person" label="物资清点人" width="120">
+        <el-table-column prop="person" label="物资清点人" width="100">
         </el-table-column>
         <el-table-column prop="phone" label="物资清点人电话" width="120">
         </el-table-column>
-        <el-table-column prop="seq" label="物资编号" width="120">
+        <el-table-column prop="seq" label="物资编号" width="80">
         </el-table-column>
         <el-table-column prop="date" label="物资清点时间" width="120">
+        </el-table-column>
+
+        <el-table-column label="操作" width="120">
+          <template slot-scope="scope">
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="修改物资记录"
+              placement="top"
+              :enterable="false"
+            >
+              <el-button type="primary" icon="el-icon-edit" circle @click="showEditDialog(
+                scope.row.id,
+                scope.row.name, 
+                scope.row.num, 
+                scope.row.type, 
+                scope.row.person, 
+                scope.row.phone, 
+                scope.row.seq, 
+                scope.row.date)"></el-button>
+            </el-tooltip>
+
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="删除物资记录"
+              placement="top"
+              :enterable="false"
+            >
+              <el-button type="danger" icon="el-icon-delete" circle></el-button>
+            </el-tooltip>
+          </template>
         </el-table-column>
       </el-table>
 
@@ -92,13 +129,87 @@
         title="添加物资记录"
         :visible.sync="addDialogVisible"
         width="50%"
+        @close="resetForm"
       >
         <!-- 内容主体区 -->
-        <!-- todo -->
+        <el-form
+          :model="addForm"
+          :rules="addFormRules"
+          ref="addForm"
+          label-width="auto"
+          size="mini"
+        >
+          <el-form-item label="ID：" prop="id">
+            <el-input v-model="addForm.id"></el-input>
+          </el-form-item>
+          <el-form-item label="物资名称：" prop="name">
+            <el-input v-model="addForm.name"></el-input>
+          </el-form-item>
+          <el-form-item label="物资数量：" prop="num">
+            <el-input v-model="addForm.num"></el-input>
+          </el-form-item>
+          <el-form-item label="物资类型：" prop="type">
+            <el-input v-model="addForm.type"></el-input>
+          </el-form-item>
+          <el-form-item label="物资清点人：" prop="person">
+            <el-input v-model="addForm.person"></el-input>
+          </el-form-item>
+          <el-form-item label="清点人电话：" prop="phone">
+            <el-input v-model="addForm.phone"></el-input>
+          </el-form-item>
+          <el-form-item label="物资编号：" prop="seq">
+            <el-input v-model="addForm.seq"></el-input>
+          </el-form-item>
+          <el-form-item label="物资清点时间：" prop="date">
+            <el-input v-model="addForm.date"></el-input>
+          </el-form-item>
+        </el-form>
         <!-- 底部区域 -->
         <span slot="footer" class="dialog-footer">
           <el-button @click="addDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="addDialogVisible = false"
+          <el-button type="primary" @click="addResource">确 定</el-button>
+        </span>
+      </el-dialog>
+
+      <!-- 修改物资的对话框 -->
+      <el-dialog
+        title="修改物资记录"
+        :visible.sync="editDialogVisible"
+        width="50%"
+        label-width="auto" 
+        size="mini"
+      >
+      <!-- 内容主体区 -->
+        <el-form :model="editForm" :rules="editFormRules" ref="editForm" label-width="auto">
+          <el-form-item label="ID">
+            <el-input v-model="editForm.id" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="物资名称">
+            <el-input v-model="editForm.name" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="物资数量">
+            <el-input v-model="editForm.num"></el-input>
+          </el-form-item>
+          <el-form-item label="物资类型">
+            <el-input v-model="editForm.type" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="物资清点人">
+            <el-input v-model="editForm.person"></el-input>
+          </el-form-item>
+          <el-form-item label="清点人电话">
+            <el-input v-model="editForm.phone" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="物资编号">
+            <el-input v-model="editForm.seq" ></el-input>
+          </el-form-item>
+          <el-form-item label="物资清点时间">
+            <el-input v-model="editForm.date" disabled></el-input>
+          </el-form-item>
+        </el-form>  
+        <!-- 底部区域 -->
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="editDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="editDialogVisible = false"
             >确 定</el-button
           >
         </span>
@@ -109,6 +220,7 @@
 
 <script>
 export default {
+  inject: ["reload"],
   data() {
     return {
       tableDataBegin: [
@@ -166,13 +278,33 @@ export default {
       tableDataName: "",
       tableDataEnd: [],
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 8,
       totalItems: 0,
       filterTableDataEnd: [],
       flag: false,
       multipleSelection: [],
       //控制添加物资对话框的显示与隐藏
       addDialogVisible: false,
+      //控制修改物资对话框的显示与隐藏
+      editDialogVisible: false,
+      //添加物资的表单数据
+      addForm: {
+        id: "",
+        name: "",
+        num: "",
+        type: "",
+        person: "",
+        phone: "",
+        seq: "",
+        date: "",
+      },
+      //添加表单的验证规则对象
+      addFormRules: {
+        id: [{ required: true, message: "请输入物资ID", trigger: "blur" }],
+        name: [{ required: true, message: "请输入物资名称", trigger: "blur" }],
+      },
+      //查询到的物资修改对象
+      editForm: {}
     };
   },
   //生命周期函数
@@ -206,6 +338,7 @@ export default {
           }
         }
       });
+
       //页面数据改变重新统计数据数量和当前页
       this.currentPage = 1;
       this.totalItems = this.filterTableDataEnd.length;
@@ -213,6 +346,7 @@ export default {
       this.currentChangePage(this.filterTableDataEnd);
       //页面初始化数据需要判断是否检索过
       this.flag = true;
+      this.tableDataName = "";
     },
 
     //监听pagesize改变的事件
@@ -226,12 +360,13 @@ export default {
       console.log(`当前页: ${val}`);
       this.currentPage = val;
       //需要判断是否检索
-      if (!this.flag) {
+      this.currentChangePage(this.tableDataBegin);
+      // if (!this.flag) {
         //tableDataBegin不能写成tableDataEnd，不然在没有进行搜索功能的时候，不能进行分页操作，数据丢失
         this.currentChangePage(this.tableDataBegin);
-      } else {
-        this.currentChangePage(this.filterTableDataEnd);
-      }
+      // } else {
+      //   this.currentChangePage(this.filterTableDataEnd);
+      // }
     }, //组件自带监控当前页码
     currentChangePage(list) {
       let from = (this.currentPage - 1) * this.pageSize;
@@ -245,14 +380,46 @@ export default {
     },
     //取消搜索
     toggleSelection() {
+      //直接重新加载界面，但是这样会出现一个问题：原先添加的元素消失了
+      // this.reload()
       this.totalItems = this.tableDataBegin.length;
       if (this.totalItems > this.pageSize) {
+        this.tableDataEnd = [];
         for (let index = 0; index < this.pageSize; index++) {
           this.tableDataEnd.push(this.tableDataBegin[index]);
         }
       } else {
         this.tableDataEnd = this.tableDataBegin;
       }
+    },
+    // 监听添加用户对话框的关闭事件
+    resetForm() {
+      // this.addForm={}
+      this.$refs.addForm.resetFields();
+    },
+    // 点击按钮，添加新的物资记录
+    //尚未实现持久化
+    addResource() {
+      const _this = this;
+      this.$refs.addForm.validate((valid) => {
+        if (!valid) return;
+        //可以添加用户
+        //参考深拷贝
+        let itemForm = JSON.parse(JSON.stringify(this.addForm));
+        console.log(itemForm)
+        _this.tableDataBegin.push(itemForm);
+        console.log(_this.tableDataBegin);
+        //隐藏添加用户的对话框
+        this.addDialogVisible = false;
+        //显示提示信息
+        this.$message.success("添加物资信息成功！");
+      });
+    },
+    //展示编辑物资信息的对话框
+    showEditDialog(id, name, num, type, person, phone, seq, date) {
+      console.log(id, name, num, type, person, phone, seq, date)
+      this.editForm = {id, name, num, type, person, phone, seq, date}
+      this.editDialogVisible = true;
     },
   },
 };
