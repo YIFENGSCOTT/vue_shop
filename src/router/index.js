@@ -30,6 +30,7 @@ Vue.use(Router);
 //     } // 配置跨域支持
 //   }
 // }
+
 export default new Router({
   routes: [
     { path: "/", redirect: "/login" },

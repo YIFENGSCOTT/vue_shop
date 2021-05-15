@@ -430,22 +430,22 @@ export default {
     },
     // 点击按钮，添加新的物资记录
     //尚未实现持久化
-    addResource() {
-      const _this = this;
-      this.$refs.addForm.validate((valid) => {
-        if (!valid) return;
-        //可以添加用户
-        //参考深拷贝
-        let itemForm = JSON.parse(JSON.stringify(this.addForm));
-        console.log(itemForm)
-        _this.tableDataBegin.push(itemForm);
-        console.log(_this.tableDataBegin);
-        //隐藏添加用户的对话框
-        this.addDialogVisible = false;
-        //显示提示信息
-        this.$message.success("添加物资信息成功！");
-      });
-    },
+    // addResource() {
+    //   const _this = this;
+    //   this.$refs.addForm.validate((valid) => {
+    //     if (!valid) return;
+    //     //可以添加用户
+    //     //参考深拷贝
+    //     let itemForm = JSON.parse(JSON.stringify(this.addForm));
+    //     console.log(itemForm)
+    //     _this.tableDataBegin.push(itemForm);
+    //     console.log(_this.tableDataBegin);
+    //     //隐藏添加用户的对话框
+    //     this.addDialogVisible = false;
+    //     //显示提示信息
+    //     this.$message.success("添加物资信息成功！");
+    //   });
+    // },
     //展示编辑物资信息的对话框
     showEditDialog(id, name, num , state) {
       // console.log(id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state)
