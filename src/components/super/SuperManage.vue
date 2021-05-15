@@ -1,12 +1,13 @@
-//工作人员城市信息维护界面
+//超级用户界面
 <template>
   <div>
     <!-- 面包屑导航区 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>工作人员界面</el-breadcrumb-item>
-      <el-breadcrumb-item>城市信息维护</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/super' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>超级用户界面</el-breadcrumb-item>
+      <el-breadcrumb-item>人员信息维护</el-breadcrumb-item>
     </el-breadcrumb>
+
     <!-- 卡片视图区 -->
     <el-card class="box-card">
       <!-- 搜索与添加区 -->
@@ -17,15 +18,6 @@
           <div>
             <el-button type="success" round @click="addDialogVisible = true"
               >新增</el-button
-            >
-            <!-- <el-button round @click="showEditDialog()">修改</el-button> -->
-          </div></el-col
-        >
-
-        <el-col :span="6">
-          <div>
-            <el-button type="success" round @click="addTrafficVisible = true"
-              >新增交通情况</el-button
             >
           </div></el-col
         >
@@ -39,10 +31,10 @@
             <el-tooltip
               class="item"
               effect="dark"
-              content="根据城市名称模糊查询"
+              content="根据用户名模糊查询"
               placement="top"
             >
-              <el-input placeholder="请输入城市名称" v-model="tableDataName">
+              <el-input placeholder="请输入用户名称" v-model="tableDataName">
                 <el-button
                   slot="append"
                   icon="el-icon-search"
@@ -53,14 +45,10 @@
           </div>
           <el-col> </el-col>
         </el-col>
-        <el-col :span="6"
-          ><div>
-            <!-- <el-button type="danger" round>删除</el-button> -->
-          </div></el-col
-        >
+        <el-col :span="6"><div></div></el-col>
       </el-row>
 
-      <!-- 城市列表区域 -->
+      <!-- 用户列表区域 -->
       <el-table
         ref="multipleTable"
         :data="tableDataEnd"
@@ -69,25 +57,32 @@
         :default-sort="{ prop: 'id' }"
       >
         <el-table-column type="selection"> </el-table-column>
-        <el-table-column prop="id" label="ID" sortable="" min-width="120px">
+        <el-table-column prop="id" label="ID" sortable=""> </el-table-column>
+        <el-table-column prop="account" label="账号" width="120">
         </el-table-column>
-        <el-table-column prop="name" label="城市名称" min-width="120px">
+        <el-table-column prop="password" label="密码"> </el-table-column>
+        <el-table-column prop="name" label="姓名" width="120">
         </el-table-column>
-        <el-table-column prop="code" label="城市编码" min-width="120px">
+        <el-table-column prop="gender" label="性别"> </el-table-column>
+        <el-table-column prop="age" label="年龄"> </el-table-column>
+        <el-table-column prop="seq" label="人员编号" width="120">
         </el-table-column>
-        <el-table-column prop="province" label="省" min-width="120px">
+        <el-table-column prop="type" label="人员类型" width="120">
         </el-table-column>
-        <el-table-column prop="people" label="救援人数" min-width="120px">
-        </el-table-column>
-        <el-table-column prop="car" label="救援车辆数" min-width="120px">
+        <el-table-column prop="state" label="账号状态" width="120">
+          <template slot-scope="scope">
+            <el-tag :type="scope.row.state === true ? 'success' : 'danger'">
+              {{ scope.row.state }}
+            </el-tag>
+          </template>
         </el-table-column>
 
-        <el-table-column label="操作" min-width="120px">
+        <el-table-column label="操作" width="120">
           <template slot-scope="scope">
             <el-tooltip
               class="item"
               effect="dark"
-              content="修改城市信息"
+              content="修改人员信息"
               placement="top"
               :enterable="false"
             >
@@ -99,11 +94,14 @@
                 @click="
                   showEditDialog(
                     scope.row.id,
+                    scope.row.account,
+                    scope.row.password,
                     scope.row.name,
-                    scope.row.code,
-                    scope.row.province,
-                    scope.row.people,
-                    scope.row.car
+                    scope.row.gender,
+                    scope.row.age,
+                    scope.row.seq,
+                    scope.row.type,
+                    scope.row.state
                   )
                 "
               ></el-button>
@@ -113,7 +111,7 @@
             <el-tooltip
               class="item"
               effect="dark"
-              content="删除城市信息"
+              content="删除人员信息"
               placement="top"
               :enterable="false"
             >
@@ -140,9 +138,9 @@
       >
       </el-pagination>
 
-      <!-- 添加物资的对话框 -->
+      <!-- 新增人员的对话框 -->
       <el-dialog
-        title="添加城市信息"
+        title="添加人员信息"
         :visible.sync="addDialogVisible"
         width="50%"
         @close="resetForm"
@@ -158,20 +156,36 @@
           <el-form-item label="ID：" prop="id">
             <el-input v-model="addForm.id"></el-input>
           </el-form-item>
-          <el-form-item label="城市名称：" prop="name">
+          <el-form-item label="账号：" prop="account">
+            <el-input v-model="addForm.account"></el-input>
+          </el-form-item>
+          <el-form-item label="密码：" prop="password">
+            <el-input v-model="addForm.password"></el-input>
+          </el-form-item>
+          <el-form-item label="姓名：" prop="name">
             <el-input v-model="addForm.name"></el-input>
           </el-form-item>
-          <el-form-item label="城市编码：" prop="code">
-            <el-input v-model="addForm.code"></el-input>
+          <!-- <el-form-item label="性别：" prop="gender">
+            <el-input v-model="addForm.gender"></el-input>
+          </el-form-item> -->
+          <el-form-item label="性别：" prop="gender">
+            <el-radio-group v-model="addForm.gender">
+              <el-radio label="男"></el-radio>
+              <el-radio label="女"></el-radio>
+            </el-radio-group>
           </el-form-item>
-          <el-form-item label="省：" prop="province">
-            <el-input v-model="addForm.province"></el-input>
+          <el-form-item label="年龄：" prop="age">
+            <el-input v-model="addForm.age"></el-input>
           </el-form-item>
-          <el-form-item label="救援人数" prop="people">
-            <el-input v-model="addForm.people"></el-input>
+          <el-form-item label="人员编号:" prop="seq">
+            <el-input v-model="addForm.seq"></el-input>
           </el-form-item>
-          <el-form-item label="救援车辆数" prop="car">
-            <el-input v-model="addForm.car"></el-input>
+          <el-form-item label="人员类型：">
+            <el-select v-model="addForm.type" placeholder="请选择员工类型">
+              <el-option label="工作人员" value="工作人员"></el-option>
+              <el-option label="指挥人员" value="指挥人员"></el-option>
+              <el-option label="专家" value="专家"></el-option>
+            </el-select>
           </el-form-item>
         </el-form>
         <!-- 底部区域 -->
@@ -181,56 +195,7 @@
         </span>
       </el-dialog>
 
-      <!-- 添加交通情况的对话框 -->
-      <el-dialog
-        title="添加交通情况"
-        :visible.sync="addTrafficVisible"
-        width="50%"
-        @close="resetTrafficForm"
-      >
-        <!-- 内容主体区 -->
-        <el-form
-          :model="addTrafficForm"
-          ref="addTrafficForm"
-          label-width="auto"
-          :rules="addTrafficRules"
-        >
-          <el-form-item label="名称：" prop="name">
-            <el-input v-model="addTrafficForm.name"></el-input>
-          </el-form-item>
-          <!-- <el-form-item label="起点：" prop="start">
-            <el-input v-model="addTrafficForm.start"></el-input>
-          </el-form-item> -->
-          <el-form-item label="起点：" prop="start" style="width: 100%;">
-            <el-select v-model="addTrafficForm.start" placeholder="请选择" style="width: 100%;">
-              <el-option label="东软睿道" value="NEU"></el-option>
-              <el-option label="佛山美的" value="Media"></el-option>
-            </el-select>
-          </el-form-item>
-          <!-- <el-form-item label="终点：" prop="end">
-            <el-input v-model="addTrafficForm.end"></el-input>
-          </el-form-item> -->
-          <el-form-item label="终点：" prop="end" style="width: 100%">
-            <el-select v-model="addTrafficForm.end" placeholder="请选择" style="width: 100%;"> 
-              <el-option label="物资点1" value="spot1"></el-option>
-              <el-option label="物资点2" value="spot2"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="长度：" prop="length">
-            <el-input v-model="addTrafficForm.length"></el-input>
-          </el-form-item>
-          <el-form-item label="备注：" prop="ps">
-            <el-input type="textarea" v-model="addTrafficForm.ps"></el-input>
-          </el-form-item>
-        </el-form>
-        <!-- 底部区域 -->
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="addTrafficVisible = false">取 消</el-button>
-          <el-button type="primary" @click="addTraffic">确 定</el-button>
-        </span>
-      </el-dialog>
-
-      <!-- 修改物资的对话框 -->
+      <!-- 修改的对话框 -->
       <el-dialog
         title="修改物资记录"
         :visible.sync="editDialogVisible"
@@ -246,23 +211,36 @@
           label-width="auto"
           size="mini"
         >
-          <el-form-item label="ID">
+          <el-form-item label="ID：" prop="id">
             <el-input v-model="editForm.id" disabled></el-input>
           </el-form-item>
-          <el-form-item label="城市名称">
+          <el-form-item label="账号：" prop="account">
+            <el-input v-model="editForm.account"></el-input>
+          </el-form-item>
+          <el-form-item label="密码：" prop="password">
+            <el-input v-model="editForm.password"></el-input>
+          </el-form-item>
+          <el-form-item label="姓名：" prop="name">
             <el-input v-model="editForm.name" disabled></el-input>
           </el-form-item>
-          <el-form-item label="城市编码">
-            <el-input v-model="editForm.code"></el-input>
+          <el-form-item label="性别：" prop="gender">
+            <el-input v-model="editForm.gender" disabled></el-input>
           </el-form-item>
-          <el-form-item label="省">
-            <el-input v-model="editForm.province"></el-input>
+          <el-form-item label="年龄：" prop="age">
+            <el-input v-model="editForm.age"></el-input>
           </el-form-item>
-          <el-form-item label="救援人数">
-            <el-input v-model="editForm.people"></el-input>
+          <el-form-item label="人员编号：" prop="seq">
+            <el-input v-model="editForm.seq" disabled></el-input>
           </el-form-item>
-          <el-form-item label="救援车辆数">
-            <el-input v-model="editForm.car"></el-input>
+          <el-form-item label="人员类型：">
+            <el-select v-model="editForm.type" placeholder="请选择员工类型">
+              <el-option label="工作人员" value="工作人员"></el-option>
+              <el-option label="指挥人员" value="指挥人员"></el-option>
+              <el-option label="专家" value="专家"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="账号状态：" prop="state">
+            <el-switch v-model="editForm.state"></el-switch>
           </el-form-item>
         </el-form>
         <!-- 底部区域 -->
@@ -282,20 +260,26 @@ export default {
     return {
       tableDataBegin: [
         {
-          id: "3",
-          name: "沈阳",
-          code: "001",
-          province: "辽宁",
-          people: "100",
-          car: "100"
+          id: "1",
+          account: "admin",
+          password: "123456",
+          name: "工具人1",
+          gender: "男",
+          age: "20",
+          seq: "10",
+          type: "工作人员",
+          state: true
         },
         {
-          id: "4",
-          name: "无锡",
-          code: "214",
-          province: "江苏",
-          people: "200",
-          car: "80"
+          id: "2",
+          account: "comander",
+          password: "123456",
+          name: "指挥工具人",
+          gender: "男",
+          age: "30",
+          seq: "12",
+          type: "指挥人员",
+          state: true
         }
       ],
       tableDataName: "",
@@ -310,46 +294,44 @@ export default {
       addDialogVisible: false,
       //控制修改物资对话框的显示与隐藏
       editDialogVisible: false,
-      //控制增加交通信息的对话框的显示与隐藏
-      addTrafficVisible: false,
       //添加物资的表单数据
       addForm: {
         id: "",
+        account: "",
+        password: "",
         name: "",
-        code: "",
-        province: "",
-        people: "",
-        car: ""
+        gender: "",
+        age: "",
+        seq: "",
+        type: "",
+        state: true
       },
 
       //添加表单的验证规则对象
       addFormRules: {
-        id: [{ required: true, message: "请输入城市ID", trigger: "blur" }],
-        name: [{ required: true, message: "请输入城市名称", trigger: "blur" }]
-      },
-      //添加交通信息的验证规则对象
-      addTrafficRules: {
-        name: [{ required: true, message: "请输入交通路线名称", trigger: "blur"}],
-        start: [{ required: true, message: "请选择起点", trigger: "blur"}],
-        end: [{ required: true, message: "请选择终点", trigger: "blur"}]
+        id: [{ required: true, message: "请输入员工ID", trigger: "blur" }],
+        account: [
+          { required: true, message: "请输入员工账户", trigger: "blur" }
+        ]
+        // password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+        // name: [{ required: true, message: "请输入员工姓名", trigger: "blur" }],
+        // gender: [{ required: true, message: "请输入员工性别", trigger: "blur" }],
+        // age: [{ required: true, message: "请输入员工年龄", trigger: "blur" }],
+        // seq: [{ required: true, message: "请输入员工编号", trigger: "blur" }],
+        // type: [{ required: true, message: "请输入员工类型", trigger: "blur" }],
+        // state: [{ required: true, message: "请输入员工账户状态", trigger: "blur" }],
       },
       //查询到的物资修改对象
       editForm: {
         id: "",
+        account: "",
+        password: "",
         name: "",
-        code: "",
-        province: "",
-        people: "",
-        car: ""
-      },
-      //表单中得到的交通信息
-      addTrafficForm: {
-        id: "",
-        name: "",
-        start: "",
-        end: "",
-        length: "",
-        ps: ""
+        gender: "",
+        age: "",
+        seq: "",
+        type: "",
+        state: false
       }
     };
   },
@@ -440,12 +422,8 @@ export default {
     },
     // 监听添加用户对话框的关闭事件
     resetForm() {
-      // this.addForm={}
+      this.addForm={}
       this.$refs.addForm.resetFields();
-    },
-    //监听新增交通情况对话框的关闭事件
-    resetTrafficForm() {
-      this.$refs.addTrafficForm.resetFields();
     },
     // 点击按钮，添加新的物资记录
     //尚未实现持久化
@@ -462,13 +440,23 @@ export default {
         //隐藏添加用户的对话框
         this.addDialogVisible = false;
         //显示提示信息
-        this.$message.success("添加物资信息成功！");
+        this.$message.success("添加成功！");
       });
     },
     //展示编辑物资信息的对话框
-    showEditDialog(id, name, code, province, people, car) {
-      console.log(id, name, code, province, people, car);
-      this.editForm = { id, name, code, province, people, car };
+    showEditDialog(id, account, password, name, gender, age, seq, type, state) {
+      console.log(id, account, password, name, gender, age, seq, type, state);
+      this.editForm = {
+        id,
+        account,
+        password,
+        name,
+        gender,
+        age,
+        seq,
+        type,
+        state
+      };
       this.editDialogVisible = true;
     },
     //监听修改用户对话框的关闭事件
@@ -539,19 +527,6 @@ export default {
 
         this.$message.success("删除成功！");
       }
-    },
-
-    addTraffic() {
-      console.log(this.addTrafficForm);
-      // this.$refs.addTrafficForm.validate(valid => {
-      //   if (!valid) return;
-      this.$refs.addTrafficForm.validate(valid => {
-        if(!valid) return;
-      this.addTrafficVisible = false;
-      
-      this.$message.success("添加成功！");
-      })
-      
     }
   }
 };

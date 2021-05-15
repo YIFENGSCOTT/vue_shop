@@ -74,7 +74,11 @@ export default {
         // console.log(res)
         // window.sessionStorage.setItem('token', res.data.token)
           this.$router.push('/home')
-        }else{
+        }else if(this.loginForm.username == 'super' && this.loginForm.password == 'super123'){
+          this.$message.success('登陆成功')
+          this.$router.push('/super')
+
+        }else {
           return this.$message.error('登录失败')
         }
       })

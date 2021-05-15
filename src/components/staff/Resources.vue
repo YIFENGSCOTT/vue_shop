@@ -464,7 +464,7 @@ export default {
         //隐藏添加用户的对话框
         this.editDialogVisible = false;
         //显示提示信息
-        this.$message.success("修改物资信息成功！");
+        this.$message.success("修改成功！");
     },
 
     //根据id删除物资信息
@@ -497,7 +497,7 @@ export default {
 
       console.log(_this.tableDataBegin);
         
-        this.$message.success("删除物资信息成功！");
+        this.$message.success("删除成功！");
 
         }
     }
