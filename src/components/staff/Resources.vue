@@ -24,7 +24,7 @@
         >
         <el-col :span="6"
           ><div>
-            <el-button round @click="toggleSelection()">取消搜索</el-button>
+            <el-button round @click="toggleSelection()">刷新</el-button>
           </div></el-col
         >
         <el-col :span="6"
