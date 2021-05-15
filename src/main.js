@@ -2,7 +2,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import './plugins/element.js'
-
 import BaiduMap from 'vue-baidu-map'
  
 Vue.use(BaiduMap, {
