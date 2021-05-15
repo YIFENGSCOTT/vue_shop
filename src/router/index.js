@@ -1,14 +1,18 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Login from '../components/Login.vue'
-import Home from '../components/Home.vue';
-import Welcome from '../components/Welcome.vue';
-import Events from '../components/staff/Events.vue';
-import Resources from '../components/staff/Resources.vue'
+import Vue from "vue";
+import Router from "vue-router";
+import Login from "../components/Login.vue";
+import Home from "../components/Home.vue";
+import Welcome from "../components/Welcome.vue";
+import Events from "../components/staff/Events.vue";
+import Resources from "../components/staff/Resources.vue";
+import ResourcePlace from "../components/staff/ResourcePlace.vue";
+import Company from "../components/staff/Company.vue";
+import Flow from "../components/staff/Flow.vue"
+import CityInfo from "../components/staff/CityInfo.vue"
 import Commander from '../components/Commander.vue'
 import AlarmManagement from '../components/command/AlarmManagement.vue'
+Vue.use(Router);
 
-Vue.use(VueRouter)
 
 // module.exports = {
 //   dev: {
@@ -26,49 +30,32 @@ Vue.use(VueRouter)
 //     } // 配置跨域支持
 //   }
 // }
-
-const routes = [
-  {
-    path: '/',
-    redirect: '/login'
-  },
-  {
-    path: '/login',
-    component: Login
-  },
-  {
-    path: '/home',
-    component: Home,
-    redirect: '/welcome',
-    children: [
-        { path: '/welcome', component: Welcome },
-        { path: '/1-1', component: Events},
-        { path: '/1-2', component: Resources}
-    ]
-  },
-  {
-    path: '/commander',
-    component: Commander,
-    redirect: '/welcome1',
-    children: [
-        { path: '/welcome1', component: Welcome },
-        { path: '/2-1', component: AlarmManagement},
-        { path: '/2-2', component: Resources}
-    ]
-  }
-]
-
-const router = new VueRouter({
-  routes
-})
-
-// router.beforeEach((to, from, next) => {
-//   if (to.path === '/login') return next()
-//   // const tokenStr = window.sessionStorage.getItem('token')
-//   if (!tokenStr) {
-//     return next('/login')
-//   }
-//   next()
-// })
-
-export default router
+export default new Router({
+  routes: [
+    { path: "/", redirect: "/login" },
+    { path: "/login", component: Login },
+    {
+      path: "/home",
+      component: Home,
+      redirect: "/welcome",
+      children: [{ path: "/welcome", component: Welcome }, 
+      { path: "/1-1", component: Events},
+      { path: "/1-2", component: Resources},
+      { path: "/1-3", component: ResourcePlace},
+      { path: "/1-4", component: Flow},
+      { path: "/1-5", component: Company},
+      { path: "/1-6", component: CityInfo}
+      ],
+    },
+    {
+      path: '/commander',
+      component: Commander,
+      redirect: '/welcome1',
+      children: [
+          { path: '/welcome1', component: Welcome },
+          { path: '/2-1', component: AlarmManagement},
+          { path: '/2-2', component: Resources}
+      ]
+    }
+  ],
+});

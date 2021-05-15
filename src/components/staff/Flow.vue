@@ -1,15 +1,15 @@
-//工作人员物资维护界面
+//工作人员流程维护界面
 <template>
   <div>
     <!-- 面包屑导航区 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>工作人员界面</el-breadcrumb-item>
-      <el-breadcrumb-item>物资维护</el-breadcrumb-item>
+      <el-breadcrumb-item>流程维护</el-breadcrumb-item>
     </el-breadcrumb>
 
     <!-- 卡片视图区 -->
-    <el-card class="box-card">
+    <el-card class="box-card" >
       <!-- 搜索与添加区 -->
 
       <!-- 栅格布局 -->
@@ -32,10 +32,10 @@
             <el-tooltip
               class="item"
               effect="dark"
-              content="根据物资名称模糊查询"
+              content="根据流程名称模糊查询"
               placement="top"
             >
-              <el-input placeholder="请输入物资名称" v-model="tableDataName">
+              <el-input placeholder="请输入流程名称" v-model="tableDataName">
                 <el-button
                   slot="append"
                   icon="el-icon-search"
@@ -53,7 +53,7 @@
         >
       </el-row>
 
-      <!-- 物资列表区域 -->
+      <!-- 流程列表区域 -->
       <el-table
         ref="multipleTable"
         :data="tableDataEnd"
@@ -61,22 +61,16 @@
         style="width: 100%"
         :default-sort="{ prop: 'id' }"
       >
-        <el-table-column type="selection" width="55"> </el-table-column>
-        <el-table-column prop="id" label="ID" sortable="" width="70">
+        <el-table-column type="selection" > </el-table-column>
+        <el-table-column prop="id" label="ID" sortable="" width="100">
         </el-table-column>
-        <el-table-column prop="name" label="物资名称" width="120">
+        <el-table-column prop="name" label="流程名称" width="120">
         </el-table-column>
-        <el-table-column prop="num" label="物资数量" width="80">
+        <el-table-column prop="type" label="类型" width="200">
         </el-table-column>
-        <el-table-column prop="type" label="物资类型" width="120">
+        <el-table-column prop="code" label="类型编码" width="200">
         </el-table-column>
-        <el-table-column prop="person" label="物资清点人" width="100">
-        </el-table-column>
-        <el-table-column prop="phone" label="物资清点人电话" width="120">
-        </el-table-column>
-        <el-table-column prop="seq" label="物资编号" width="80">
-        </el-table-column>
-        <el-table-column prop="date" label="物资清点时间" width="120">
+        <el-table-column prop="content" label="内容" width="200">
         </el-table-column>
 
         <el-table-column label="操作" width="120">
@@ -84,7 +78,7 @@
             <el-tooltip
               class="item"
               effect="dark"
-              content="修改物资记录"
+              content="修改流程记录"
               placement="top"
               :enterable="false"
             >
@@ -92,19 +86,16 @@
               <el-button type="primary" icon="el-icon-edit" circle @click="showEditDialog(
                 scope.row.id,
                 scope.row.name, 
-                scope.row.num, 
                 scope.row.type, 
-                scope.row.person, 
-                scope.row.phone, 
-                scope.row.seq, 
-                scope.row.date)"></el-button>
+                scope.row.code, 
+                scope.row.content)"></el-button>
             </el-tooltip>
 
             <!-- 删除按钮 -->
             <el-tooltip
               class="item"
               effect="dark"
-              content="删除物资记录"
+              content="删除流程记录"
               placement="top"
               :enterable="false"
             >
@@ -144,26 +135,17 @@
           <el-form-item label="ID：" prop="id">
             <el-input v-model="addForm.id"></el-input>
           </el-form-item>
-          <el-form-item label="物资名称：" prop="name">
+          <el-form-item label="流程名称：" prop="name">
             <el-input v-model="addForm.name"></el-input>
           </el-form-item>
-          <el-form-item label="物资数量：" prop="num">
+          <el-form-item label="类型：" prop="type">
             <el-input v-model="addForm.num"></el-input>
           </el-form-item>
-          <el-form-item label="物资类型：" prop="type">
+          <el-form-item label="类型编码：" prop="code">
             <el-input v-model="addForm.type"></el-input>
           </el-form-item>
-          <el-form-item label="物资清点人：" prop="person">
+          <el-form-item label="内容：" prop="content">
             <el-input v-model="addForm.person"></el-input>
-          </el-form-item>
-          <el-form-item label="清点人电话：" prop="phone">
-            <el-input v-model="addForm.phone"></el-input>
-          </el-form-item>
-          <el-form-item label="物资编号：" prop="seq">
-            <el-input v-model="addForm.seq"></el-input>
-          </el-form-item>
-          <el-form-item label="物资清点时间：" prop="date">
-            <el-input v-model="addForm.date"></el-input>
           </el-form-item>
         </el-form>
         <!-- 底部区域 -->
@@ -187,26 +169,17 @@
           <el-form-item label="ID">
             <el-input v-model="editForm.id" disabled></el-input>
           </el-form-item>
-          <el-form-item label="物资名称">
+          <el-form-item label="流程名称">
             <el-input v-model="editForm.name" disabled></el-input>
           </el-form-item>
-          <el-form-item label="物资数量">
-            <el-input v-model="editForm.num"></el-input>
+          <el-form-item label="类型">
+            <el-input v-model="editForm.type"></el-input>
           </el-form-item>
-          <el-form-item label="物资类型">
-            <el-input v-model="editForm.type" disabled></el-input>
+          <el-form-item label="类型编码">
+            <el-input v-model="editForm.code" disabled></el-input>
           </el-form-item>
-          <el-form-item label="物资清点人">
-            <el-input v-model="editForm.person"></el-input>
-          </el-form-item>
-          <el-form-item label="清点人电话">
-            <el-input v-model="editForm.phone"></el-input>
-          </el-form-item>
-          <el-form-item label="物资编号">
-            <el-input v-model="editForm.seq" ></el-input>
-          </el-form-item>
-          <el-form-item label="物资清点时间">
-            <el-input v-model="editForm.date" disabled></el-input>
+          <el-form-item label="内容">
+            <el-input v-model="editForm.content"></el-input>
           </el-form-item>
         </el-form>  
         <!-- 底部区域 -->
@@ -228,55 +201,33 @@ export default {
     return {
       tableDataBegin: [
         {
-          id: "1",
-          name: "电热毯",
-          num: "360",
-          type: "生活用品",
-          person: "桃桃",
-          phone: "9011910826",
-          seq: "16",
-          date: "2021-05-03",
+          id:'1',
+          name:'矿泉水',
+          type: '公共卫生事件矿泉水污染一级',
+          code: '002001001',
+          content: '无'
         },
         {
-          id: "2",
-          name: "方便面",
-          num: "1700",
-          type: "食物/饮料",
-          person: "苹苹",
-          phone: "9039847561",
-          seq: "3",
-          date: "2021-1-17",
+          id:'2',
+          name:'地震',
+          type: '自然灾害地震灾害五级',
+          code: '000001001',
+          content: '无'
         },
         {
-          id: "3",
-          name: "饮用水",
-          num: "1500",
-          type: "食物/饮料",
-          person: "苹苹",
-          phone: "9039847561",
-          seq: "4",
-          date: "2020-05-17",
+          id:'3',
+          name:'董志云',
+          type: '事故灾难公交倒翻二级',
+          code: '000113322',
+          content: '人没事'
         },
         {
-          id: "4",
-          name: "棉被",
-          num: "600",
-          type: "生活用品",
-          person: "苹苹",
-          phone: "9039847561",
-          seq: "16",
-          date: "2021-05-03",
-        },
-        {
-          id: "5",
-          name: "应急帐篷",
-          num: "25",
-          type: "生活用品",
-          person: "桃桃",
-          phone: "9011910826",
-          seq: "19",
-          date: "2021-05-03",
-        },
+          id:'4',
+          name:'海啸',
+          type: '自然灾害水旱灾害一级',
+          code: '001324234',
+          content: '人没事'
+        }
       ],
       tableDataName: "",
       tableDataEnd: [],
@@ -294,29 +245,23 @@ export default {
       addForm: {
         id: "",
         name: "",
-        num: "",
         type: "",
-        person: "",
-        phone: "",
-        seq: "",
-        date: "",
+        code: "",
+        content: ""
       },
 
       //添加表单的验证规则对象
       addFormRules: {
-        id: [{ required: true, message: "请输入物资ID", trigger: "blur" }],
-        name: [{ required: true, message: "请输入物资名称", trigger: "blur" }],
+        id: [{ required: true, message: "请输入流程ID", trigger: "blur" }],
+        name: [{ required: true, message: "请输入流程名称", trigger: "blur" }],
       },
       //查询到的物资修改对象
       editForm: {
         id: "",
         name: "",
-        num: "",
         type: "",
-        person: "",
-        phone: "",
-        seq: "",
-        date: "",
+        code: "",
+        content: ""
       },
     };
   },
@@ -429,9 +374,9 @@ export default {
       });
     },
     //展示编辑物资信息的对话框
-    showEditDialog(id, name, num, type, person, phone, seq, date) {
-      console.log(id, name, num, type, person, phone, seq, date)
-      this.editForm = {id, name, num, type, person, phone, seq, date}
+    showEditDialog(id, name, type, code, content) {
+      console.log(id, name, type, code, content)
+      this.editForm = {id, name, type, code, content}
       this.editDialogVisible = true;
     },
     //监听修改用户对话框的关闭事件
@@ -464,7 +409,7 @@ export default {
         //隐藏添加用户的对话框
         this.editDialogVisible = false;
         //显示提示信息
-        this.$message.success("修改物资信息成功！");
+        this.$message.success("修改成功！");
     },
 
     //根据id删除物资信息
@@ -497,7 +442,7 @@ export default {
 
       console.log(_this.tableDataBegin);
         
-        this.$message.success("删除物资信息成功！");
+        this.$message.success("删除成功！");
 
         }
     }
