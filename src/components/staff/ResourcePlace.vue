@@ -1,11 +1,11 @@
-//工作人员物资维护界面
+//工作人员物资位置维护界面
 <template>
   <div>
     <!-- 面包屑导航区 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>工作人员界面</el-breadcrumb-item>
-      <el-breadcrumb-item>物资维护</el-breadcrumb-item>
+      <el-breadcrumb-item>物资位置维护</el-breadcrumb-item>
     </el-breadcrumb>
 
     <!-- 卡片视图区 -->
@@ -32,10 +32,10 @@
             <el-tooltip
               class="item"
               effect="dark"
-              content="根据物资名称模糊查询"
+              content="根据物资存放处模糊查询"
               placement="top"
             >
-              <el-input placeholder="请输入物资名称" v-model="tableDataName">
+              <el-input placeholder="请输入物资存放处名称" v-model="tableDataName">
                 <el-button
                   slot="append"
                   icon="el-icon-search"
@@ -53,6 +53,8 @@
         >
       </el-row>
 
+
+
       <!-- 物资列表区域 -->
       <el-table
         ref="multipleTable"
@@ -60,55 +62,42 @@
         tooltip-effect="dark"
         style="width: 100%"
         :default-sort="{ prop: 'id' }"
+        
       >
-        <el-table-column type="selection" width="55"> </el-table-column>
-        <el-table-column prop="id" label="ID" sortable="" width="70">
+        <el-table-column type="selection" > </el-table-column>
+        <el-table-column prop="id" label="ID" sortable="" >
         </el-table-column>
-        <el-table-column prop="name" label="物资名称" width="120">
+        <el-table-column prop="place" label="物资存放地点" width = "400px" >
         </el-table-column>
-        <el-table-column prop="num" label="物资数量" width="80">
+        <el-table-column prop="content" label="物资内容" width = "200px">
         </el-table-column>
-        <el-table-column prop="type" label="物资类型" width="120">
+        <el-table-column prop="location" label="地理位置" width = "200px">
         </el-table-column>
-        <el-table-column prop="person" label="物资清点人" width="100">
-        </el-table-column>
-        <el-table-column prop="phone" label="物资清点人电话" width="120">
-        </el-table-column>
-        <el-table-column prop="seq" label="物资编号" width="80">
-        </el-table-column>
-        <el-table-column prop="date" label="物资清点时间" width="120">
-        </el-table-column>
-
         <el-table-column label="操作" width="120">
           <template slot-scope="scope">
             <el-tooltip
               class="item"
               effect="dark"
-              content="修改物资记录"
+              content="修改物资位置记录"
               placement="top"
               :enterable="false"
             >
-            <!-- 修改按钮 -->
               <el-button type="primary" icon="el-icon-edit" circle @click="showEditDialog(
                 scope.row.id,
-                scope.row.name, 
-                scope.row.num, 
-                scope.row.type, 
-                scope.row.person, 
-                scope.row.phone, 
-                scope.row.seq, 
-                scope.row.date)"></el-button>
+                scope.row.place, 
+                scope.row.content, 
+                scope.row.location, 
+                )"></el-button>
             </el-tooltip>
 
-            <!-- 删除按钮 -->
             <el-tooltip
               class="item"
               effect="dark"
-              content="删除物资记录"
+              content="删除物资位置记录"
               placement="top"
               :enterable="false"
             >
-              <el-button type="danger" icon="el-icon-delete" circle @click="removeById(scope.row.id)"></el-button>
+              <el-button type="danger" icon="el-icon-delete" circle></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -128,7 +117,7 @@
 
       <!-- 添加物资的对话框 -->
       <el-dialog
-        title="添加物资记录"
+        title="添加物资位置记录"
         :visible.sync="addDialogVisible"
         width="50%"
         @close="resetForm"
@@ -144,28 +133,43 @@
           <el-form-item label="ID：" prop="id">
             <el-input v-model="addForm.id"></el-input>
           </el-form-item>
-          <el-form-item label="物资名称：" prop="name">
-            <el-input v-model="addForm.name"></el-input>
+          <el-form-item label="物资存放处：" prop="place">
+            <el-input v-model="addForm.place"></el-input>
           </el-form-item>
-          <el-form-item label="物资数量：" prop="num">
-            <el-input v-model="addForm.num"></el-input>
+          <el-form-item label="物资内容：" prop="content">
+            <el-input v-model="addForm.content"></el-input>
           </el-form-item>
-          <el-form-item label="物资类型：" prop="type">
-            <el-input v-model="addForm.type"></el-input>
+          <el-form-item label="地理位置：" prop="position">
+            <el-input v-model="addForm.position"></el-input>
+            
           </el-form-item>
-          <el-form-item label="物资清点人：" prop="person">
-            <el-input v-model="addForm.person"></el-input>
+
+          <el-form-item>
+            <div class="map">
+  <el-input v-model="addressKeyword" placeholder="请输入地址来直接查找相关位置"></el-input>
+  <!-- 给地图加点击事件getLocationPoint，点击地图获取位置相关的信息，经纬度啥的 -->
+  <!-- scroll-wheel-zoom：是否可以用鼠标滚轮控制地图缩放，zoom是视图比例 -->
+  <baidu-map
+    class="bmView"
+    :scroll-wheel-zoom="true"
+    :center="location"
+    :zoom="zoom"
+    @click="getLocationPoint"
+    ak="YOUR_APP_KEY"
+  >
+    <bm-view style="width: 100%; height:100px; flex: 1"></bm-view>
+    <bm-local-search :keyword="addressKeyword" :auto-viewport="true" style="display: none"></bm-local-search>
+  </baidu-map>
+</div>
+
+
           </el-form-item>
-          <el-form-item label="清点人电话：" prop="phone">
-            <el-input v-model="addForm.phone"></el-input>
-          </el-form-item>
-          <el-form-item label="物资编号：" prop="seq">
-            <el-input v-model="addForm.seq"></el-input>
-          </el-form-item>
-          <el-form-item label="物资清点时间：" prop="date">
-            <el-input v-model="addForm.date"></el-input>
-          </el-form-item>
-        </el-form>
+          </el-form>
+        
+        
+        
+
+
         <!-- 底部区域 -->
         <span slot="footer" class="dialog-footer">
           <el-button @click="addDialogVisible = false">取 消</el-button>
@@ -180,39 +184,27 @@
         width="50%"
         label-width="auto" 
         size="mini"
-        @close="editDialogClosed"
       >
       <!-- 内容主体区 -->
-        <el-form :model="editForm" ref="editForm" label-width="auto" size="mini">
+        <el-form :model="editForm" :rules="editFormRules" ref="editForm" label-width="auto" size="mini">
           <el-form-item label="ID">
             <el-input v-model="editForm.id" disabled></el-input>
           </el-form-item>
-          <el-form-item label="物资名称">
-            <el-input v-model="editForm.name" disabled></el-input>
+          <el-form-item label="物资存放处">
+            <el-input v-model="editForm.place" disabled></el-input>
           </el-form-item>
-          <el-form-item label="物资数量">
-            <el-input v-model="editForm.num"></el-input>
+          <el-form-item label="物资内容">
+            <el-input v-model="editForm.content"></el-input>
           </el-form-item>
-          <el-form-item label="物资类型">
-            <el-input v-model="editForm.type" disabled></el-input>
+          <el-form-item label="地理位置">
+            <el-input v-model="editForm.position" disabled></el-input>
           </el-form-item>
-          <el-form-item label="物资清点人">
-            <el-input v-model="editForm.person"></el-input>
-          </el-form-item>
-          <el-form-item label="清点人电话">
-            <el-input v-model="editForm.phone"></el-input>
-          </el-form-item>
-          <el-form-item label="物资编号">
-            <el-input v-model="editForm.seq" ></el-input>
-          </el-form-item>
-          <el-form-item label="物资清点时间">
-            <el-input v-model="editForm.date" disabled></el-input>
-          </el-form-item>
+          
         </el-form>  
         <!-- 底部区域 -->
         <span slot="footer" class="dialog-footer">
           <el-button @click="editDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="editResource"
+          <el-button type="primary" @click="editDialogVisible = false"
             >确 定</el-button
           >
         </span>
@@ -223,59 +215,29 @@
 
 <script>
 export default {
+  
   inject: ["reload"],
   data() {
     return {
-      tableDataBegin: [
+      
+       tableDataBegin: [
         {
-          id: "1",
-          name: "电热毯",
-          num: "360",
-          type: "生活用品",
-          person: "桃桃",
-          phone: "9011910826",
-          seq: "16",
-          date: "2021-05-03",
+          id: "192",
+          place: "应急食物供应企业的提货点",
+          content: "方便面",
+          position: "（120，36）"
         },
         {
-          id: "2",
-          name: "方便面",
-          num: "1700",
-          type: "食物/饮料",
-          person: "苹苹",
-          phone: "9039847561",
-          seq: "3",
-          date: "2021-1-17",
+          id: "103",
+          place: "市政中心供水站",
+          content: "饮用水",
+          position: "（2，98）"
         },
         {
-          id: "3",
-          name: "饮用水",
-          num: "1500",
-          type: "食物/饮料",
-          person: "苹苹",
-          phone: "9039847561",
-          seq: "4",
-          date: "2020-05-17",
-        },
-        {
-          id: "4",
-          name: "棉被",
-          num: "600",
-          type: "生活用品",
-          person: "苹苹",
-          phone: "9039847561",
-          seq: "16",
-          date: "2021-05-03",
-        },
-        {
-          id: "5",
-          name: "应急帐篷",
-          num: "25",
-          type: "生活用品",
-          person: "桃桃",
-          phone: "9011910826",
-          seq: "19",
-          date: "2021-05-03",
+          id: "134",
+          place: "境内贸易港口应急物资调度中心",
+          content: "新鲜水果",
+          position: "（32，125）"
         },
       ],
       tableDataName: "",
@@ -293,31 +255,25 @@ export default {
       //添加物资的表单数据
       addForm: {
         id: "",
-        name: "",
-        num: "",
-        type: "",
-        person: "",
-        phone: "",
-        seq: "",
-        date: "",
+        place: "",
+        content: "",
+        position: "",
+        
       },
-
       //添加表单的验证规则对象
       addFormRules: {
         id: [{ required: true, message: "请输入物资ID", trigger: "blur" }],
-        name: [{ required: true, message: "请输入物资名称", trigger: "blur" }],
+        place: [{ required: true, message: "请输入物资名称", trigger: "blur" }],
       },
       //查询到的物资修改对象
-      editForm: {
-        id: "",
-        name: "",
-        num: "",
-        type: "",
-        person: "",
-        phone: "",
-        seq: "",
-        date: "",
+      editForm: {},
+
+      location: {
+        lng: 116.404,
+        lat: 39.915
       },
+      zoom: 12.8,
+      addressKeyword: "",
     };
   },
   //生命周期函数
@@ -331,9 +287,27 @@ export default {
       this.tableDataEnd = this.tableDataBegin;
     }
   },
+  
 
   //当前页面的一些事件处理函数
   methods: {
+
+    getLocationPoint(e) {
+      this.lng = e.point.lng;
+      this.lat = e.point.lat;
+      /* 创建地址解析器的实例 */
+      let geoCoder = new BMap.Geocoder();
+      /* 获取位置对应的坐标 */
+      geoCoder.getPoint(this.addressKeyword, point => {
+        this.selectedLng = point.lng;
+        this.selectedLat = point.lat;
+      });
+      /* 利用坐标获取地址的详细信息 */
+      geocoder.getLocation(e.point, res=>{
+          console.log(res);
+      })
+    },
+
     //前端搜索功能需要区分是否检索,因为对应的字段的索引不同
     //用两个变量接收currentChangePage函数的参数
     doFilter() {
@@ -345,8 +319,8 @@ export default {
       //每次手动将数据置空,因为会出现多次点击搜索情况
       this.filterTableDataEnd = [];
       this.tableDataBegin.forEach((value, index) => {
-        if (value.name) {
-          if (value.name.indexOf(this.tableDataName) >= 0) {
+        if (value.place) {
+          if (value.place.indexOf(this.tableDataName) >= 0) {
             this.filterTableDataEnd.push(value);
           }
         }
@@ -429,78 +403,11 @@ export default {
       });
     },
     //展示编辑物资信息的对话框
-    showEditDialog(id, name, num, type, person, phone, seq, date) {
-      console.log(id, name, num, type, person, phone, seq, date)
-      this.editForm = {id, name, num, type, person, phone, seq, date}
+    showEditDialog(id, place, content, position) {
+      console.log(id, place, content, position)
+      this.editForm = {id, place, content, position}
       this.editDialogVisible = true;
     },
-    //监听修改用户对话框的关闭事件
-    editDialogClosed() {
-      this.$refs.editForm.resetFields()
-    },
-
-    //修改物资信息并且提交
-    editResource() {
-      
-      const _this = this;
-      
-        //可以添加用户
-        //参考深拷贝
-        let itemForm = JSON.parse(JSON.stringify(this.editForm));
-        console.log(itemForm)
-        let keywords = itemForm.id;
-        console.log(keywords)
-        // _this.tableDataBegin.push(itemForm);
-
-        this.tableDataBegin.forEach((value, index) => {
-        if (value.id) {
-          if (value.id == keywords) {
-            _this.tableDataBegin.splice(index, 1)
-          }
-        }
-      });
-        _this.tableDataBegin.push(itemForm)
-        console.log(_this.tableDataBegin);
-        //隐藏添加用户的对话框
-        this.editDialogVisible = false;
-        //显示提示信息
-        this.$message.success("修改物资信息成功！");
-    },
-
-    //根据id删除物资信息
-    async removeById(id) {
-      //弹框询问用户是否需要删除
-      const confirmResult = await this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).catch(err => err)
-        //如果确定，返回值就是“confirm”
-        //如果取消，返回值就是“cancel”
-        // console.log(confirmResult)
-        if(confirmResult!= 'confirm') {
-          return this.$message.info('已取消删除')
-        }else  {
-          const _this = this;
-      
-        let keywords = id;
-        console.log(keywords)
-        // _this.tableDataBegin.push(itemForm);
-
-        this.tableDataBegin.forEach((value, index) => {
-        if (value.id) {
-          if (value.id == keywords) {
-            _this.tableDataBegin.splice(index, 1)
-          }
-        }
-      });
-
-      console.log(_this.tableDataBegin);
-        
-        this.$message.success("删除物资信息成功！");
-
-        }
-    }
   },
 };
 </script>
