@@ -14,14 +14,6 @@
 
       <!-- 栅格布局 -->
       <el-row :gutter="20">
-        <el-col :span="6">
-          <div>
-            <el-button type="success" round @click="submitProfessor(scope.row.id)"
-              >提交专家</el-button
-            >
-            <!-- <el-button round @click="showEditDialog()">修改</el-button> -->
-          </div></el-col
-        >
         <el-col :span="6"
           ><div>
             <el-button round @click="toggleSelection()">取消搜索</el-button>
@@ -195,7 +187,7 @@
           <el-form-item label="事件接报编码">
             <el-input v-model="editForm.num" disabled></el-input>
           </el-form-item>
-          <el-form-item label="流程编号">
+          <!-- <el-form-item label="流程编号">
             <el-input v-model="editForm.seq" disabled></el-input>
           </el-form-item>
           <el-form-item label="流程类型">
@@ -221,7 +213,7 @@
           </el-form-item>
           <el-form-item label="最后更新者">
             <el-input v-model="editForm.lastModifyPerson" disabled></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="流程状态">
             <el-input v-model="editForm.state" disabled></el-input>
           </el-form-item>
@@ -455,9 +447,9 @@ export default {
       });
     },
     //展示编辑物资信息的对话框
-    showEditDialog(id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state) {
-      console.log(id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state)
-      this.editForm = {id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state}
+    showEditDialog(id, name, num , state) {
+      // console.log(id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state)
+      this.editForm = {id, name, num, state}
       this.editDialogVisible = true;
     },
     // 提交专家
