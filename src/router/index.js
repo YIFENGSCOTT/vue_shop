@@ -5,6 +5,8 @@ import Home from '../components/Home.vue';
 import Welcome from '../components/Welcome.vue';
 import Events from '../components/staff/Events.vue';
 import Resources from '../components/staff/Resources.vue'
+import Commander from '../components/Commander.vue'
+import AlarmManagement from '../components/command/AlarmManagement.vue'
 
 Vue.use(VueRouter)
 
@@ -36,16 +38,22 @@ const routes = [
   },
   {
     path: '/home',
-    component: Home
-  },
-  {
-    path: '/home',
     component: Home,
     redirect: '/welcome',
     children: [
         { path: '/welcome', component: Welcome },
         { path: '/1-1', component: Events},
         { path: '/1-2', component: Resources}
+    ]
+  },
+  {
+    path: '/commander',
+    component: Commander,
+    redirect: '/welcome1',
+    children: [
+        { path: '/welcome1', component: Welcome },
+        { path: '/2-1', component: AlarmManagement},
+        { path: '/2-2', component: Resources}
     ]
   }
 ]

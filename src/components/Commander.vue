@@ -23,76 +23,31 @@
           :router="true"
         >
         <!-- 一级菜单 -->
-          <el-submenu index="1">
+          <el-submenu index="2">
             <!-- 一级菜单模板区 -->
             <template slot="title">
               <!-- 图标 -->
               <i class="el-icon-info"></i>
               <!-- 文本 -->
-              <span>工作人员界面</span>
+              <span>指挥人员界面</span>
             </template>
 
             <!-- 二级菜单 -->
-            <el-menu-item index="1-1">
-              <template slot="title">
-              <!-- 图标 -->
-              <i class="el-icon-document"></i>
-              <!-- 文本 -->
-              <span>事件维护</span>
-            </template>
-            </el-menu-item>
-
-            <el-menu-item index="1-2">
-              <template slot="title">
-              <!-- 图标 -->
-              <i class="el-icon-suitcase-1"></i>
-              <!-- 文本 -->
-              <span>物资维护</span>
-            </template>
-            </el-menu-item>
-
-            <el-menu-item index="1-3">
-              <template slot="title">
-              <!-- 图标 -->
-              <i class="el-icon-location-information"></i>
-              <!-- 文本 -->
-              <span>物资位置维护</span>
-            </template>
-            </el-menu-item>
-
-            <el-menu-item index="1-4">
-              <template slot="title">
-              <!-- 图标 -->
-              <i class="el-icon-data-line"></i>
-              <!-- 文本 -->
-              <span>流程维护</span>
-            </template>
-            </el-menu-item>
-
-            <el-menu-item index="1-5">
-              <template slot="title">
-              <!-- 图标 -->
-              <i class="el-icon-office-building"></i>
-              <!-- 文本 -->
-              <span>风险企业维护</span>
-            </template>
-            </el-menu-item>
-
-            <el-menu-item index="1-6">
-              <template slot="title">
-              <!-- 图标 -->
-              <i class="el-icon-truck"></i>
-              <!-- 文本 -->
-              <span>城市信息维护</span>
-            </template>
-            </el-menu-item>
-
-            <el-menu-item index="1-7">
+            <el-menu-item index="2-1">
               <template slot="title">
               <!-- 图标 -->
               <i class="el-icon-phone-outline"></i>
               <!-- 文本 -->
-              <span>接报维护</span>
+              <span>接报管理</span>
+            </template>
+            </el-menu-item>
+
+            <el-menu-item index="2-2">
+              <template slot="title">
+              <!-- 图标 -->
+              <i class="el-icon-first-aid-kit"></i>
+              <!-- 文本 -->
+              <span>紧急事件处理</span>
             </template>
             </el-menu-item>
           </el-submenu>
@@ -154,7 +109,7 @@ export default {
 }
 .el-aside {
   background-color: #333744;
-    .el-menu{
+  .el-menu{
       border-right: none;
   }
 }
