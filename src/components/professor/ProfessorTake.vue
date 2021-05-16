@@ -4,8 +4,8 @@
     <!-- 面包屑导航区 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/commander' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>指挥人员界面</el-breadcrumb-item>
-      <el-breadcrumb-item>紧急事件处理</el-breadcrumb-item>
+      <el-breadcrumb-item>专家人员界面</el-breadcrumb-item>
+      <el-breadcrumb-item>专家接报处理</el-breadcrumb-item>
     </el-breadcrumb>
 
     <!-- 卡片视图区 -->

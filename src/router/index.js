@@ -15,7 +15,8 @@ import Commander from '../components/Commander.vue'
 import AlarmManagement from '../components/command/AlarmManagement.vue'
 import Emergency from '../components/command/Emergency.vue'
 import Alarm from '../components/staff/Alarm.vue'
-import Professor from "../components/professor/Emergency.vue";
+import Professor from "../components/Professor.vue";
+import ProfessorTake from "../components/professor/ProfessorTake.vue";
 import SuperManage from "../components/super/SuperManage.vue"
 
 Vue.use(Router);
@@ -62,11 +63,11 @@ export default new Router({
     },
     {
       path: '/professor',
-      component: Commander,
+      component: Professor,
       redirect: '/welcome2',
       children: [
           { path: '/welcome2', component: Welcome },
-          { path: '/3-1', component: Professor}
+          { path: '/3-1', component: ProfessorTake}
       ]
     }
   ],
