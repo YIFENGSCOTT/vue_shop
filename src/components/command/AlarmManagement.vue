@@ -82,7 +82,7 @@
                 scope.row.enterprise,
                 scope.row.lastModifyTime,
                 scope.row.lastModifyPerson,
-                scope.row.state),change()"></el-button>
+                scope.row.state);change(scope.row.state)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -154,7 +154,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "郑敬儒",
+            lastModifyPerson: "专家人员",
             state: "专家已回复"
           },
           {
@@ -170,7 +170,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "郑敬儒",
+            lastModifyPerson: "工作人员",
             state: "已接报"
           },
           {
@@ -186,7 +186,7 @@
             alarmTime: "2021-05-03",
             enterprise: "东软睿道",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "郑敬儒",
+            lastModifyPerson: "工作人员",
             state: "已接报"
           },
           {
@@ -202,7 +202,7 @@
             alarmTime: "2021-05-03",
             enterprise: "斯科达企业",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "郑敬儒",
+            lastModifyPerson: "工作人员",
             state: "已接报"
           },
           {
@@ -218,7 +218,7 @@
             alarmTime: "2021-05-03",
             enterprise: "斯科达企业",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "郑敬儒",
+            lastModifyPerson: "工作人员",
             state: "已接报"
           },
         ],
@@ -362,14 +362,12 @@
       },
 
       // 每次打开对话框根据状态改变进度条
-      change() {
-        const _this = this;
-        let itemForm = JSON.parse(JSON.stringify(this.editForm));
-        if (itemForm.state == "已通过") {
+      change(state) {
+        if (state == "已通过") {
           this.activeIndex = 4
-        }else if(itemForm.state == "已移交专家"){
+        }else if(state == "已移交专家"){
           this.activeIndex = 2
-        }else if(itemForm.state == "专家已回复"){
+        }else if(state == "专家已回复"){
           this.activeIndex = 3
         }
       },
@@ -407,6 +405,20 @@
                   _this.tableDataBegin.splice(index, 1)
                   _this.$set(itemForm, 'state', "已移交专家")
                   this.activeIndex = 2
+                   _this.$set(itemForm, 'lastModifyPerson', "指挥人员1")
+
+                    var date = new Date()
+                    var y = date.getFullYear();
+                    var m = date.getMonth();
+                    var d = date.getDate();
+                    var ho = date.getHours();
+                    ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
+                    var mi = date.getMinutes();
+                    mi = mi < 10 ? "0" + mi : mi; // 如果只有一位，则前面补零
+                    var se = date.getSeconds();
+                    se = se < 10 ? "0" + se : se; // 如果只有一位，则前面补零
+                    var currentTime = y + "-" + m + '-' + d + ' ' + ho + ':' + mi + ':' + se
+                    _this.$set(itemForm, "lastModifyTime", currentTime)
                 }
               }
             });
@@ -451,7 +463,21 @@
                   _this.tableDataBegin.splice(index, 1)
                   _this.$set(itemForm, 'state', "已通过")
                   this.activeIndex = 4
-                  // itemForm.state = "已通过"
+                   _this.$set(itemForm, 'lastModifyPerson', "指挥人员1")
+                    console.log(13123);
+
+                    var date = new Date()
+                    var y = date.getFullYear();
+                    var m = date.getMonth();
+                    var d = date.getDate();
+                    var ho = date.getHours();
+                    ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
+                    var mi = date.getMinutes();
+                    mi = mi < 10 ? "0" + mi : mi; // 如果只有一位，则前面补零
+                    var se = date.getSeconds();
+                    se = se < 10 ? "0" + se : se; // 如果只有一位，则前面补零
+                    var currentTime = y + "-" + m + '-' + d + ' ' + ho + ':' + mi + ':' + se
+                    _this.$set(itemForm, "lastModifyTime", currentTime)
                 }
               }
             });

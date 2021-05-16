@@ -153,7 +153,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "郑敬儒",
+            lastModifyPerson: "指挥人员1",
             state: "已移交专家"
           },
           {
@@ -169,7 +169,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "郑敬儒",
+            lastModifyPerson: "指挥人员1",
             state: "已移交专家"
           },
           {
@@ -185,7 +185,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "郑敬儒",
+            lastModifyPerson: "指挥人员1",
             state: "已移交专家"
           },
           {
@@ -201,7 +201,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "郑敬儒",
+            lastModifyPerson: "指挥人员1",
             state: "已移交专家"
           },
           {
@@ -217,7 +217,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "郑敬儒",
+            lastModifyPerson: "指挥人员1",
             state: "已移交专家"
           },
         ],
@@ -373,52 +373,6 @@
         }
       },
 
-      // 提交专家
-      submitProfessor() {
-        // 弹框询问
-        this.$confirm('确认将该流程提交至专家处吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'info'
-        }).then(() => {
-          const _this = this;
-          let itemForm = JSON.parse(JSON.stringify(this.editForm));
-          console.log(itemForm)
-          let keywords = itemForm.id;
-          console.log(keywords)
-
-          if (itemForm.state == "已通过") {
-            // this.editDialogVisible = true;
-            this.$message({
-              type: 'error',
-              message: '已通过流程无法移交专家!'
-            });
-          } else {
-            this.tableDataBegin.forEach((value, index) => {
-              if (value.id) {
-                if (value.id == keywords) {
-                  _this.tableDataBegin.splice(index, 1)
-                  _this.$set(itemForm, 'state', "已移交专家")
-                  this.activeIndex = 2
-                }
-              }
-            });
-            _this.tableDataBegin.push(itemForm)
-            this.editDialogVisible = true;
-            this.$message({
-              type: 'success',
-              message: '提交成功!'
-            });
-
-          }
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消'
-          });
-        });
-      },
-
       pass() {
         this.$confirm('确认通过该流程吗?', '提示', {
             confirmButtonText: '确定',
@@ -444,6 +398,20 @@
                   _this.tableDataBegin.splice(index, 1)
                   _this.$set(itemForm, 'state', "专家已回复")
                   this.activeIndex = 3
+                  _this.$set(itemForm, 'lastModifyPerson', "专家人员")
+
+                    var date = new Date()
+                    var y = date.getFullYear();
+                    var m = date.getMonth();
+                    var d = date.getDate();
+                    var ho = date.getHours();
+                    ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
+                    var mi = date.getMinutes();
+                    mi = mi < 10 ? "0" + mi : mi; // 如果只有一位，则前面补零
+                    var se = date.getSeconds();
+                    se = se < 10 ? "0" + se : se; // 如果只有一位，则前面补零
+                    var currentTime = y + "-" + m + '-' + d + ' ' + ho + ':' + mi + ':' + se
+                    _this.$set(itemForm, "lastModifyTime", currentTime)
                 }
               }
             });

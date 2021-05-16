@@ -57,7 +57,7 @@ export default new Router({
       component: Commander,
       redirect: '/welcome1',
       children: [
-          { path: '/welcome', component: Welcome },
+          { path: '/welcome1', component: Welcome },
           { path: '/2-1', component: AlarmManagement},
           { path: '/2-2', component: Emergency}
       ]

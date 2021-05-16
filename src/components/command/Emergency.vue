@@ -36,8 +36,7 @@
       </el-row>
 
       <!-- 信息列表区域 -->
-      <el-table :data="tableDataEnd" tooltip-effect="dark" style="width: 100%"
-        :default-sort="{ prop: 'id' }">
+      <el-table :data="tableDataEnd" tooltip-effect="dark" style="width: 100%" :default-sort="{ prop: 'id' }">
         <el-table-column type="selection" width="55"> </el-table-column>
         <el-table-column prop="id" label="ID" sortable="" width="70">
         </el-table-column>
@@ -140,7 +139,7 @@
               <!-- <el-input v-model="editForm.x" disabled></el-input> -->
               <!-- 给地图加点击事件getLocationPoint，点击地图获取位置相关的信息，经纬度啥的 -->
               <!-- scroll-wheel-zoom：是否可以用鼠标滚轮控制地图缩放，zoom是视图比例 -->
-              <baidu-map class="bmView" @ready="mapReady" :scroll-wheel-zoom="true" :zoom="zoom"
+              <baidu-map class="bmView" :center="{lng:editForm.x,lat:editForm.y}" :scroll-wheel-zoom="true" :zoom="zoom"
                 ak="NfH4n0hrjmWGSviuZLg3mUwQUzU47SSl">
                 <bm-view style="width: 100%; height:200px; flex: 1"></bm-view>
                 <bm-local-search :keyword="addressKeyword" :auto-viewport="true" style="display: none">
@@ -176,7 +175,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "郑敬儒",
+            lastModifyPerson: "专家人员",
             state: "已通过",
             usePeople: "消防员",
             usePeopleNum: "5",
@@ -198,7 +197,7 @@
             alarmTime: "2021-05-03",
             enterprise: "斯科达企业",
             lastModifyTime: "2021-05-03 12:35:11",
-            lastModifyPerson: "郑敬儒",
+            lastModifyPerson: "指挥人员",
             state: "已通过",
             usePeople: "消防员",
             usePeopleNum: "5",
@@ -220,13 +219,13 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "郑敬儒",
+            lastModifyPerson: "指挥人员",
             state: "已通过",
             usePeople: "消防员",
             usePeopleNum: "5",
             useResource: "方便面",
             useResourceNum: "10",
-           x: 123.499033,
+            x: 123.499033,
             y: 41.65672
           },
           {
@@ -242,7 +241,7 @@
             alarmTime: "2021-05-03",
             enterprise: "斯科达企业",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "郑敬儒",
+            lastModifyPerson: "专家人员",
             state: "已通过",
             usePeople: "消防员",
             usePeopleNum: "5",
@@ -274,7 +273,7 @@
         addressKeyword: "",
 
 
-        
+
       };
     },
     //生命周期函数
@@ -430,6 +429,21 @@
                   if (value.id == keywords) {
                     _this.tableDataBegin.splice(index, 1)
                     _this.$set(itemForm, 'state', "事件已处理")
+                    _this.$set(itemForm, 'lastModifyPerson', "指挥人员2")
+                    console.log(13123);
+
+                    var date = new Date()
+                    var y = date.getFullYear();
+                    var m = date.getMonth();
+                    var d = date.getDate();
+                    var ho = date.getHours();
+                    ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
+                    var mi = date.getMinutes();
+                    mi = mi < 10 ? "0" + mi : mi; // 如果只有一位，则前面补零
+                    var se = date.getSeconds();
+                    se = se < 10 ? "0" + se : se; // 如果只有一位，则前面补零
+                    var currentTime = y + "-" + m + '-' + d + ' ' + ho + ':' + mi + ':' + se
+                    _this.$set(itemForm, "lastModifyTime", currentTime)
                   }
                 }
               });
@@ -451,19 +465,22 @@
           });
       },
 
-      mapReady({BMap, map}){
+      mapReady({
+        BMap,
+        map
+      }) {
         // 选择一个经纬度作为中心点
         // console.log(this.$refs.location22.value)
         // 113.27, 23.13
         // console.log(this.editForm.y)
         // let locc = this.editForm.location
 
-              this.point = new BMap.Point(this.editForm.x, this.editForm.y);
-              console.log(this.editForm.x, this.editForm.y);
-              console.log(this.point)
-              map.centerAndZoom(this.point, 12);
+        this.point = new BMap.Point(this.editForm.x, this.editForm.y);
+        console.log(this.editForm.x, this.editForm.y);
+        console.log(this.point)
+        map.centerAndZoom(this.point, 12);
       }
-      }
+    }
   }
 </script>
 
