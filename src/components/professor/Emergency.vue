@@ -1,11 +1,11 @@
-//指挥人员接报管理界面
+//指挥人员紧急事件处理界面
 <template>
   <div>
     <!-- 面包屑导航区 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/commander' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>指挥人员界面</el-breadcrumb-item>
-      <el-breadcrumb-item>接报管理</el-breadcrumb-item>
+      <el-breadcrumb-item>专家人员界面</el-breadcrumb-item>
+      <el-breadcrumb-item>专家接报</el-breadcrumb-item>
     </el-breadcrumb>
 
     <!-- 卡片视图区 -->
@@ -36,7 +36,7 @@
       </el-row>
 
       <!-- 信息列表区域 -->
-      <el-table ref="multipleTable" :data="tableDataEnd" tooltip-effect="dark" style="width: 100%"
+      <el-table :data="tableDataEnd" tooltip-effect="dark" style="width: 100%"
         :default-sort="{ prop: 'id' }">
         <el-table-column type="selection" width="55"> </el-table-column>
         <el-table-column prop="id" label="ID" sortable="" width="70">
@@ -82,7 +82,13 @@
                 scope.row.enterprise,
                 scope.row.lastModifyTime,
                 scope.row.lastModifyPerson,
-                scope.row.state),change()"></el-button>
+                scope.row.state,
+                scope.row.usePeople,
+                scope.row.usePeopleNum,
+                scope.row.useResource,
+                scope.row.useResourceNum,
+                scope.row.x,
+                scope.row.y),change()"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -95,7 +101,7 @@
       </el-pagination>
 
       <!-- 修改信息的对话框 -->
-      <el-dialog title="填写审批内容" :visible.sync="editDialogVisible" width="50%" label-width="auto" size="mini"
+      <el-dialog title="填写处理事件内容" :visible.sync="editDialogVisible" width="50%" label-width="auto" size="mini"
         @close="editDialogClosed">
         <!-- 内容主体区 -->
         <el-steps :active="activeIndex" finish-status="success" align-center>
@@ -105,32 +111,48 @@
           <el-step title="流程结束"></el-step>
         </el-steps>
 
-        <el-form :model="editForm" :rules="modifyFormRules" ref="editForm" label-width="auto">
+        <el-form :model="editForm" ref="editForm" label-width="auto">
           <el-form-item label="ID">
             <el-input v-model="editForm.id" disabled></el-input>
           </el-form-item>
-          <el-form-item label="事件名称">
-            <el-input v-model="editForm.name" disabled></el-input>
+          <el-form-item label="调动人员">
+            <!-- <el-input v-model="editForm.usePeople" disabled></el-input>
+            <el-input v-model="editForm.usePeopleNum" disabled></el-input> -->
+            <el-select v-model="editForm.usePeople" placeholder="请选择人员类型">
+              <el-option label="消防员" value="消防员"></el-option>
+              <el-option label="医护人员" value="医护人员"></el-option>
+              <el-option label="特警" value="特警"></el-option>
+            </el-select>
+            <el-input-number v-model="editForm.usePeopleNum" :min="1" :max="5" label="描述文字">
+            </el-input-number>
           </el-form-item>
-          <el-form-item label="事件接报编码">
-            <el-input v-model="editForm.num" disabled></el-input>
+          <el-form-item label="调动物资">
+            <el-select v-model="editForm.useResource" placeholder="请选择物资类型">
+              <el-option label="方便面" value="消防员"></el-option>
+              <el-option label="农夫山泉" value="医护人员"></el-option>
+              <el-option label="棉被" value="特警"></el-option>
+            </el-select>
+            <el-input-number v-model="editForm.useResourceNum" :min="1" :max="10" label="描述文字">
+            </el-input-number>
           </el-form-item>
-          <el-form-item label="流程状态">
-            <el-input v-model="editForm.state" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="审批备注" prop="comments">
-            <el-input v-model="editForm.comments"></el-input>
+          <el-form-item label="位置">
+            <div class="map">
+              <!-- <el-input v-model="editForm.x" disabled></el-input> -->
+              <!-- 给地图加点击事件getLocationPoint，点击地图获取位置相关的信息，经纬度啥的 -->
+              <!-- scroll-wheel-zoom：是否可以用鼠标滚轮控制地图缩放，zoom是视图比例 -->
+              <baidu-map class="bmView" @ready="mapReady" :scroll-wheel-zoom="true" :zoom="zoom"
+                ak="NfH4n0hrjmWGSviuZLg3mUwQUzU47SSl">
+                <bm-view style="width: 100%; height:200px; flex: 1"></bm-view>
+                <bm-local-search :keyword="addressKeyword" :auto-viewport="true" style="display: none">
+                </bm-local-search>
+              </baidu-map>
+            </div>
           </el-form-item>
         </el-form>
 
         <!-- 底部区域 -->
         <span slot="footer" class="dialog-footer">
-          <el-col :span="15">
-            <el-button type="primary" @click="pass()">通 过</el-button>
-            <el-button type="success" @click="submitProfessor()">提交专家</el-button>
-          </el-col>
-          <!-- <el-button @click="editDialogVisible = false">取 消</el-button> -->
-          <el-button @click="editDialogVisible = false, activeIndex = 1">确 定</el-button>
+          <el-button type="primary" @click="pass()">确 定</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -144,82 +166,90 @@
       return {
         tableDataBegin: [{
             id: "1",
-            name: "自然灾害水旱灾害一级",
+            name: "地震灾害五级",
             num: "360",
             type: "2",
             creatTime: "2021-05-03 11:11:11",
-            person: "桃桃",
-            phone: "9011910826",
+            person: "苹果",
+            phone: "243",
             seq: "16",
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
             lastModifyPerson: "郑敬儒",
-            state: "专家已回复"
+            state: "已通过",
+            usePeople: "消防员",
+            usePeopleNum: "5",
+            useResource: "方便面",
+            useResourceNum: "10",
+            x: 113.27,
+            y: 23.13
           },
           {
             id: "2",
-            name: "公交倒翻二级",
+            name: "居民楼着火二级",
             num: "1700",
             type: "2",
             creatTime: "2021-05-03 11:11:11",
-            person: "苹苹",
-            phone: "9039847561",
+            person: "谢俊彦",
+            phone: "5446",
             seq: "3",
             date: "2021-1-17",
+            alarmTime: "2021-05-03",
+            enterprise: "斯科达企业",
+            lastModifyTime: "2021-05-03 12:35:11",
+            lastModifyPerson: "郑敬儒",
+            state: "已通过",
+            usePeople: "消防员",
+            usePeopleNum: "5",
+            useResource: "方便面",
+            useResourceNum: "10",
+            x: 116.326961,
+            y: 39.924297
+          },
+          {
+            id: "4",
+            name: "自然灾害水旱灾害一级",
+            num: "600",
+            type: "1",
+            creatTime: "2021-05-03 11:11:11",
+            person: "谢俊彦",
+            phone: "6565",
+            seq: "16",
+            date: "2021-05-03",
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
             lastModifyPerson: "郑敬儒",
-            state: "已接报"
-          },
-          {
-            id: "3",
-            name: "地震灾害五级",
-            num: "1500",
-            type: "2",
-            creatTime: "2021-05-03 11:11:11",
-            person: "苹苹",
-            phone: "9039847561",
-            seq: "4",
-            date: "2020-05-17",
-            alarmTime: "2021-05-03",
-            enterprise: "东软睿道",
-            lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "郑敬儒",
-            state: "已接报"
-          },
-          {
-            id: "4",
-            name: "地震灾害五级",
-            num: "600",
-            type: "1",
-            creatTime: "2021-05-03 11:11:11",
-            person: "苹苹",
-            phone: "9039847561",
-            seq: "16",
-            date: "2021-05-03",
-            alarmTime: "2021-05-03",
-            enterprise: "斯科达企业",
-            lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "郑敬儒",
-            state: "已接报"
+            state: "已通过",
+            usePeople: "消防员",
+            usePeopleNum: "5",
+            useResource: "方便面",
+            useResourceNum: "10",
+           x: 123.499033,
+            y: 41.65672
           },
           {
             id: "5",
             name: "矿泉水污染一级",
             num: "25",
             type: "1",
-            creatTime: "2021-05-03 11:11:11",
+            creatTime: "2021-05-03 12:35:11",
             person: "桃桃",
-            phone: "9011910826",
+            phone: "36",
             seq: "19",
             date: "2021-05-03",
             alarmTime: "2021-05-03",
             enterprise: "斯科达企业",
             lastModifyTime: "2021-05-03 12:55:55",
             lastModifyPerson: "郑敬儒",
-            state: "已接报"
+            state: "已通过",
+            usePeople: "消防员",
+            usePeopleNum: "5",
+            useResource: "方便面",
+            useResourceNum: "10",
+            x: 113.27,
+            y: 23.13
           },
         ],
         tableDataName: "",
@@ -235,16 +265,16 @@
         //控制修改信息对话框的显示与隐藏
         editDialogVisible: false,
         //修改备注的验证规则对象
-        modifyFormRules: {
-          comments: [{
-            required: true,
-            message: "请输入备注",
-            trigger: "blur"
-          }]
-        },
         activeIndex: 1,
         //查询到的信息修改对象
-        editForm: {}
+        editForm: {},
+        point: "",
+        num: 1,
+        zoom: 12.8,
+        addressKeyword: "",
+
+
+        
       };
     },
     //生命周期函数
@@ -338,7 +368,7 @@
       },
       //展示编辑信息的对话框
       showEditDialog(id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime,
-        lastModifyPerson, state) {
+        lastModifyPerson, state, usePeople, usePeopleNum, useResource, useResourceNum, x, y) {
         // console.log(id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state)
         this.editForm = {
           id,
@@ -353,7 +383,13 @@
           enterprise,
           lastModifyTime,
           lastModifyPerson,
-          state
+          state,
+          usePeople,
+          usePeopleNum,
+          useResource,
+          useResourceNum,
+          x,
+          y
         }
         this.editDialogVisible = true;
       },
@@ -367,67 +403,11 @@
         let itemForm = JSON.parse(JSON.stringify(this.editForm));
         if (itemForm.state == "已通过") {
           this.activeIndex = 4
-        }else if(itemForm.state == "已移交专家"){
-          this.activeIndex = 2
-        }else if(itemForm.state == "专家已回复"){
-          this.activeIndex = 3
         }
       },
 
-      // 提交专家
-      submitProfessor() {
-        // 弹框询问
-        this.$confirm('确认将该流程提交至专家处吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'info'
-        }).then(() => {
-          const _this = this;
-          let itemForm = JSON.parse(JSON.stringify(this.editForm));
-          console.log(itemForm)
-          let keywords = itemForm.id;
-          console.log(keywords)
-
-          if (itemForm.state == "已通过") {
-            // this.editDialogVisible = true;
-            this.$message({
-              type: 'error',
-              message: '已通过流程无法移交专家!'
-            });
-          } else if (itemForm.state == "专家已回复") {
-            // this.editDialogVisible = true;
-            this.$message({
-              type: 'error',
-              message: '专家已回复无法再次移交专家!'
-            });
-          }else {
-            this.tableDataBegin.forEach((value, index) => {
-              if (value.id) {
-                if (value.id == keywords) {
-                  _this.tableDataBegin.splice(index, 1)
-                  _this.$set(itemForm, 'state', "已移交专家")
-                  this.activeIndex = 2
-                }
-              }
-            });
-            _this.tableDataBegin.push(itemForm)
-            this.editDialogVisible = true;
-            this.$message({
-              type: 'success',
-              message: '提交成功!'
-            });
-
-          }
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消'
-          });
-        });
-      },
-
       pass() {
-        this.$confirm('确认通过该流程吗?', '提示', {
+        this.$confirm('确认调动吗?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'info'
@@ -438,31 +418,29 @@
             let keywords = itemForm.id;
             console.log(keywords)
 
-            if (itemForm.state == "已移交专家") {
-            // this.editDialogVisible = true;
-            this.$message({
-              type: 'error',
-              message: '已移交专家无法修改流程!'
-            });
-          }else{
-            this.tableDataBegin.forEach((value, index) => {
-              if (value.id) {
-                if (value.id == keywords) {
-                  _this.tableDataBegin.splice(index, 1)
-                  _this.$set(itemForm, 'state', "已通过")
-                  this.activeIndex = 4
-                  // itemForm.state = "已通过"
+            if (itemForm.state == "事件已处理") {
+              // this.editDialogVisible = true;
+              this.$message({
+                type: 'error',
+                message: '事件已处理无法再次处理!'
+              });
+            } else {
+              this.tableDataBegin.forEach((value, index) => {
+                if (value.id) {
+                  if (value.id == keywords) {
+                    _this.tableDataBegin.splice(index, 1)
+                    _this.$set(itemForm, 'state', "事件已处理")
+                  }
                 }
-              }
-            });
-            _this.tableDataBegin.push(itemForm)
-            // console.log(_this.tableDataBegin);
-            //隐藏添加用户的对话框
-            this.editDialogVisible = true;
-            this.$message({
-              type: 'success',
-              message: '提交成功!'
-            });
+              });
+              _this.tableDataBegin.push(itemForm)
+              // console.log(_this.tableDataBegin);
+              //隐藏添加用户的对话框
+              this.editDialogVisible = false;
+              this.$message({
+                type: 'success',
+                message: '提交成功!'
+              });
             }
           })
           .catch(() => {
@@ -471,9 +449,22 @@
               message: '已取消'
             });
           });
+      },
+
+      mapReady({BMap, map}){
+        // 选择一个经纬度作为中心点
+        // console.log(this.$refs.location22.value)
+        // 113.27, 23.13
+        // console.log(this.editForm.y)
+        // let locc = this.editForm.location
+
+              this.point = new BMap.Point(this.editForm.x, this.editForm.y);
+              console.log(this.editForm.x, this.editForm.y);
+              console.log(this.point)
+              map.centerAndZoom(this.point, 12);
       }
-    }
-  };
+      }
+  }
 </script>
 
 <style lang="less" scoped></style>

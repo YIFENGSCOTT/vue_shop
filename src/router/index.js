@@ -14,9 +14,8 @@ import CityInfo from "../components/staff/CityInfo.vue"
 import Commander from '../components/Commander.vue'
 import AlarmManagement from '../components/command/AlarmManagement.vue'
 import Emergency from '../components/command/Emergency.vue'
-
-Vue.use(Router);
-
+import Alarm from '../components/staff/Alarm.vue'
+import Professor from "../components/professor/Emergency.vue";
 import SuperManage from "../components/super/SuperManage.vue"
 
 Vue.use(Router);
@@ -36,7 +35,8 @@ export default new Router({
       { path: "/1-3", component: ResourcePlace},
       { path: "/1-4", component: Flow},
       { path: "/1-5", component: Company},
-      { path: "/1-6", component: CityInfo}
+      { path: "/1-6", component: CityInfo},
+      { path: '/1-7', component: Alarm}
       ],
     },
 
@@ -59,7 +59,15 @@ export default new Router({
           { path: '/2-1', component: AlarmManagement},
           { path: '/2-2', component: Emergency}
       ]
+    },
+    {
+      path: '/professor',
+      component: Commander,
+      redirect: '/welcome2',
+      children: [
+          { path: '/welcome2', component: Welcome },
+          { path: '/3-1', component: Professor}
+      ]
     }
-
   ],
 });
