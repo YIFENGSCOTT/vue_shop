@@ -1,37 +1,33 @@
-//工作人员接报界面
+//工作人员接报管理界面
 <template>
   <div>
     <!-- 面包屑导航区 -->
-    <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item><a href="/">工作人员界面</a></el-breadcrumb-item>
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/commander' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>工作人员界面</el-breadcrumb-item>
       <el-breadcrumb-item>接报管理</el-breadcrumb-item>
     </el-breadcrumb>
-    <!-- 布局 -->
-    <el-card class="box-card">
-      <!-- 栅格布局 -->
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <div>
-            <el-button type="success" round @click="addDialogVisible = true">新增</el-button>
-            <!-- <el-button round @click="showEditDialog()">修改</el-button> -->
-          </div>
-        </el-col>
 
-        <el-col :span="6">
+    <!-- 卡片视图区 -->
+    <el-card class="box-card">
+      <!-- 搜索与添加区 -->
+      <!-- 栅格布局 -->
+      
+      <el-row :gutter="20">
+         <el-col :span="6">
           <div>
-            <el-button type="success" round @click="addTrafficVisible = true">新增交通情况</el-button>
+            <el-button type="success" round @click="addDialogVisible = true">新增接报</el-button>
           </div>
         </el-col>
         <el-col :span="6">
           <div>
-            <el-button round @click="toggleSelection()">刷新</el-button>
+            <el-button round @click="toggleSelection()">取消搜索</el-button>
           </div>
         </el-col>
         <el-col :span="6">
           <div>
-            <el-tooltip class="item" effect="dark" content="根据城市名称模糊查询" placement="top">
-              <el-input placeholder="请输入城市名称" v-model="tableDataName">
+            <el-tooltip class="item" effect="dark" content="根据事件名称模糊查询" placement="top">
+              <el-input placeholder="请输入事件名称" v-model="tableDataName">
                 <el-button slot="append" icon="el-icon-search" @click="doFilter"></el-button>
               </el-input>
             </el-tooltip>
@@ -44,93 +40,298 @@
           </div>
         </el-col>
       </el-row>
+
       <!-- 信息列表区域 -->
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column label="序号" width="180"><template slot-scope="scope"> {{scope.$index + 1 }} </template>
+      <el-table ref="multipleTable" :data="tableDataEnd" tooltip-effect="dark" style="width: 100%"
+        :default-sort="{ prop: 'id' }">
+        <el-table-column type="selection" width="55"> </el-table-column>
+        <el-table-column prop="id" label="ID" sortable="" width="70">
         </el-table-column>
-        <el-table-column prop="name" label="创建人" width="180"></el-table-column>
-        <el-table-column prop="nameOfAccident" label="事件名称"></el-table-column>
-        <el-table-column prop="peopleCallPolice" label="报警人"></el-table-column>
-        <el-table-column prop="pCPMember" label="报警电话"></el-table-column>
-        <el-table-column prop="state" label="流程状态"></el-table-column>
-        <el-table-column prop="birthday" label="操作">
+        <el-table-column prop="name" label="事件名称" width="120">
+        </el-table-column>
+        <el-table-column prop="num" label="事件接报编码" width="80">
+        </el-table-column>
+        <el-table-column prop="seq" label="流程编号" width="80">
+        </el-table-column>
+        <el-table-column prop="type" label="流程类型" width="120">
+        </el-table-column>
+        <el-table-column prop="creatTime" label="流程创建时间" width="120">
+        </el-table-column>
+        <el-table-column prop="person" label="报警人" width="100">
+        </el-table-column>
+        <el-table-column prop="phone" label="报警人联系电话" width="120">
+        </el-table-column>
+        <el-table-column prop="alarmTime" label="接报时间" width="120">
+        </el-table-column>
+        <el-table-column prop="enterprise" label="风险企业" width="120">
+        </el-table-column>
+        <el-table-column prop="lastModifyTime" label="流程最后修改时间" width="120">
+        </el-table-column>
+        <el-table-column prop="lastModifyPerson" label="最后更新者" width="120">
+        </el-table-column>
+        <el-table-column prop="state" label="流程状态" width="120">
+        </el-table-column>
+
+        <el-table-column label="操作" width="120">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" @click="editUser(scope.row,scope.$index)" circle></el-button>
-            <el-button type="danger" icon="el-icon-delete" @click="delUser(scope.$index)" circle></el-button>
+            <el-tooltip class="item" effect="dark" content="填写备注" placement="top" :enterable="false">
+              <el-button type="primary" icon="el-icon-edit" circle @click="showEditDialog(
+                scope.row.id,
+                scope.row.name, 
+                scope.row.num,
+                scope.row.seq,
+                scope.row.type,
+                scope.row.creatTime,
+                scope.row.person,
+                scope.row.phone,
+                scope.row.alarmTime,
+                scope.row.enterprise,
+                scope.row.lastModifyTime,
+                scope.row.lastModifyPerson,
+                scope.row.state),change()"></el-button>
+            </el-tooltip>
+            
           </template>
         </el-table-column>
       </el-table>
-      <!-- 新增接报信息模态框 -->
-      <el-dialog title="编辑用户信息" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
-        <div>
-          <el-form ref="form" :model="editObj" label-width="80px">
-            <el-form-item label="创建人">
-              <el-input v-model="editObj.name"></el-input>
-            </el-form-item>
-            <el-form-item label="事件名称">
-              <el-input v-model="editObj.nameOfAccident"></el-input>
-            </el-form-item>
-            <el-form-item label="报警人">
-              <el-input v-model="editObj.peopleCallPolice"></el-input>
-            </el-form-item>
-            <el-form-item label="报警电话">
-              <el-input v-model="editObj.pCPMember"></el-input>
-            </el-form-item>
-            <el-form-item label="流程状态">
-              <el-input v-model="editObj.state"></el-input>
-            </el-form-item>
-          </el-form>
-        </div>
+      <!-- id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state -->
+      <!-- 分页区域 -->
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+        :page-sizes="[1, 4, 8, 10]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
+        :total="totalItems">
+      </el-pagination>
+
+      <!-- 添加接报的对话框 -->
+      <el-dialog title="添加接报信息" :visible.sync="addDialogVisible" width="50%" @close="resetForm">
+        <!-- 内容主体区 -->
+        <el-form :model="addForm" :rules="addFormRules" ref="addForm" label-width="auto" size="mini">
+          <el-form-item label="ID：" prop="id">
+            <el-input v-model="addForm.id"></el-input>
+          </el-form-item>
+          <el-form-item label="接报名称：" prop="name">
+            <el-input v-model="addForm.name"></el-input>
+          </el-form-item>
+          <el-form-item label="事件接报编码：" prop="num">
+            <el-input v-model="addForm.num"></el-input>
+          </el-form-item>
+          <el-form-item label="流程编号：" prop="seq">
+            <el-input v-model="addForm.seq"></el-input>
+          </el-form-item>
+          <el-form-item label="流程类型：" prop="type">
+            <el-input v-model="addForm.type"></el-input>
+          </el-form-item>
+          <el-form-item label="流程创建时间：" prop="creatTime">
+            <el-input v-model="addForm.creatTime"></el-input>
+          </el-form-item>
+          <el-form-item label="报警人：" prop="person">
+            <el-input v-model="addForm.person"></el-input>
+          </el-form-item>
+          <el-form-item label="报警人联系电话：" prop="phone">
+            <el-input v-model="addForm.phone"></el-input>
+          </el-form-item>
+          <el-form-item label="接报时间：" prop="alarmtime">
+            <el-input v-model="addForm.alarmtime"></el-input>
+          </el-form-item>
+          <el-form-item label="风险企业：" prop="enterprise">
+            <el-input v-model="addForm.enterprise"></el-input>
+          </el-form-item>
+          <el-form-item label="流程最后修改时间：" prop="lastModifyTime">
+            <el-input v-model="addForm.lastModifyTime"></el-input>
+          </el-form-item>
+          <el-form-item label="最后更新者：" prop="lastModifyPerson">
+            <el-input v-model="addForm.lastModifyPerson"></el-input>
+          </el-form-item>
+          <el-form-item label="流程状态：" prop="state">
+            <el-input v-model="addForm.state"></el-input>
+          </el-form-item>
+
+
+
+
+        </el-form>
+        <!-- 底部区域 -->
         <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="confirm">确 定</el-button>
+          <el-button @click="addDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="addAlarm">确 定</el-button>
+        </span>
+      </el-dialog>
+
+      <!-- 修改信息的对话框 -->
+      <el-dialog title="填写审批内容" :visible.sync="editDialogVisible" width="50%" label-width="auto" size="mini"
+        @close="editDialogClosed">
+        <!-- 内容主体区 -->
+        <el-steps :active="activeIndex" finish-status="success" align-center>
+          <el-step title="接报维护"></el-step>
+          <el-step title="接报审批"></el-step>
+          <el-step title="专家介入"></el-step>
+          <el-step title="流程结束"></el-step>
+        </el-steps>
+
+        <el-form :model="editForm" :rules="modifyFormRules" ref="editForm" label-width="auto">
+          <el-form-item label="ID">
+            <el-input v-model="editForm.id" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="事件名称">
+            <el-input v-model="editForm.name" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="事件接报编码">
+            <el-input v-model="editForm.num" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="流程状态">
+            <el-input v-model="editForm.state" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="审批备注" prop="comments">
+            <el-input v-model="editForm.comments"></el-input>
+          </el-form-item>
+        </el-form>
+
+        <!-- 底部区域 -->
+        <span slot="footer" class="dialog-footer">
+          <el-col :span="15">
+            <el-button type="primary" @click="pass()">通 过</el-button>
+            <el-button type="success" @click="submitProfessor()">提交专家</el-button>
+          </el-col>
+          <!-- <el-button @click="editDialogVisible = false">取 消</el-button> -->
+          <el-button @click="editDialogVisible = false, activeIndex = 1">确 定</el-button>
         </span>
       </el-dialog>
     </el-card>
   </div>
 </template>
+// v-model="activeIndex"
 <script>
   export default {
+    inject: ["reload"],
     data() {
       return {
-        userInfo: {
-          name: '',
-          nameOfAccident: '',
-          peopleCallPolice: '',
-          pCPMember: '',
-          state: '',
+        tableDataBegin: [{
+            id: "1",
+            name: "自然灾害水旱灾害一级",
+            num: "360",
+            type: "2",
+            creatTime: "2021-05-03 11:11:11",
+            person: "桃桃",
+            phone: "9011910826",
+            seq: "16",
+            alarmTime: "2021-05-03",
+            enterprise: "石油公司",
+            lastModifyTime: "2021-05-03 12:55:55",
+            lastModifyPerson: "郑敬儒",
+            state: "专家已回复"
+          },
+          {
+            id: "2",
+            name: "公交倒翻二级",
+            num: "1700",
+            type: "2",
+            creatTime: "2021-05-03 11:11:11",
+            person: "苹苹",
+            phone: "9039847561",
+            seq: "3",
+            date: "2021-1-17",
+            alarmTime: "2021-05-03",
+            enterprise: "石油公司",
+            lastModifyTime: "2021-05-03 12:55:55",
+            lastModifyPerson: "郑敬儒",
+            state: "已接报"
+          },
+          {
+            id: "3",
+            name: "地震灾害五级",
+            num: "1500",
+            type: "2",
+            creatTime: "2021-05-03 11:11:11",
+            person: "苹苹",
+            phone: "9039847561",
+            seq: "4",
+            date: "2020-05-17",
+            alarmTime: "2021-05-03",
+            enterprise: "东软睿道",
+            lastModifyTime: "2021-05-03 12:55:55",
+            lastModifyPerson: "郑敬儒",
+            state: "已接报"
+          },
+          {
+            id: "4",
+            name: "地震灾害五级",
+            num: "600",
+            type: "1",
+            creatTime: "2021-05-03 11:11:11",
+            person: "苹苹",
+            phone: "9039847561",
+            seq: "16",
+            date: "2021-05-03",
+            alarmTime: "2021-05-03",
+            enterprise: "斯科达企业",
+            lastModifyTime: "2021-05-03 12:55:55",
+            lastModifyPerson: "郑敬儒",
+            state: "已接报"
+          },
+          {
+            id: "5",
+            name: "矿泉水污染一级",
+            num: "25",
+            type: "1",
+            creatTime: "2021-05-03 11:11:11",
+            person: "桃桃",
+            phone: "9011910826",
+            seq: "19",
+            date: "2021-05-03",
+            alarmTime: "2021-05-03",
+            enterprise: "斯科达企业",
+            lastModifyTime: "2021-05-03 12:55:55",
+            lastModifyPerson: "郑敬儒",
+            state: "已接报"
+          },
+        ],
+
+        addFormRules: {
+        id: [{ required: true, message: "请输入ID", trigger: "blur" }],
+        name: [{ required: true, message: "请输入名称", trigger: "blur" }],
         },
-        tableData: [{
-          name: '小明',
-          nameOfAccident: '火灾',
-          peopleCallPolice: '安女士',
-          pCPMember: '13540213667',
-          state: '处理中',
-        }, {
-          name: '小红',
-          nameOfAccident: '地震',
-          peopleCallPolice: '何先生',
-          pCPMember: '12412578641',
-          state: '已完成',
-        }, {
-          name: '小智',
-          nameOfAccident: '台风',
-          peopleCallPolice: '金女士',
-          pCPMember: '12845235982',
-          state: '专家处理中',
-        }],
-        dialogVisible: false,
-        editObj: {
-          name: '',
-          nameOfAccident: '',
-          peopleCallPolice: '',
-          pCPMember: '',
-          state: '处理中',
+        
+        tableDataName: "",
+        tableDataEnd: [],
+        currentPage: 1,
+        pageSize: 8,
+        totalItems: 0,
+        filterTableDataEnd: [],
+        flag: false,
+        multipleSelection: [],
+        // //控制添加信息对话框的显示与隐藏
+        addDialogVisible: false,
+        //控制修改信息对话框的显示与隐藏
+        editDialogVisible: false,
+        //修改备注的验证规则对象
+        modifyFormRules: {
+          comments: [{
+            required: true,
+            message: "请输入备注",
+            trigger: "blur"
+          }]
         },
-        userIndex: 0,
+        activeIndex: 1,
+        //查询到的信息修改对象
+        editForm: {},
+        addForm: {}
       };
     },
+    //生命周期函数
+    created() {
+      this.totalItems = this.tableDataBegin.length;
+      if (this.totalItems > this.pageSize) {
+        for (let index = 0; index < this.pageSize; index++) {
+          this.tableDataEnd.push(this.tableDataBegin[index]);
+        }
+      } else {
+        this.tableDataEnd = this.tableDataBegin;
+      }
+    },
+
+    //当前页面的一些事件处理函数
     methods: {
+      //前端搜索功能需要区分是否检索,因为对应的字段的索引不同
+      //用两个变量接收currentChangePage函数的参数
       doFilter() {
         if (this.tableDataName == "") {
           this.$message.warning("查询条件不能为空！");
@@ -146,7 +347,6 @@
             }
           }
         });
-
         //页面数据改变重新统计数据数量和当前页
         this.currentPage = 1;
         this.totalItems = this.filterTableDataEnd.length;
@@ -200,93 +400,166 @@
           this.tableDataEnd = this.tableDataBegin;
         }
       },
-
-      //添加
-      addUser() {
-        if (!this.userInfo.name) {
-          this.$message({
-            message: '请输入创建人！',
-
-          });
-          return;
+      // 监听添加用户对话框的关闭事件
+      resetForm() {
+        // this.addForm={}
+        this.$refs.addForm.resetFields();
+      },
+      //展示编辑信息的对话框
+      showEditDialog(id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime,
+        lastModifyPerson, state) {
+        // console.log(id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state)
+        this.editForm = {
+          id,
+          name,
+          num,
+          seq,
+          type,
+          creatTime,
+          person,
+          phone,
+          alarmTime,
+          enterprise,
+          lastModifyTime,
+          lastModifyPerson,
+          state
         }
-        if (!this.userInfo.nameOfAccident) {
-          this.$message({
-            message: '请输入事件！',
-            type: 'warning'
-          });
-          return;
-        }
-        if (!this.userInfo.peopleCallPolice) {
-          this.$message({
-            message: '请输入报警人！',
-            type: 'warning'
-          });
-          return;
-        }
-        if (!this.userInfo.pCPMember) {
-          this.$message({
-            message: '请输入报警人电话！',
-            type: 'warning'
-          });
-          return;
-        }
-        if (!this.userInfo.state) {
-          this.$message({
-            message: '请输入接报状态！',
-            type: 'warning'
-          });
-          return;
-        }
-        this.tableData.push(this.userInfo);
-        this.userInfo = {
-          name: '',
-          nameOfAccident: '',
-          peopleCallPolice: '',
-          pCPMember: '',
-          state: '',
-        };
+        this.editDialogVisible = true;
+      },
+      editDialogClosed() {
+        this.$refs.editForm.resetFields()
+      },
+      //新增接报
+      addAlarm() {
+        const _this = this;
+      this.$refs.addForm.validate((valid) => {
+        if (!valid) return;
+        //可以添加用户
+        //参考深拷贝
+        let itemForm = JSON.parse(JSON.stringify(this.addForm));
+        console.log(itemForm)
+        _this.tableDataBegin.push(itemForm);
+        console.log(_this.tableDataBegin);
+        //隐藏添加用户的对话框
+        this.addDialogVisible = false;
+        //显示提示信息
+        this.$message.success("新增接报信息成功！");
+      });
       },
 
-      //删除
-      delUser(idx) {
-        this.$confirm('确认删除此条接报？')
-          .then(_ => {
-            this.tableData.splice(idx, 1);
+      // 每次打开对话框根据状态改变进度条
+      change() {
+        const _this = this;
+        let itemForm = JSON.parse(JSON.stringify(this.editForm));
+        if (itemForm.state == "已通过") {
+          this.activeIndex = 4
+        }else if(itemForm.state == "已移交专家"){
+          this.activeIndex = 2
+        }else if(itemForm.state == "专家已回复"){
+          this.activeIndex = 3
+        }
+      },
+
+      // 提交专家
+      submitProfessor() {
+        // 弹框询问
+        this.$confirm('确认将该流程提交至专家处吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'info'
+        }).then(() => {
+          const _this = this;
+          let itemForm = JSON.parse(JSON.stringify(this.editForm));
+          console.log(itemForm)
+          let keywords = itemForm.id;
+          console.log(keywords)
+
+          if (itemForm.state == "已通过") {
+            // this.editDialogVisible = true;
+            this.$message({
+              type: 'error',
+              message: '已通过流程无法移交专家!'
+            });
+          } else if (itemForm.state == "专家已回复") {
+            // this.editDialogVisible = true;
+            this.$message({
+              type: 'error',
+              message: '专家已回复无法再次移交专家!'
+            });
+          }else {
+            this.tableDataBegin.forEach((value, index) => {
+              if (value.id) {
+                if (value.id == keywords) {
+                  _this.tableDataBegin.splice(index, 1)
+                  _this.$set(itemForm, 'state', "已移交专家")
+                  this.activeIndex = 2
+                }
+              }
+            });
+            _this.tableDataBegin.push(itemForm)
+            this.editDialogVisible = true;
+            this.$message({
+              type: 'success',
+              message: '提交成功!'
+            });
+
+          }
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });
+        });
+      },
+
+      pass() {
+        this.$confirm('确认通过该流程吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'info'
+          }).then(() => {
+            const _this = this;
+            let itemForm = JSON.parse(JSON.stringify(this.editForm));
+            console.log(itemForm)
+            let keywords = itemForm.id;
+            console.log(keywords)
+
+            if (itemForm.state == "已移交专家") {
+            // this.editDialogVisible = true;
+            this.$message({
+              type: 'error',
+              message: '已移交专家无法修改流程!'
+            });
+          }else{
+            this.tableDataBegin.forEach((value, index) => {
+              if (value.id) {
+                if (value.id == keywords) {
+                  _this.tableDataBegin.splice(index, 1)
+                  _this.$set(itemForm, 'state', "已通过")
+                  this.activeIndex = 4
+                  // itemForm.state = "已通过"
+                }
+              }
+            });
+            _this.tableDataBegin.push(itemForm)
+            // console.log(_this.tableDataBegin);
+            //隐藏添加用户的对话框
+            this.editDialogVisible = true;
+            this.$message({
+              type: 'success',
+              message: '提交成功!'
+            });
+            }
           })
-          .catch(_ => {});
-      },
-      //编辑
-      editUser(item, idx) {
-        this.userIndex = idx;
-        this.editObj = {
-          name: item.name,
-          nameOfAccident: item.nameOfAccident,
-          peopleCallPolice: item.peopleCallPolice,
-          pCPMember: item.pCPMember,
-          state: item.state,
-        };
-        this.dialogVisible = true;
-      },
-
-      //查询
-      inquire() {
-
-      },
-
-      handleClose() {
-        this.dialogVisible = false;
-      },
-
-      confirm() {
-        this.dialogVisible = false;
-        Vue.set(this.tableData, this.userIndex, this.editObj);
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消'
+            });
+          });
       }
-    },
-  }
+    }
+  };
 </script>
 
-<style scoped>
-
-
-</style>
+<style lang="less" scoped></style>
