@@ -5,6 +5,7 @@ import Home from "../components/Home.vue";
 import Super from "../components/Super.vue"
 import Welcome from "../components/Welcome.vue";
 import Welcome0 from "../components/Welcome0.vue";
+
 import Events from "../components/staff/Events.vue";
 import Resources from "../components/staff/Resources.vue";
 import ResourcePlace from "../components/staff/ResourcePlace.vue";
@@ -56,7 +57,7 @@ export default new Router({
       component: Commander,
       redirect: '/welcome1',
       children: [
-          { path: '/welcome1', component: Welcome },
+          { path: '/welcome', component: Welcome },
           { path: '/2-1', component: AlarmManagement},
           { path: '/2-2', component: Emergency}
       ]
