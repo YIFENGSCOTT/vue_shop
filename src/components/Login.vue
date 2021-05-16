@@ -74,11 +74,16 @@ export default {
         // console.log(res)
         // window.sessionStorage.setItem('token', res.data.token)
           this.$router.push('/home')
-        }else if(this.loginForm.username == 'super' && this.loginForm.password == 'super123'){
+        }else if(this.loginForm.username == 'super' && this.loginForm.password == '123456'){
           this.$message.success('登陆成功')
           this.$router.push('/super')
 
-        }else {
+        }else if (this.loginForm.username == 'commander' && this.loginForm.password =='123456') {
+          this.$message.success('登录成功')
+        // console.log(res)
+        // window.sessionStorage.setItem('token', res.data.token)
+          this.$router.push('/commander')
+        }else{
           return this.$message.error('登录失败')
         }
       })

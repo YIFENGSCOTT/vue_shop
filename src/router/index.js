@@ -11,6 +11,11 @@ import ResourcePlace from "../components/staff/ResourcePlace.vue";
 import Company from "../components/staff/Company.vue";
 import Flow from "../components/staff/Flow.vue"
 import CityInfo from "../components/staff/CityInfo.vue"
+import Commander from '../components/Commander.vue'
+import AlarmManagement from '../components/command/AlarmManagement.vue'
+import Emergency from '../components/command/Emergency.vue'
+
+Vue.use(Router);
 
 import SuperManage from "../components/super/SuperManage.vue"
 
@@ -34,6 +39,7 @@ export default new Router({
       { path: "/1-6", component: CityInfo}
       ],
     },
+
     {
       path: '/super',
       component: Super,
@@ -42,6 +48,18 @@ export default new Router({
           { path: '/welcome0', component: Welcome0},
           { path: '/0-1', component: SuperManage},
       ]
+    },
+
+    {
+      path: '/commander',
+      component: Commander,
+      redirect: '/welcome1',
+      children: [
+          { path: '/welcome1', component: Welcome },
+          { path: '/2-1', component: AlarmManagement},
+          { path: '/2-2', component: Emergency}
+      ]
     }
+
   ],
 });
