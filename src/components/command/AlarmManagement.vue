@@ -155,7 +155,7 @@
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
             lastModifyPerson: "郑敬儒",
-            state: "已接报"
+            state: "专家已回复"
           },
           {
             id: "2",
@@ -369,6 +369,8 @@
           this.activeIndex = 4
         }else if(itemForm.state == "已移交专家"){
           this.activeIndex = 2
+        }else if(itemForm.state == "专家已回复"){
+          this.activeIndex = 3
         }
       },
 
@@ -392,7 +394,13 @@
               type: 'error',
               message: '已通过流程无法移交专家!'
             });
-          } else {
+          } else if (itemForm.state == "专家已回复") {
+            // this.editDialogVisible = true;
+            this.$message({
+              type: 'error',
+              message: '专家已回复无法再次移交专家!'
+            });
+          }else {
             this.tableDataBegin.forEach((value, index) => {
               if (value.id) {
                 if (value.id == keywords) {
