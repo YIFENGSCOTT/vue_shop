@@ -71,8 +71,12 @@
         </el-table-column>
         <el-table-column prop="state" label="账号状态" width="120">
           <template slot-scope="scope">
-            <el-tag :type="scope.row.state === true ? 'success' : 'danger'">
-              {{ scope.row.state }}
+            <el-tag :type="scope.row.state === true ? 'success' : 'danger'" v-if="scope.row.state==true">
+              正常
+            </el-tag>
+
+            <el-tag :type="scope.row.state === true ? 'success' : 'danger'" v-if="scope.row.state==false">
+              停用
             </el-tag>
           </template>
         </el-table-column>
