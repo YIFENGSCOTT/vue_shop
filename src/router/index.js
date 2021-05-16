@@ -11,6 +11,8 @@ import Flow from "../components/staff/Flow.vue"
 import CityInfo from "../components/staff/CityInfo.vue"
 import Commander from '../components/Commander.vue'
 import AlarmManagement from '../components/command/AlarmManagement.vue'
+import Emergency from '../components/command/Emergency.vue'
+
 Vue.use(Router);
 
 
@@ -55,7 +57,7 @@ export default new Router({
       children: [
           { path: '/welcome1', component: Welcome },
           { path: '/2-1', component: AlarmManagement},
-          { path: '/2-2', component: Resources}
+          { path: '/2-2', component: Emergency}
       ]
     }
   ],
