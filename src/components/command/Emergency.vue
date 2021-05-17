@@ -175,7 +175,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "专家人员",
+            lastModifyPerson: "专家人员1",
             state: "已通过",
             usePeople: "消防员",
             usePeopleNum: "5",
@@ -197,7 +197,7 @@
             alarmTime: "2021-05-03",
             enterprise: "斯科达企业",
             lastModifyTime: "2021-05-03 12:35:11",
-            lastModifyPerson: "指挥人员",
+            lastModifyPerson: "指挥人员1",
             state: "已通过",
             usePeople: "消防员",
             usePeopleNum: "5",
@@ -219,7 +219,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "指挥人员",
+            lastModifyPerson: "指挥人员1",
             state: "已通过",
             usePeople: "消防员",
             usePeopleNum: "5",
@@ -241,7 +241,7 @@
             alarmTime: "2021-05-03",
             enterprise: "斯科达企业",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "专家人员",
+            lastModifyPerson: "专家人员1",
             state: "已通过",
             usePeople: "消防员",
             usePeopleNum: "5",
@@ -429,7 +429,7 @@
                   if (value.id == keywords) {
                     _this.tableDataBegin.splice(index, 1)
                     _this.$set(itemForm, 'state', "事件已处理")
-                    _this.$set(itemForm, 'lastModifyPerson', "指挥人员2")
+                    _this.$set(itemForm, 'lastModifyPerson', "指挥人员1")
                     console.log(13123);
 
                     var date = new Date()

@@ -398,7 +398,7 @@
                   _this.tableDataBegin.splice(index, 1)
                   _this.$set(itemForm, 'state', "专家已回复")
                   this.activeIndex = 3
-                  _this.$set(itemForm, 'lastModifyPerson', "专家人员")
+                  _this.$set(itemForm, 'lastModifyPerson', "专家人员1")
 
                     var date = new Date()
                     var y = date.getFullYear();
