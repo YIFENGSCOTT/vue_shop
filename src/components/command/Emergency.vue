@@ -36,6 +36,7 @@
       </el-row>
 
       <!-- 信息列表区域 -->
+      <div class="tablecontainer">
       <el-table :data="tableDataEnd" tooltip-effect="dark" style="width: 100%" :default-sort="{ prop: 'id' }">
         <el-table-column type="selection" width="55"> </el-table-column>
         <el-table-column prop="id" label="ID" sortable="" width="70">
@@ -63,6 +64,23 @@
         <el-table-column prop="lastModifyPerson" label="最后更新者" width="120">
         </el-table-column>
         <el-table-column prop="state" label="流程状态" width="120">
+          <template slot-scope="scope">
+            <el-tag  v-if="scope.row.state == '已接报'">
+              已接报
+            </el-tag>
+            <el-tag type="danger" v-if="scope.row.state == '已移交专家'">
+              已移交专家
+            </el-tag>
+            <el-tag type="warning" v-if="scope.row.state == '专家已回复'">
+              专家已回复
+            </el-tag>
+            <el-tag type="success" v-if="scope.row.state == '已通过'">
+              已通过
+            </el-tag>
+            <el-tag type="success" v-if="scope.row.state == '事件已处理'">
+              事件已处理
+            </el-tag>
+          </template>
         </el-table-column>
 
         <el-table-column label="操作" width="120">
@@ -92,6 +110,7 @@
           </template>
         </el-table-column>
       </el-table>
+      </div>
       <!-- id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state -->
       <!-- 分页区域 -->
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
@@ -175,7 +194,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "专家人员",
+            lastModifyPerson: "专家人员1",
             state: "已通过",
             usePeople: "消防员",
             usePeopleNum: "5",
@@ -197,7 +216,7 @@
             alarmTime: "2021-05-03",
             enterprise: "斯科达企业",
             lastModifyTime: "2021-05-03 12:35:11",
-            lastModifyPerson: "指挥人员",
+            lastModifyPerson: "指挥人员1",
             state: "已通过",
             usePeople: "消防员",
             usePeopleNum: "5",
@@ -219,7 +238,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "指挥人员",
+            lastModifyPerson: "指挥人员1",
             state: "已通过",
             usePeople: "消防员",
             usePeopleNum: "5",
@@ -241,7 +260,7 @@
             alarmTime: "2021-05-03",
             enterprise: "斯科达企业",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "专家人员",
+            lastModifyPerson: "专家人员1",
             state: "已通过",
             usePeople: "消防员",
             usePeopleNum: "5",
@@ -434,7 +453,8 @@
 
                     var date = new Date()
                     var y = date.getFullYear();
-                    var m = date.getMonth();
+                    var m = date.getMonth()+1;
+                    m = m < 10 ? "0" + m : m;
                     var d = date.getDate();
                     var ho = date.getHours();
                     ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
@@ -483,5 +503,19 @@
     }
   }
 </script>
+<style lang="less" scoped>
+.el-card {
+  /* box-shadow: 0 1px 1px rgba(115, 171, 194, 0.15)!important; */
+  background: #ffffff60;
+  background: linear-gradient(to right bottom,
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.3));
+  border-radius: 25px;
+  
+}
 
-<style lang="less" scoped></style>
+.el-breadcrumb  /deep/  .el-breadcrumb__inner 
+      {
+        color: #ccc !important;
+    }
+</style>

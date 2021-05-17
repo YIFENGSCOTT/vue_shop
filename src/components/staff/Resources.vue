@@ -53,67 +53,81 @@
         >
       </el-row>
 
-      <!-- 物资列表区域 -->
-      <el-table
-        ref="multipleTable"
-        :data="tableDataEnd"
-        tooltip-effect="dark"
-        style="width: 100%"
-        :default-sort="{ prop: 'id' }"
-      >
-        <el-table-column type="selection" width="55"> </el-table-column>
-        <el-table-column prop="id" label="ID" sortable="" width="70">
-        </el-table-column>
-        <el-table-column prop="name" label="物资名称" width="120">
-        </el-table-column>
-        <el-table-column prop="num" label="物资数量" width="80">
-        </el-table-column>
-        <el-table-column prop="type" label="物资类型" width="120">
-        </el-table-column>
-        <el-table-column prop="person" label="物资清点人" width="100">
-        </el-table-column>
-        <el-table-column prop="phone" label="物资清点人电话" width="120">
-        </el-table-column>
-        <el-table-column prop="seq" label="物资编号" width="80">
-        </el-table-column>
-        <el-table-column prop="date" label="物资清点时间" width="120">
-        </el-table-column>
+      <div class="tablecontainer">
+        <!-- 物资列表区域 -->
+        <el-table
+          ref="multipleTable"
+          :data="tableDataEnd"
+          tooltip-effect="dark"
+          style="width: 100%"
+          :default-sort="{ prop: 'id' }"
+        >
+          <el-table-column type="selection" width="55"> </el-table-column>
+          <el-table-column prop="id" label="ID" sortable="" width="70">
+          </el-table-column>
+          <el-table-column prop="name" label="物资名称" width="120">
+          </el-table-column>
+          <el-table-column prop="num" label="物资数量" width="80">
+          </el-table-column>
+          <el-table-column prop="type" label="物资类型" width="120">
+          </el-table-column>
+          <el-table-column prop="person" label="物资清点人" width="100">
+          </el-table-column>
+          <el-table-column prop="phone" label="物资清点人电话" width="120">
+          </el-table-column>
+          <el-table-column prop="seq" label="物资编号" width="80">
+          </el-table-column>
+          <el-table-column prop="date" label="物资清点时间" width="120">
+          </el-table-column>
 
-        <el-table-column label="操作" width="120">
-          <template slot-scope="scope">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="修改物资记录"
-              placement="top"
-              :enterable="false"
-            >
-            <!-- 修改按钮 -->
-              <el-button type="primary" icon="el-icon-edit" circle @click="showEditDialog(
-                scope.row.id,
-                scope.row.name, 
-                scope.row.num, 
-                scope.row.type, 
-                scope.row.person, 
-                scope.row.phone, 
-                scope.row.seq, 
-                scope.row.date)"></el-button>
-            </el-tooltip>
+          <el-table-column label="操作" width="120">
+            <template slot-scope="scope">
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="修改物资记录"
+                placement="top"
+                :enterable="false"
+              >
+                <!-- 修改按钮 -->
+                <el-button
+                  type="primary"
+                  icon="el-icon-edit"
+                  circle
+                  @click="
+                    showEditDialog(
+                      scope.row.id,
+                      scope.row.name,
+                      scope.row.num,
+                      scope.row.type,
+                      scope.row.person,
+                      scope.row.phone,
+                      scope.row.seq,
+                      scope.row.date
+                    )
+                  "
+                ></el-button>
+              </el-tooltip>
 
-            <!-- 删除按钮 -->
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="删除物资记录"
-              placement="top"
-              :enterable="false"
-            >
-              <el-button type="danger" icon="el-icon-delete" circle @click="removeById(scope.row.id)"></el-button>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
-
+              <!-- 删除按钮 -->
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="删除物资记录"
+                placement="top"
+                :enterable="false"
+              >
+                <el-button
+                  type="danger"
+                  icon="el-icon-delete"
+                  circle
+                  @click="removeById(scope.row.id)"
+                ></el-button>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
       <!-- 分页区域 -->
       <el-pagination
         @size-change="handleSizeChange"
@@ -178,12 +192,17 @@
         title="修改物资记录"
         :visible.sync="editDialogVisible"
         width="50%"
-        label-width="auto" 
+        label-width="auto"
         size="mini"
         @close="editDialogClosed"
       >
-      <!-- 内容主体区 -->
-        <el-form :model="editForm" ref="editForm" label-width="auto" size="mini">
+        <!-- 内容主体区 -->
+        <el-form
+          :model="editForm"
+          ref="editForm"
+          label-width="auto"
+          size="mini"
+        >
           <el-form-item label="ID">
             <el-input v-model="editForm.id" disabled></el-input>
           </el-form-item>
@@ -203,18 +222,16 @@
             <el-input v-model="editForm.phone"></el-input>
           </el-form-item>
           <el-form-item label="物资编号">
-            <el-input v-model="editForm.seq" ></el-input>
+            <el-input v-model="editForm.seq"></el-input>
           </el-form-item>
           <el-form-item label="物资清点时间">
             <el-input v-model="editForm.date" disabled></el-input>
           </el-form-item>
-        </el-form>  
+        </el-form>
         <!-- 底部区域 -->
         <span slot="footer" class="dialog-footer">
           <el-button @click="editDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="editResource"
-            >确 定</el-button
-          >
+          <el-button type="primary" @click="editResource">确 定</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -375,8 +392,8 @@ export default {
       //需要判断是否检索
       this.currentChangePage(this.tableDataBegin);
       // if (!this.flag) {
-        //tableDataBegin不能写成tableDataEnd，不然在没有进行搜索功能的时候，不能进行分页操作，数据丢失
-        this.currentChangePage(this.tableDataBegin);
+      //tableDataBegin不能写成tableDataEnd，不然在没有进行搜索功能的时候，不能进行分页操作，数据丢失
+      this.currentChangePage(this.tableDataBegin);
       // } else {
       //   this.currentChangePage(this.filterTableDataEnd);
       // }
@@ -419,7 +436,7 @@ export default {
         //可以添加用户
         //参考深拷贝
         let itemForm = JSON.parse(JSON.stringify(this.addForm));
-        console.log(itemForm)
+        console.log(itemForm);
         _this.tableDataBegin.push(itemForm);
         console.log(_this.tableDataBegin);
         //隐藏添加用户的对话框
@@ -430,79 +447,106 @@ export default {
     },
     //展示编辑物资信息的对话框
     showEditDialog(id, name, num, type, person, phone, seq, date) {
-      console.log(id, name, num, type, person, phone, seq, date)
-      this.editForm = {id, name, num, type, person, phone, seq, date}
+      console.log(id, name, num, type, person, phone, seq, date);
+      this.editForm = { id, name, num, type, person, phone, seq, date };
       this.editDialogVisible = true;
     },
     //监听修改用户对话框的关闭事件
     editDialogClosed() {
-      this.$refs.editForm.resetFields()
+      this.$refs.editForm.resetFields();
     },
 
     //修改物资信息并且提交
     editResource() {
-      
       const _this = this;
-      
-        //可以添加用户
-        //参考深拷贝
-        let itemForm = JSON.parse(JSON.stringify(this.editForm));
-        console.log(itemForm)
-        let keywords = itemForm.id;
-        console.log(keywords)
-        // _this.tableDataBegin.push(itemForm);
 
-        this.tableDataBegin.forEach((value, index) => {
+      //可以添加用户
+      //参考深拷贝
+      let itemForm = JSON.parse(JSON.stringify(this.editForm));
+      console.log(itemForm);
+      let keywords = itemForm.id;
+      console.log(keywords);
+      // _this.tableDataBegin.push(itemForm);
+
+      this.tableDataBegin.forEach((value, index) => {
         if (value.id) {
           if (value.id == keywords) {
-            _this.tableDataBegin.splice(index, 1)
+            _this.tableDataBegin.splice(index, 1);
           }
         }
       });
-        _this.tableDataBegin.push(itemForm)
-        console.log(_this.tableDataBegin);
-        //隐藏添加用户的对话框
-        this.editDialogVisible = false;
-        //显示提示信息
-        this.$message.success("修改成功！");
+      _this.tableDataBegin.push(itemForm);
+      console.log(_this.tableDataBegin);
+      //隐藏添加用户的对话框
+      this.editDialogVisible = false;
+      //显示提示信息
+      this.$message.success("修改成功！");
     },
 
     //根据id删除物资信息
     async removeById(id) {
       //弹框询问用户是否需要删除
-      const confirmResult = await this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).catch(err => err)
-        //如果确定，返回值就是“confirm”
-        //如果取消，返回值就是“cancel”
-        // console.log(confirmResult)
-        if(confirmResult!= 'confirm') {
-          return this.$message.info('已取消删除')
-        }else  {
-          const _this = this;
-      
+      const confirmResult = await this.$confirm(
+        "此操作将永久删除该记录, 是否继续?",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      ).catch((err) => err);
+      //如果确定，返回值就是“confirm”
+      //如果取消，返回值就是“cancel”
+      // console.log(confirmResult)
+      if (confirmResult != "confirm") {
+        return this.$message.info("已取消删除");
+      } else {
+        const _this = this;
+
         let keywords = id;
-        console.log(keywords)
+        console.log(keywords);
         // _this.tableDataBegin.push(itemForm);
 
         this.tableDataBegin.forEach((value, index) => {
-        if (value.id) {
-          if (value.id == keywords) {
-            _this.tableDataBegin.splice(index, 1)
+          if (value.id) {
+            if (value.id == keywords) {
+              _this.tableDataBegin.splice(index, 1);
+            }
           }
-        }
-      });
+        });
 
-      console.log(_this.tableDataBegin);
-        
+        console.log(_this.tableDataBegin);
+
         this.$message.success("删除成功！");
-
-        }
-    }
+      }
+    },
   },
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+/**卡片的格式 */
+.el-card {
+  /* box-shadow: 0 1px 1px rgba(115, 171, 194, 0.15)!important; */
+  background: #ffffff60;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.3)
+  );
+  border-radius: 25px;
+}
+
+.tablecontainer{
+  background: white;
+  padding: 2%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  border-radius: 25px;
+}
+
+.el-breadcrumb  /deep/  .el-breadcrumb__inner 
+      {
+        color: #ccc !important;
+    }
+</style>

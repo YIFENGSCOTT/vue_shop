@@ -56,6 +56,7 @@
       </el-row>
 
       <!-- 风险企业列表区域 -->
+      <div class="tablecontainer">
       <el-table
         ref="multipleTable"
         :data="tableDataEnd"
@@ -123,6 +124,8 @@
           </template>
         </el-table-column>
       </el-table>
+        
+      </div>
 
       <!-- 分页区域 -->
       <el-pagination
@@ -569,5 +572,20 @@ export default {
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+/**卡片的格式 */
+.el-card {
+  /* box-shadow: 0 1px 1px rgba(115, 171, 194, 0.15)!important; */
+  background: #ffffff60;
+  background: linear-gradient(to right bottom,
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.3));
+  border-radius: 25px;
+  
+}
+.el-breadcrumb  /deep/  .el-breadcrumb__inner 
+      {
+        color: #ccc !important;
+    }
+</style>
 

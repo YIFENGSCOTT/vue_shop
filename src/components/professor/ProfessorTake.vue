@@ -35,6 +35,7 @@
         </el-col>
       </el-row>
 
+      <div class="tablecontainer">
       <!-- 信息列表区域 -->
       <el-table ref="multipleTable" :data="tableDataEnd" tooltip-effect="dark" style="width: 100%"
         :default-sort="{ prop: 'id' }">
@@ -87,6 +88,7 @@
           </template>
         </el-table-column>
       </el-table>
+      </div>
       <!-- id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state -->
       <!-- 分页区域 -->
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
@@ -374,6 +376,7 @@
       },
 
       pass() {
+        
         this.$confirm('确认通过该流程吗?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
@@ -402,7 +405,8 @@
 
                     var date = new Date()
                     var y = date.getFullYear();
-                    var m = date.getMonth();
+                    var m = date.getMonth()+1;
+                    m = m < 10 ? "0" + m : m;
                     var d = date.getDate();
                     var ho = date.getHours();
                     ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
@@ -436,4 +440,20 @@
   };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+/**卡片的格式 */
+.el-card {
+  /* box-shadow: 0 1px 1px rgba(115, 171, 194, 0.15)!important; */
+  background: #ffffff60;
+  background: linear-gradient(to right bottom,
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.3));
+  border-radius: 25px;
+  
+}
+
+.el-breadcrumb  /deep/  .el-breadcrumb__inner 
+      {
+        color: rgb(96, 98, 102) !important;
+    }
+</style>

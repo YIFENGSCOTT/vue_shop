@@ -35,6 +35,8 @@
         </el-col>
       </el-row>
 
+      <div class="tablecontainer">
+        
       <!-- 信息列表区域 -->
       <el-table ref="multipleTable" :data="tableDataEnd" tooltip-effect="dark" style="width: 100%"
         :default-sort="{ prop: 'id' }">
@@ -64,6 +66,20 @@
         <el-table-column prop="lastModifyPerson" label="最后更新者" width="120">
         </el-table-column>
         <el-table-column prop="state" label="流程状态" width="120">
+           <template slot-scope="scope">
+            <el-tag  v-if="scope.row.state == '已接报'">
+              已接报
+            </el-tag>
+            <el-tag type="danger" v-if="scope.row.state == '已移交专家'">
+              已移交专家
+            </el-tag>
+            <el-tag type="warning" v-if="scope.row.state == '专家已回复'">
+              专家已回复
+            </el-tag>
+            <el-tag type="success" v-if="scope.row.state == '已通过'">
+              已通过
+            </el-tag>
+          </template>
         </el-table-column>
 
         <el-table-column label="操作" width="120">
@@ -87,6 +103,7 @@
           </template>
         </el-table-column>
       </el-table>
+      </div>
       <!-- id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state -->
       <!-- 分页区域 -->
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
@@ -154,7 +171,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "专家人员",
+            lastModifyPerson: "专家人员1",
             state: "专家已回复"
           },
           {
@@ -170,7 +187,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "工作人员",
+            lastModifyPerson: "工作人员1",
             state: "已接报"
           },
           {
@@ -186,7 +203,7 @@
             alarmTime: "2021-05-03",
             enterprise: "东软睿道",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "工作人员",
+            lastModifyPerson: "工作人员1",
             state: "已接报"
           },
           {
@@ -202,7 +219,7 @@
             alarmTime: "2021-05-03",
             enterprise: "斯科达企业",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "工作人员",
+            lastModifyPerson: "工作人员1",
             state: "已接报"
           },
           {
@@ -218,7 +235,7 @@
             alarmTime: "2021-05-03",
             enterprise: "斯科达企业",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "工作人员",
+            lastModifyPerson: "工作人员1",
             state: "已接报"
           },
         ],
@@ -365,9 +382,9 @@
       change(state) {
         if (state == "已通过") {
           this.activeIndex = 4
-        }else if(state == "已移交专家"){
+        } else if (state == "已移交专家") {
           this.activeIndex = 2
-        }else if(state == "专家已回复"){
+        } else if (state == "专家已回复") {
           this.activeIndex = 3
         }
       },
@@ -398,27 +415,28 @@
               type: 'error',
               message: '专家已回复无法再次移交专家!'
             });
-          }else {
+          } else {
             this.tableDataBegin.forEach((value, index) => {
               if (value.id) {
                 if (value.id == keywords) {
                   _this.tableDataBegin.splice(index, 1)
                   _this.$set(itemForm, 'state', "已移交专家")
                   this.activeIndex = 2
-                   _this.$set(itemForm, 'lastModifyPerson', "指挥人员1")
+                  _this.$set(itemForm, 'lastModifyPerson', "指挥人员1")
 
-                    var date = new Date()
-                    var y = date.getFullYear();
-                    var m = date.getMonth();
-                    var d = date.getDate();
-                    var ho = date.getHours();
-                    ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
-                    var mi = date.getMinutes();
-                    mi = mi < 10 ? "0" + mi : mi; // 如果只有一位，则前面补零
-                    var se = date.getSeconds();
-                    se = se < 10 ? "0" + se : se; // 如果只有一位，则前面补零
-                    var currentTime = y + "-" + m + '-' + d + ' ' + ho + ':' + mi + ':' + se
-                    _this.$set(itemForm, "lastModifyTime", currentTime)
+                  var date = new Date()
+                  var y = date.getFullYear();
+                  var m = date.getMonth() + 1;
+                  m = m < 10 ? "0" + m : m;
+                  var d = date.getDate();
+                  var ho = date.getHours();
+                  ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
+                  var mi = date.getMinutes();
+                  mi = mi < 10 ? "0" + mi : mi; // 如果只有一位，则前面补零
+                  var se = date.getSeconds();
+                  se = se < 10 ? "0" + se : se; // 如果只有一位，则前面补零
+                  var currentTime = y + "-" + m + '-' + d + ' ' + ho + ':' + mi + ':' + se
+                  _this.$set(itemForm, "lastModifyTime", currentTime)
                 }
               }
             });
@@ -451,24 +469,28 @@
             console.log(keywords)
 
             if (itemForm.state == "已移交专家") {
-            // this.editDialogVisible = true;
-            this.$message({
-              type: 'error',
-              message: '已移交专家无法修改流程!'
-            });
-          }else{
-            this.tableDataBegin.forEach((value, index) => {
-              if (value.id) {
-                if (value.id == keywords) {
-                  _this.tableDataBegin.splice(index, 1)
-                  _this.$set(itemForm, 'state', "已通过")
-                  this.activeIndex = 4
-                   _this.$set(itemForm, 'lastModifyPerson', "指挥人员1")
+              // this.editDialogVisible = true;
+              this.$message({
+                type: 'error',
+                message: '已移交专家无法修改流程!'
+              });
+            } else {
+              this.tableDataBegin.forEach((value, index) => {
+                if (value.id) {
+                  if (value.id == keywords) {
+                    _this.tableDataBegin.splice(index, 1)
+                    _this.$set(itemForm, 'state', "已通过")
+                    this.activeIndex = 4
+                    _this.$set(itemForm, 'lastModifyPerson', "指挥人员1")
                     console.log(13123);
 
                     var date = new Date()
+                    console.log(date.toDateString())
                     var y = date.getFullYear();
-                    var m = date.getMonth();
+                    var m = date.getMonth() + 1;
+                    m = m < 10 ? "0" + m : m; // 如果只有一位，则前面补零
+
+                    console.log(m);
                     var d = date.getDate();
                     var ho = date.getHours();
                     ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
@@ -478,17 +500,17 @@
                     se = se < 10 ? "0" + se : se; // 如果只有一位，则前面补零
                     var currentTime = y + "-" + m + '-' + d + ' ' + ho + ':' + mi + ':' + se
                     _this.$set(itemForm, "lastModifyTime", currentTime)
+                  }
                 }
-              }
-            });
-            _this.tableDataBegin.push(itemForm)
-            // console.log(_this.tableDataBegin);
-            //隐藏添加用户的对话框
-            this.editDialogVisible = true;
-            this.$message({
-              type: 'success',
-              message: '提交成功!'
-            });
+              });
+              _this.tableDataBegin.push(itemForm)
+              // console.log(_this.tableDataBegin);
+              //隐藏添加用户的对话框
+              this.editDialogVisible = true;
+              this.$message({
+                type: 'success',
+                message: '提交成功!'
+              });
             }
           })
           .catch(() => {
@@ -502,4 +524,19 @@
   };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.el-card {
+  /* box-shadow: 0 1px 1px rgba(115, 171, 194, 0.15)!important; */
+  background: #ffffff60;
+  background: linear-gradient(to right bottom,
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.3));
+  border-radius: 25px;
+  
+}
+
+.el-breadcrumb  /deep/  .el-breadcrumb__inner 
+      {
+        color: #ccc !important;
+    }
+</style>
