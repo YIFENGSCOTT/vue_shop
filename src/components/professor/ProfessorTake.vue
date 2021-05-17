@@ -374,6 +374,7 @@
       },
 
       pass() {
+        
         this.$confirm('确认通过该流程吗?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',

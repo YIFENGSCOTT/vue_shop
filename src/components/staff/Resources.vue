@@ -88,16 +88,24 @@
               placement="top"
               :enterable="false"
             >
-            <!-- 修改按钮 -->
-              <el-button type="primary" icon="el-icon-edit" circle @click="showEditDialog(
-                scope.row.id,
-                scope.row.name, 
-                scope.row.num, 
-                scope.row.type, 
-                scope.row.person, 
-                scope.row.phone, 
-                scope.row.seq, 
-                scope.row.date)"></el-button>
+              <!-- 修改按钮 -->
+              <el-button
+                type="primary"
+                icon="el-icon-edit"
+                circle
+                @click="
+                  showEditDialog(
+                    scope.row.id,
+                    scope.row.name,
+                    scope.row.num,
+                    scope.row.type,
+                    scope.row.person,
+                    scope.row.phone,
+                    scope.row.seq,
+                    scope.row.date
+                  )
+                "
+              ></el-button>
             </el-tooltip>
 
             <!-- 删除按钮 -->
@@ -108,7 +116,12 @@
               placement="top"
               :enterable="false"
             >
-              <el-button type="danger" icon="el-icon-delete" circle @click="removeById(scope.row.id)"></el-button>
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                circle
+                @click="removeById(scope.row.id)"
+              ></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -163,7 +176,15 @@
             <el-input v-model="addForm.seq"></el-input>
           </el-form-item>
           <el-form-item label="物资清点时间：" prop="date">
-            <el-input v-model="addForm.date"></el-input>
+            <!-- <el-input v-model="addForm.date"></el-input> -->
+             <el-date-picker
+              v-model="addForm.date"
+              type="date"
+              placeholder="选择日期"
+              format="yyyy 年 MM 月 dd 日"
+              value-format="yyyy-MM-dd"
+            >
+            </el-date-picker>
           </el-form-item>
         </el-form>
         <!-- 底部区域 -->
@@ -178,12 +199,17 @@
         title="修改物资记录"
         :visible.sync="editDialogVisible"
         width="50%"
-        label-width="auto" 
+        label-width="auto"
         size="mini"
         @close="editDialogClosed"
       >
-      <!-- 内容主体区 -->
-        <el-form :model="editForm" ref="editForm" label-width="auto" size="mini">
+        <!-- 内容主体区 -->
+        <el-form
+          :model="editForm"
+          ref="editForm"
+          label-width="auto"
+          size="mini"
+        >
           <el-form-item label="ID">
             <el-input v-model="editForm.id" disabled></el-input>
           </el-form-item>
@@ -203,18 +229,24 @@
             <el-input v-model="editForm.phone"></el-input>
           </el-form-item>
           <el-form-item label="物资编号">
-            <el-input v-model="editForm.seq" ></el-input>
+            <el-input v-model="editForm.seq"></el-input>
           </el-form-item>
           <el-form-item label="物资清点时间">
-            <el-input v-model="editForm.date" disabled></el-input>
+            <!-- <el-input v-model="editForm.date" disabled></el-input> -->
+            <el-date-picker
+              v-model="editForm.date"
+              type="date"
+              placeholder="选择日期"
+              format="yyyy 年 MM 月 dd 日"
+              value-format="yyyy-MM-dd"
+            >
+            </el-date-picker>
           </el-form-item>
-        </el-form>  
+        </el-form>
         <!-- 底部区域 -->
         <span slot="footer" class="dialog-footer">
           <el-button @click="editDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="editResource"
-            >确 定</el-button
-          >
+          <el-button type="primary" @click="editResource">确 定</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -235,7 +267,7 @@ export default {
           person: "桃桃",
           phone: "9011910826",
           seq: "16",
-          date: "2021-05-03",
+          date: "2021-05-03"
         },
         {
           id: "2",
@@ -245,7 +277,7 @@ export default {
           person: "苹苹",
           phone: "9039847561",
           seq: "3",
-          date: "2021-1-17",
+          date: "2021-1-17"
         },
         {
           id: "3",
@@ -255,7 +287,7 @@ export default {
           person: "苹苹",
           phone: "9039847561",
           seq: "4",
-          date: "2020-05-17",
+          date: "2020-05-17"
         },
         {
           id: "4",
@@ -265,7 +297,7 @@ export default {
           person: "苹苹",
           phone: "9039847561",
           seq: "16",
-          date: "2021-05-03",
+          date: "2021-05-03"
         },
         {
           id: "5",
@@ -275,8 +307,8 @@ export default {
           person: "桃桃",
           phone: "9011910826",
           seq: "19",
-          date: "2021-05-03",
-        },
+          date: "2021-05-03"
+        }
       ],
       tableDataName: "",
       tableDataEnd: [],
@@ -299,13 +331,13 @@ export default {
         person: "",
         phone: "",
         seq: "",
-        date: "",
+        date: ""
       },
 
       //添加表单的验证规则对象
       addFormRules: {
         id: [{ required: true, message: "请输入物资ID", trigger: "blur" }],
-        name: [{ required: true, message: "请输入物资名称", trigger: "blur" }],
+        name: [{ required: true, message: "请输入物资名称", trigger: "blur" }]
       },
       //查询到的物资修改对象
       editForm: {
@@ -316,8 +348,8 @@ export default {
         person: "",
         phone: "",
         seq: "",
-        date: "",
-      },
+        date: ""
+      }
     };
   },
   //生命周期函数
@@ -375,8 +407,8 @@ export default {
       //需要判断是否检索
       this.currentChangePage(this.tableDataBegin);
       // if (!this.flag) {
-        //tableDataBegin不能写成tableDataEnd，不然在没有进行搜索功能的时候，不能进行分页操作，数据丢失
-        this.currentChangePage(this.tableDataBegin);
+      //tableDataBegin不能写成tableDataEnd，不然在没有进行搜索功能的时候，不能进行分页操作，数据丢失
+      this.currentChangePage(this.tableDataBegin);
       // } else {
       //   this.currentChangePage(this.filterTableDataEnd);
       // }
@@ -414,12 +446,12 @@ export default {
     //尚未实现持久化
     addResource() {
       const _this = this;
-      this.$refs.addForm.validate((valid) => {
+      this.$refs.addForm.validate(valid => {
         if (!valid) return;
         //可以添加用户
         //参考深拷贝
         let itemForm = JSON.parse(JSON.stringify(this.addForm));
-        console.log(itemForm)
+        console.log(itemForm);
         _this.tableDataBegin.push(itemForm);
         console.log(_this.tableDataBegin);
         //隐藏添加用户的对话框
@@ -430,78 +462,80 @@ export default {
     },
     //展示编辑物资信息的对话框
     showEditDialog(id, name, num, type, person, phone, seq, date) {
-      console.log(id, name, num, type, person, phone, seq, date)
-      this.editForm = {id, name, num, type, person, phone, seq, date}
+      console.log(id, name, num, type, person, phone, seq, date);
+      this.editForm = { id, name, num, type, person, phone, seq, date };
       this.editDialogVisible = true;
     },
     //监听修改用户对话框的关闭事件
     editDialogClosed() {
-      this.$refs.editForm.resetFields()
+      this.$refs.editForm.resetFields();
     },
 
     //修改物资信息并且提交
     editResource() {
-      
       const _this = this;
-      
-        //可以添加用户
-        //参考深拷贝
-        let itemForm = JSON.parse(JSON.stringify(this.editForm));
-        console.log(itemForm)
-        let keywords = itemForm.id;
-        console.log(keywords)
-        // _this.tableDataBegin.push(itemForm);
 
-        this.tableDataBegin.forEach((value, index) => {
+      //可以添加用户
+      //参考深拷贝
+      let itemForm = JSON.parse(JSON.stringify(this.editForm));
+      console.log(itemForm);
+      let keywords = itemForm.id;
+      console.log(keywords);
+      // _this.tableDataBegin.push(itemForm);
+
+      this.tableDataBegin.forEach((value, index) => {
         if (value.id) {
           if (value.id == keywords) {
-            _this.tableDataBegin.splice(index, 1)
+            _this.tableDataBegin.splice(index, 1);
           }
         }
       });
-        _this.tableDataBegin.push(itemForm)
-        console.log(_this.tableDataBegin);
-        //隐藏添加用户的对话框
-        this.editDialogVisible = false;
-        //显示提示信息
-        this.$message.success("修改成功！");
+      _this.tableDataBegin.push(itemForm);
+      console.log(_this.tableDataBegin);
+      //隐藏添加用户的对话框
+      this.editDialogVisible = false;
+      //显示提示信息
+      this.$message.success("修改成功！");
     },
 
     //根据id删除物资信息
     async removeById(id) {
       //弹框询问用户是否需要删除
-      const confirmResult = await this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).catch(err => err)
-        //如果确定，返回值就是“confirm”
-        //如果取消，返回值就是“cancel”
-        // console.log(confirmResult)
-        if(confirmResult!= 'confirm') {
-          return this.$message.info('已取消删除')
-        }else  {
-          const _this = this;
-      
+      const confirmResult = await this.$confirm(
+        "此操作将永久删除该记录, 是否继续?",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }
+      ).catch(err => err);
+      //如果确定，返回值就是“confirm”
+      //如果取消，返回值就是“cancel”
+      // console.log(confirmResult)
+      if (confirmResult != "confirm") {
+        return this.$message.info("已取消删除");
+      } else {
+        const _this = this;
+
         let keywords = id;
-        console.log(keywords)
+        console.log(keywords);
         // _this.tableDataBegin.push(itemForm);
 
         this.tableDataBegin.forEach((value, index) => {
-        if (value.id) {
-          if (value.id == keywords) {
-            _this.tableDataBegin.splice(index, 1)
+          if (value.id) {
+            if (value.id == keywords) {
+              _this.tableDataBegin.splice(index, 1);
+            }
           }
-        }
-      });
+        });
 
-      console.log(_this.tableDataBegin);
-        
+        console.log(_this.tableDataBegin);
+
         this.$message.success("删除成功！");
-
-        }
+      }
     }
-  },
+  }
 };
 </script>
 
