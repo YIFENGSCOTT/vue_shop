@@ -63,6 +63,23 @@
         <el-table-column prop="lastModifyPerson" label="最后更新者" width="120">
         </el-table-column>
         <el-table-column prop="state" label="流程状态" width="120">
+          <template slot-scope="scope">
+            <el-tag  v-if="scope.row.state == '已接报'">
+              已接报
+            </el-tag>
+            <el-tag type="danger" v-if="scope.row.state == '已移交专家'">
+              已移交专家
+            </el-tag>
+            <el-tag type="warning" v-if="scope.row.state == '专家已回复'">
+              专家已回复
+            </el-tag>
+            <el-tag type="success" v-if="scope.row.state == '已通过'">
+              已通过
+            </el-tag>
+            <el-tag type="success" v-if="scope.row.state == '事件已处理'">
+              事件已处理
+            </el-tag>
+          </template>
         </el-table-column>
 
         <el-table-column label="操作" width="120">

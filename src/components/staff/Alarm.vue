@@ -91,16 +91,16 @@
         </el-table-column>
         <el-table-column prop="state" label="流程状态" width="120">
           <template slot-scope="scope">
-            <el-tag type="success" v-if="scope.row.state == '已接报'">
+            <el-tag  v-if="scope.row.state == '已接报'">
               已接报
             </el-tag>
-            <el-tag v-if="scope.row.state == '已移交专家'">
+            <el-tag type="danger" v-if="scope.row.state == '已移交专家'">
               已移交专家
             </el-tag>
-            <el-tag v-if="scope.row.state == '专家已回复'">
+            <el-tag type="warning" v-if="scope.row.state == '专家已回复'">
               专家已回复
             </el-tag>
-            <el-tag v-if="scope.row.state == '已通过'">
+            <el-tag type="success" v-if="scope.row.state == '已通过'">
               已通过
             </el-tag>
           </template>
@@ -606,4 +606,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped></style>
+
+<style lang="less" scoped>
+
+</style>

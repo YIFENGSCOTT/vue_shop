@@ -64,6 +64,20 @@
         <el-table-column prop="lastModifyPerson" label="最后更新者" width="120">
         </el-table-column>
         <el-table-column prop="state" label="流程状态" width="120">
+           <template slot-scope="scope">
+            <el-tag  v-if="scope.row.state == '已接报'">
+              已接报
+            </el-tag>
+            <el-tag type="danger" v-if="scope.row.state == '已移交专家'">
+              已移交专家
+            </el-tag>
+            <el-tag type="warning" v-if="scope.row.state == '专家已回复'">
+              专家已回复
+            </el-tag>
+            <el-tag type="success" v-if="scope.row.state == '已通过'">
+              已通过
+            </el-tag>
+          </template>
         </el-table-column>
 
         <el-table-column label="操作" width="120">
@@ -365,9 +379,9 @@
       change(state) {
         if (state == "已通过") {
           this.activeIndex = 4
-        }else if(state == "已移交专家"){
+        } else if (state == "已移交专家") {
           this.activeIndex = 2
-        }else if(state == "专家已回复"){
+        } else if (state == "专家已回复") {
           this.activeIndex = 3
         }
       },
@@ -398,28 +412,28 @@
               type: 'error',
               message: '专家已回复无法再次移交专家!'
             });
-          }else {
+          } else {
             this.tableDataBegin.forEach((value, index) => {
               if (value.id) {
                 if (value.id == keywords) {
                   _this.tableDataBegin.splice(index, 1)
                   _this.$set(itemForm, 'state', "已移交专家")
                   this.activeIndex = 2
-                   _this.$set(itemForm, 'lastModifyPerson', "指挥人员1")
+                  _this.$set(itemForm, 'lastModifyPerson', "指挥人员1")
 
-                    var date = new Date()
-                    var y = date.getFullYear();
-                    var m = date.getMonth()+1;
-                    m = m < 10 ? "0" + m : m;
-                    var d = date.getDate();
-                    var ho = date.getHours();
-                    ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
-                    var mi = date.getMinutes();
-                    mi = mi < 10 ? "0" + mi : mi; // 如果只有一位，则前面补零
-                    var se = date.getSeconds();
-                    se = se < 10 ? "0" + se : se; // 如果只有一位，则前面补零
-                    var currentTime = y + "-" + m + '-' + d + ' ' + ho + ':' + mi + ':' + se
-                    _this.$set(itemForm, "lastModifyTime", currentTime)
+                  var date = new Date()
+                  var y = date.getFullYear();
+                  var m = date.getMonth() + 1;
+                  m = m < 10 ? "0" + m : m;
+                  var d = date.getDate();
+                  var ho = date.getHours();
+                  ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
+                  var mi = date.getMinutes();
+                  mi = mi < 10 ? "0" + mi : mi; // 如果只有一位，则前面补零
+                  var se = date.getSeconds();
+                  se = se < 10 ? "0" + se : se; // 如果只有一位，则前面补零
+                  var currentTime = y + "-" + m + '-' + d + ' ' + ho + ':' + mi + ':' + se
+                  _this.$set(itemForm, "lastModifyTime", currentTime)
                 }
               }
             });
@@ -452,24 +466,28 @@
             console.log(keywords)
 
             if (itemForm.state == "已移交专家") {
-            // this.editDialogVisible = true;
-            this.$message({
-              type: 'error',
-              message: '已移交专家无法修改流程!'
-            });
-          }else{
-            this.tableDataBegin.forEach((value, index) => {
-              if (value.id) {
-                if (value.id == keywords) {
-                  _this.tableDataBegin.splice(index, 1)
-                  _this.$set(itemForm, 'state', "已通过")
-                  this.activeIndex = 4
-                   _this.$set(itemForm, 'lastModifyPerson', "指挥人员1")
+              // this.editDialogVisible = true;
+              this.$message({
+                type: 'error',
+                message: '已移交专家无法修改流程!'
+              });
+            } else {
+              this.tableDataBegin.forEach((value, index) => {
+                if (value.id) {
+                  if (value.id == keywords) {
+                    _this.tableDataBegin.splice(index, 1)
+                    _this.$set(itemForm, 'state', "已通过")
+                    this.activeIndex = 4
+                    _this.$set(itemForm, 'lastModifyPerson', "指挥人员1")
                     console.log(13123);
 
                     var date = new Date()
+                    console.log(date.toDateString())
                     var y = date.getFullYear();
-                    var m = date.getMonth();
+                    var m = date.getMonth() + 1;
+                    m = m < 10 ? "0" + m : m; // 如果只有一位，则前面补零
+
+                    console.log(m);
                     var d = date.getDate();
                     var ho = date.getHours();
                     ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
@@ -479,17 +497,17 @@
                     se = se < 10 ? "0" + se : se; // 如果只有一位，则前面补零
                     var currentTime = y + "-" + m + '-' + d + ' ' + ho + ':' + mi + ':' + se
                     _this.$set(itemForm, "lastModifyTime", currentTime)
+                  }
                 }
-              }
-            });
-            _this.tableDataBegin.push(itemForm)
-            // console.log(_this.tableDataBegin);
-            //隐藏添加用户的对话框
-            this.editDialogVisible = true;
-            this.$message({
-              type: 'success',
-              message: '提交成功!'
-            });
+              });
+              _this.tableDataBegin.push(itemForm)
+              // console.log(_this.tableDataBegin);
+              //隐藏添加用户的对话框
+              this.editDialogVisible = true;
+              this.$message({
+                type: 'success',
+                message: '提交成功!'
+              });
             }
           })
           .catch(() => {
