@@ -35,55 +35,57 @@
         </el-col>
       </el-row>
 
-      <!-- 信息列表区域 -->
-      <el-table ref="multipleTable" :data="tableDataEnd" tooltip-effect="dark" style="width: 100%"
-        :default-sort="{ prop: 'id' }">
-        <el-table-column type="selection" width="55"> </el-table-column>
-        <el-table-column prop="id" label="ID" sortable="" width="70">
-        </el-table-column>
-        <el-table-column prop="name" label="事件名称" width="120">
-        </el-table-column>
-        <el-table-column prop="num" label="事件接报编码" width="80">
-        </el-table-column>
-        <el-table-column prop="seq" label="流程编号" width="80">
-        </el-table-column>
-        <el-table-column prop="type" label="流程类型" width="120">
-        </el-table-column>
-        <el-table-column prop="creatTime" label="流程创建时间" width="120">
-        </el-table-column>
-        <el-table-column prop="person" label="报警人" width="100">
-        </el-table-column>
-        <el-table-column prop="phone" label="报警人联系电话" width="120">
-        </el-table-column>
-        <el-table-column prop="alarmTime" label="接报时间" width="120">
-        </el-table-column>
-        <el-table-column prop="enterprise" label="风险企业" width="120">
-        </el-table-column>
-        <el-table-column prop="lastModifyTime" label="流程最后修改时间" width="120">
-        </el-table-column>
-        <el-table-column prop="lastModifyPerson" label="最后更新者" width="120">
-        </el-table-column>
-        <el-table-column prop="state" label="流程状态" width="120">
-           <template slot-scope="scope">
-            <el-tag  v-if="scope.row.state == '已接报'">
-              已接报
-            </el-tag>
-            <el-tag type="danger" v-if="scope.row.state == '已移交专家'">
-              已移交专家
-            </el-tag>
-            <el-tag type="warning" v-if="scope.row.state == '专家已回复'">
-              专家已回复
-            </el-tag>
-            <el-tag type="success" v-if="scope.row.state == '已通过'">
-              已通过
-            </el-tag>
-          </template>
-        </el-table-column>
+      <div class="tablecontainer">
 
-        <el-table-column label="操作" width="120">
-          <template slot-scope="scope">
-            <el-tooltip class="item" effect="dark" content="填写备注" placement="top" :enterable="false">
-              <el-button type="primary" icon="el-icon-edit" circle @click="showEditDialog(
+        <!-- 信息列表区域 -->
+        <el-table ref="multipleTable" :data="tableDataEnd" tooltip-effect="dark" style="width: 100%"
+          :default-sort="{ prop: 'id' }">
+          <el-table-column type="selection" width="55"> </el-table-column>
+          <el-table-column prop="id" label="ID" sortable="" width="70">
+          </el-table-column>
+          <el-table-column prop="name" label="事件名称" width="120">
+          </el-table-column>
+          <el-table-column prop="num" label="事件接报编码" width="80">
+          </el-table-column>
+          <el-table-column prop="seq" label="流程编号" width="80">
+          </el-table-column>
+          <el-table-column prop="type" label="流程类型" width="120">
+          </el-table-column>
+          <el-table-column prop="creatTime" label="流程创建时间" width="120">
+          </el-table-column>
+          <el-table-column prop="person" label="报警人" width="100">
+          </el-table-column>
+          <el-table-column prop="phone" label="报警人联系电话" width="120">
+          </el-table-column>
+          <el-table-column prop="alarmTime" label="接报时间" width="120">
+          </el-table-column>
+          <el-table-column prop="enterprise" label="风险企业" width="120">
+          </el-table-column>
+          <el-table-column prop="lastModifyTime" label="流程最后修改时间" width="120">
+          </el-table-column>
+          <el-table-column prop="lastModifyPerson" label="最后更新者" width="120">
+          </el-table-column>
+          <el-table-column prop="state" label="流程状态" width="120">
+            <template slot-scope="scope">
+              <el-tag v-if="scope.row.state == '已接报'">
+                已接报
+              </el-tag>
+              <el-tag type="danger" v-if="scope.row.state == '已移交专家'">
+                已移交专家
+              </el-tag>
+              <el-tag type="warning" v-if="scope.row.state == '专家已回复'">
+                专家已回复
+              </el-tag>
+              <el-tag type="success" v-if="scope.row.state == '已通过'">
+                已通过
+              </el-tag>
+            </template>
+          </el-table-column>
+
+          <el-table-column label="操作" width="120">
+            <template slot-scope="scope">
+              <el-tooltip class="item" effect="dark" content="填写备注" placement="top" :enterable="false">
+                <el-button type="primary" icon="el-icon-edit" circle @click="showEditDialog(
                 scope.row.id,
                 scope.row.name, 
                 scope.row.num,
@@ -97,10 +99,11 @@
                 scope.row.lastModifyTime,
                 scope.row.lastModifyPerson,
                 scope.row.state);change(scope.row.state)"></el-button>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
       <!-- id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state -->
       <!-- 分页区域 -->
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
@@ -158,9 +161,9 @@
       return {
         tableDataBegin: [{
             id: "1",
-            name: "自然灾害水旱灾害一级",
+            name: "自然灾害水旱灾害",
             num: "360",
-            type: "2",
+            type: "一级",
             creatTime: "2021-05-03 11:11:11",
             person: "桃桃",
             phone: "9011910826",
@@ -173,9 +176,9 @@
           },
           {
             id: "2",
-            name: "公交倒翻二级",
+            name: "公交倒翻",
             num: "1700",
-            type: "2",
+            type: "二级",
             creatTime: "2021-05-03 11:11:11",
             person: "苹苹",
             phone: "9039847561",
@@ -189,9 +192,9 @@
           },
           {
             id: "3",
-            name: "地震灾害五级",
+            name: "地震灾害",
             num: "1500",
-            type: "2",
+            type: "五级",
             creatTime: "2021-05-03 11:11:11",
             person: "苹苹",
             phone: "9039847561",
@@ -205,9 +208,9 @@
           },
           {
             id: "4",
-            name: "地震灾害五级",
+            name: "地震灾害",
             num: "600",
-            type: "1",
+            type: "五级",
             creatTime: "2021-05-03 11:11:11",
             person: "苹苹",
             phone: "9039847561",
@@ -221,9 +224,9 @@
           },
           {
             id: "5",
-            name: "矿泉水污染一级",
+            name: "矿泉水污染",
             num: "25",
-            type: "1",
+            type: "一级",
             creatTime: "2021-05-03 11:11:11",
             person: "桃桃",
             phone: "9011910826",
@@ -345,11 +348,6 @@
           this.tableDataEnd = this.tableDataBegin;
         }
       },
-      // 监听添加用户对话框的关闭事件
-      resetForm() {
-        // this.addForm={}
-        this.$refs.addForm.resetFields();
-      },
       //展示编辑信息的对话框
       showEditDialog(id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime,
         lastModifyPerson, state) {
@@ -394,57 +392,60 @@
           cancelButtonText: '取消',
           type: 'info'
         }).then(() => {
-          const _this = this;
-          let itemForm = JSON.parse(JSON.stringify(this.editForm));
-          console.log(itemForm)
-          let keywords = itemForm.id;
-          console.log(keywords)
+          this.$refs.editForm.validate(valid => {
+            if (!valid) return;
 
-          if (itemForm.state == "已通过") {
-            // this.editDialogVisible = true;
-            this.$message({
-              type: 'error',
-              message: '已通过流程无法移交专家!'
-            });
-          } else if (itemForm.state == "专家已回复") {
-            // this.editDialogVisible = true;
-            this.$message({
-              type: 'error',
-              message: '专家已回复无法再次移交专家!'
-            });
-          } else {
-            this.tableDataBegin.forEach((value, index) => {
-              if (value.id) {
-                if (value.id == keywords) {
-                  _this.tableDataBegin.splice(index, 1)
-                  _this.$set(itemForm, 'state', "已移交专家")
-                  this.activeIndex = 2
-                  _this.$set(itemForm, 'lastModifyPerson', "指挥人员1")
+            const _this = this;
+            let itemForm = JSON.parse(JSON.stringify(this.editForm));
+            console.log(itemForm)
+            let keywords = itemForm.id;
+            console.log(keywords)
 
-                  var date = new Date()
-                  var y = date.getFullYear();
-                  var m = date.getMonth() + 1;
-                  m = m < 10 ? "0" + m : m;
-                  var d = date.getDate();
-                  var ho = date.getHours();
-                  ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
-                  var mi = date.getMinutes();
-                  mi = mi < 10 ? "0" + mi : mi; // 如果只有一位，则前面补零
-                  var se = date.getSeconds();
-                  se = se < 10 ? "0" + se : se; // 如果只有一位，则前面补零
-                  var currentTime = y + "-" + m + '-' + d + ' ' + ho + ':' + mi + ':' + se
-                  _this.$set(itemForm, "lastModifyTime", currentTime)
+            if (itemForm.state == "已通过") {
+              // this.editDialogVisible = true;
+              this.$message({
+                type: 'error',
+                message: '已通过流程无法移交专家!'
+              });
+            } else if (itemForm.state == "专家已回复") {
+              // this.editDialogVisible = true;
+              this.$message({
+                type: 'error',
+                message: '专家已回复无法再次移交专家!'
+              });
+            } else {
+              this.tableDataBegin.forEach((value, index) => {
+                if (value.id) {
+                  if (value.id == keywords) {
+                    _this.tableDataBegin.splice(index, 1)
+                    _this.$set(itemForm, 'state', "已移交专家")
+                    this.activeIndex = 2
+                    _this.$set(itemForm, 'lastModifyPerson', "指挥人员1")
+
+                    var date = new Date()
+                    var y = date.getFullYear();
+                    var m = date.getMonth() + 1;
+                    m = m < 10 ? "0" + m : m;
+                    var d = date.getDate();
+                    var ho = date.getHours();
+                    ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
+                    var mi = date.getMinutes();
+                    mi = mi < 10 ? "0" + mi : mi; // 如果只有一位，则前面补零
+                    var se = date.getSeconds();
+                    se = se < 10 ? "0" + se : se; // 如果只有一位，则前面补零
+                    var currentTime = y + "-" + m + '-' + d + ' ' + ho + ':' + mi + ':' + se
+                    _this.$set(itemForm, "lastModifyTime", currentTime)
+                  }
                 }
-              }
-            });
-            _this.tableDataBegin.push(itemForm)
-            this.editDialogVisible = true;
-            this.$message({
-              type: 'success',
-              message: '提交成功!'
-            });
-
-          }
+              });
+              _this.tableDataBegin.push(itemForm)
+              this.editDialogVisible = true;
+              this.$message({
+                type: 'success',
+                message: '提交成功!'
+              });
+            }
+          });
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -521,4 +522,18 @@
   };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+  .el-card {
+    /* box-shadow: 0 1px 1px rgba(115, 171, 194, 0.15)!important; */
+    background: #ffffff60;
+    background: linear-gradient(to right bottom,
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 0.3));
+    border-radius: 25px;
+
+  }
+
+  .el-breadcrumb /deep/ .el-breadcrumb__inner {
+    color: #ccc !important;
+  }
+</style>

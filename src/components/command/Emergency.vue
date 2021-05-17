@@ -36,6 +36,7 @@
       </el-row>
 
       <!-- 信息列表区域 -->
+      <div class="tablecontainer">
       <el-table :data="tableDataEnd" tooltip-effect="dark" style="width: 100%" :default-sort="{ prop: 'id' }">
         <el-table-column type="selection" width="55"> </el-table-column>
         <el-table-column prop="id" label="ID" sortable="" width="70">
@@ -109,6 +110,7 @@
           </template>
         </el-table-column>
       </el-table>
+      </div>
       <!-- id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state -->
       <!-- 分页区域 -->
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
@@ -182,9 +184,9 @@
       return {
         tableDataBegin: [{
             id: "1",
-            name: "地震灾害五级",
+            name: "地震灾害",
             num: "360",
-            type: "2",
+            type: "五级",
             creatTime: "2021-05-03 11:11:11",
             person: "苹果",
             phone: "243",
@@ -203,9 +205,9 @@
           },
           {
             id: "2",
-            name: "居民楼着火二级",
+            name: "居民楼着火",
             num: "1700",
-            type: "2",
+            type: "二级",
             creatTime: "2021-05-03 11:11:11",
             person: "谢俊彦",
             phone: "5446",
@@ -224,10 +226,10 @@
             y: 39.924297
           },
           {
-            id: "4",
-            name: "自然灾害水旱灾害一级",
+            id: "3",
+            name: "自然灾害水旱灾害",
             num: "600",
-            type: "1",
+            type: "一级",
             creatTime: "2021-05-03 11:11:11",
             person: "谢俊彦",
             phone: "6565",
@@ -246,10 +248,10 @@
             y: 41.65672
           },
           {
-            id: "5",
-            name: "矿泉水污染一级",
+            id: "4",
+            name: "矿泉水污染",
             num: "25",
-            type: "1",
+            type: "一级",
             creatTime: "2021-05-03 12:35:11",
             person: "桃桃",
             phone: "36",
@@ -501,5 +503,19 @@
     }
   }
 </script>
+<style lang="less" scoped>
+.el-card {
+  /* box-shadow: 0 1px 1px rgba(115, 171, 194, 0.15)!important; */
+  background: #ffffff60;
+  background: linear-gradient(to right bottom,
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.3));
+  border-radius: 25px;
+  
+}
 
-<style lang="less" scoped></style>
+.el-breadcrumb  /deep/  .el-breadcrumb__inner 
+      {
+        color: #ccc !important;
+    }
+</style>
