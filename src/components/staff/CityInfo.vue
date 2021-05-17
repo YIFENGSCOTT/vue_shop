@@ -62,6 +62,7 @@
 
       <!-- 城市列表区域 -->
       <el-table
+        v-loading="loading"
         ref="multipleTable"
         :data="tableDataEnd"
         tooltip-effect="dark"
