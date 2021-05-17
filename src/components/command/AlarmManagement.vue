@@ -154,7 +154,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "专家人员",
+            lastModifyPerson: "专家人员1",
             state: "专家已回复"
           },
           {
@@ -170,7 +170,7 @@
             alarmTime: "2021-05-03",
             enterprise: "石油公司",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "工作人员",
+            lastModifyPerson: "工作人员1",
             state: "已接报"
           },
           {
@@ -186,7 +186,7 @@
             alarmTime: "2021-05-03",
             enterprise: "东软睿道",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "工作人员",
+            lastModifyPerson: "工作人员1",
             state: "已接报"
           },
           {
@@ -202,7 +202,7 @@
             alarmTime: "2021-05-03",
             enterprise: "斯科达企业",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "工作人员",
+            lastModifyPerson: "工作人员1",
             state: "已接报"
           },
           {
@@ -218,7 +218,7 @@
             alarmTime: "2021-05-03",
             enterprise: "斯科达企业",
             lastModifyTime: "2021-05-03 12:55:55",
-            lastModifyPerson: "工作人员",
+            lastModifyPerson: "工作人员1",
             state: "已接报"
           },
         ],
@@ -409,7 +409,8 @@
 
                     var date = new Date()
                     var y = date.getFullYear();
-                    var m = date.getMonth();
+                    var m = date.getMonth()+1;
+                    m = m < 10 ? "0" + m : m;
                     var d = date.getDate();
                     var ho = date.getHours();
                     ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
