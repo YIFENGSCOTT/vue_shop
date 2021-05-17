@@ -47,7 +47,7 @@ export default new Router({
       component: Super,
       redirect: "/welcome0",
       children: [
-          { path: '/welcome0', component: Welcome0},
+          { path: '/welcome0', component: Welcome},
           { path: '/0-1', component: SuperManage},
       ]
     },
