@@ -145,7 +145,6 @@
               <el-option label="五级" value="五级"></el-option>
             </el-select>
           </el-form-item>
-          </el-form-item>
           <el-form-item label="流程创建时间：" prop="creatTime">
             <!-- <el-input v-model="addForm.creatTime"></el-input> -->
             <el-date-picker v-model="addForm.creatTime" type="datetime" placeholder="选择日期时间" align="right"
