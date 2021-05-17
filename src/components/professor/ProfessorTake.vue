@@ -398,11 +398,12 @@
                   _this.tableDataBegin.splice(index, 1)
                   _this.$set(itemForm, 'state', "专家已回复")
                   this.activeIndex = 3
-                  _this.$set(itemForm, 'lastModifyPerson', "专家人员1")
+                  _this.$set(itemForm, 'lastModifyPerson', "专家人员")
 
                     var date = new Date()
                     var y = date.getFullYear();
-                    var m = date.getMonth();
+                    var m = date.getMonth()+1;
+                    m = m < 10 ? "0" + m : m;
                     var d = date.getDate();
                     var ho = date.getHours();
                     ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
