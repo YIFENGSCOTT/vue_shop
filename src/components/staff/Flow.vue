@@ -142,13 +142,21 @@
             <el-input v-model="addForm.name"></el-input>
           </el-form-item>
           <el-form-item label="类型：" prop="type">
-            <el-input v-model="addForm.num"></el-input>
+            <!-- <el-input v-model="addForm.type"></el-input> -->
+             <el-select v-model="addForm.type" placeholder="请选择流程类型">
+              <el-option label="自然灾害水旱灾害一级" value="自然灾害水旱灾害一级"></el-option>
+              <el-option label="自然灾害水旱灾害二级" value="自然灾害水旱灾害二级"></el-option>
+              <el-option label="公共卫生事件矿泉水污染一级" value="公共卫生事件矿泉水污染一级"></el-option>
+              <el-option label="公共卫生事件矿泉水污染二级" value="公共卫生事件矿泉水污染二级"></el-option>
+              <el-option label="自然灾害地震灾害五级" value="自然灾害地震灾害五级"></el-option>
+              <el-option label="事故灾难公交车倒翻三级" value="事故灾难公交车倒翻三级"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="类型编码：" prop="code">
-            <el-input v-model="addForm.type"></el-input>
+            <el-input v-model="addForm.code"></el-input>
           </el-form-item>
           <el-form-item label="内容：" prop="content">
-            <el-input v-model="addForm.person"></el-input>
+            <el-input v-model="addForm.content"></el-input>
           </el-form-item>
         </el-form>
         <!-- 底部区域 -->
@@ -176,7 +184,15 @@
             <el-input v-model="editForm.name" disabled></el-input>
           </el-form-item>
           <el-form-item label="类型">
-            <el-input v-model="editForm.type"></el-input>
+            <!-- <el-input v-model="editForm.type"></el-input> -->
+            <el-select v-model="editForm.type" placeholder="请选择流程类型">
+              <el-option label="自然灾害水旱灾害一级" value="自然灾害水旱灾害一级"></el-option>
+              <el-option label="自然灾害水旱灾害二级" value="自然灾害水旱灾害二级"></el-option>
+              <el-option label="公共卫生事件矿泉水污染一级" value="公共卫生事件矿泉水污染一级"></el-option>
+              <el-option label="公共卫生事件矿泉水污染二级" value="公共卫生事件矿泉水污染二级"></el-option>
+              <el-option label="自然灾害地震灾害五级" value="自然灾害地震灾害五级"></el-option>
+              <el-option label="事故灾难公交车倒翻三级" value="事故灾难公交车倒翻三级"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="类型编码">
             <el-input v-model="editForm.code" disabled></el-input>
