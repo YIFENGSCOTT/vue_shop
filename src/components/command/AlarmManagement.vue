@@ -84,7 +84,7 @@
 
           <el-table-column label="操作" width="120">
             <template slot-scope="scope">
-              <el-tooltip class="item" effect="dark" content="填写备注" placement="top" :enterable="false">
+              <el-tooltip class="item" effect="dark" content="填写审批内容" placement="top" :enterable="false">
                 <el-button type="primary" icon="el-icon-edit" circle @click="showEditDialog(
                 scope.row.id,
                 scope.row.name, 
