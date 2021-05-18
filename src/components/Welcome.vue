@@ -63,11 +63,11 @@
             src="../assets/ring.png"
             alt=""
             style="
-              width: 221px;
-              height: 236px;
+              width: 220px;
+              height: 220px;
               border-radius: 25px;
-              margin-top: -18px;
-              margin-left: -10px;
+              margin-top: -10px;
+              margin-left: -0px;
               margin-right: -30px;
               margin-bottom: -30px;
             "
@@ -79,7 +79,7 @@
             alt=""
             style="
               width: 848px;
-              height: 137px;
+              height: 130px;
               border-radius: 25px;
               margin-top: -18px;
               margin-left: 3px;
@@ -166,6 +166,9 @@ export default {
   padding-right: 20px;
   position: absolute;
   left: 300px;
+  top: 135px;
+  animation-name: rise1;
+  animation-duration: 0.5s;
 }
 
 .tablecontainer2 {
@@ -183,6 +186,9 @@ export default {
   padding-right: 20px;
   position: absolute;
   left: 550px;
+  top: 135px;
+  animation-name: rise2;
+  animation-duration: 0.5s;
 }
 .tablecontainer3 {
   padding-top: 18px;
@@ -199,6 +205,9 @@ export default {
   padding-right: 20px;
   position: absolute;
   left: 1200px;
+  top: 135px;
+  animation-name: rise3;
+  animation-duration: 0.5s;
 }
 .tablecontainer4 {
   padding-top: 18px;
@@ -216,6 +225,8 @@ export default {
   position: absolute;
   left: 300px;
   top: 395px;
+  animation-name: rise4;
+  animation-duration: 0.5s;
 }
 .tablecontainer5 {
   padding-top: 18px;
@@ -233,6 +244,8 @@ export default {
   position: absolute;
   left: 550px;
   top: 495px;
+  animation-name: rise5;
+  animation-duration: 0.5s;
 }
 
 .custom-tree-node {
@@ -247,4 +260,70 @@ export default {
   display: flex;
   min-height: 520px;
 }
+
+@keyframes rise1 {
+  from{
+    top: 1200px;
+  }
+  to{
+    top: 135px;
+  }
+}
+@keyframes rise2 {
+  from{
+    top: 2300px;
+  }
+  to{
+    top: 135px;
+  }
+}
+@keyframes rise3 {
+  from{
+    top: 3500px;
+  }
+  to{
+    top: 135px;
+  }
+}
+@keyframes rise4 {
+  from{
+    top: 3300px;
+  }
+  to{
+    top: 395px;
+  }
+}
+@keyframes rise5 {
+  from{
+    top: 6800px;
+  }
+  to{
+    top: 495px;
+  }
+}
+
+// .cover {
+//   position: absolute;
+//   top: -5%;
+//   left: -200%;
+//   right: -100%;
+//   width: 110%;
+//   height: 110%;
+//   object-fit: cover;
+//   z-index: 100;
+//   animation: coverGo;
+//   animation-duration: 10s;
+//   animation-delay: -2.5s;
+//   opacity: 0;
+// }
+
+// @keyframes dropbox {
+//   from {
+//     top: -50%;
+//   }
+//   to {
+//     top: 50%;
+//   }
+// }
+
 </style>
