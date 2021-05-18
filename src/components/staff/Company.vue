@@ -328,7 +328,7 @@ export default {
       editDialogVisible: false,
       //添加物资的表单数据
       addForm: {
-        id:'',
+        id:'10',
         name:'',
         address:'',
         location:'',

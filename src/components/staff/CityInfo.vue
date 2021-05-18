@@ -344,7 +344,7 @@ export default {
       addTrafficVisible: false,
       //添加物资的表单数据
       addForm: {
-        id: "",
+        id: "1",
         name: "",
         code: "",
         province: "",

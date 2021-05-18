@@ -161,7 +161,13 @@
             <el-input v-model="addForm.alarmtime"></el-input>
           </el-form-item> -->
           <el-form-item label="风险企业：" prop="enterprise">
-            <el-input v-model="addForm.enterprise"></el-input>
+            <!-- <el-input v-model="addForm.enterprise"></el-input> -->
+            <el-select v-model="addForm.enterprise" placeholder="请选择流程类型">
+              <el-option label="东软睿道" value="东软睿道"></el-option>
+              <el-option label="石油公司" value="石油公司"></el-option>
+              <el-option label="斯柯达企业" value="斯柯达企业"></el-option>
+              <el-option label="佛山美的" value="佛山美的"></el-option>
+            </el-select>
           </el-form-item>
           <!-- <el-form-item label="流程最后修改时间：" prop="lastModifyTime">
             <el-input v-model="addForm.lastModifyTime"></el-input>
@@ -346,7 +352,7 @@
         //查询到的信息修改对象
         editForm: {},
         addForm: {
-          id: "",
+          id: "6",
           name: "",
           num: "",
           type: "",

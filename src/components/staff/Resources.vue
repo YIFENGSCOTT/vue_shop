@@ -325,7 +325,7 @@ export default {
       editDialogVisible: false,
       //添加物资的表单数据
       addForm: {
-        id: "",
+        id: 6,
         name: "",
         num: "",
         type: "",
@@ -342,7 +342,7 @@ export default {
       },
       //查询到的物资修改对象
       editForm: {
-        id: "",
+        id: '',
         name: "",
         num: "",
         type: "",
