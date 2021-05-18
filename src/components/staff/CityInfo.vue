@@ -303,6 +303,15 @@
 </template>
 
 <script>
+ const isNum = (rule, value, callback) => {
+      const age= /^[0-9]*$/
+      if (!age.test(value)) {
+        callback(new Error('请输入数字！'))
+      }else{
+        callback()
+      }
+    }
+
 export default {
   inject: ["reload"],
   data() {
@@ -367,7 +376,18 @@ export default {
             message: "请输入城市名称",
             trigger: "blur"
           }
-        ]
+        ],
+        people: [{
+            required: true,
+            message: "请输入救援人数",
+            trigger: "blur"
+          },
+          { validator: isNum, trigger: 'blur' }],
+        car: [{
+            required: true,
+            message: "请输入救援车辆数",
+            trigger: "blur"
+          },{ validator: isNum, trigger: 'blur' }]
       },
       //添加交通信息的验证规则对象
       addTrafficRules: {

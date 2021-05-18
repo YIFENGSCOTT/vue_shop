@@ -261,7 +261,16 @@
 </template>
 
 <script>
+ const isNum = (rule, value, callback) => {
+      const age= /^[0-9]*$/
+      if (!age.test(value)) {
+        callback(new Error('请输入数字！'))
+      }else{
+        callback()
+      }
+    }
 export default {
+  
   inject: ["reload"],
   data() {
     return {
@@ -318,12 +327,14 @@ export default {
       addFormRules: {
         id: [{ required: true, message: "请输入员工ID", trigger: "blur" }],
         account: [
-          { required: true, message: "请输入员工账户", trigger: "blur" }
-        ]
+          { required: true, message: "请输入员工账户", trigger: "blur" }       
+        ],
+        age: [{ required: true, message: "请输入员工年龄", trigger: "blur" },
+        { validator: isNum, trigger: 'blur' }],
         // password: [{ required: true, message: "请输入密码", trigger: "blur" }],
         // name: [{ required: true, message: "请输入员工姓名", trigger: "blur" }],
         // gender: [{ required: true, message: "请输入员工性别", trigger: "blur" }],
-        // age: [{ required: true, message: "请输入员工年龄", trigger: "blur" }],
+        // 
         // seq: [{ required: true, message: "请输入员工编号", trigger: "blur" }],
         // type: [{ required: true, message: "请输入员工类型", trigger: "blur" }],
         // state: [{ required: true, message: "请输入员工账户状态", trigger: "blur" }],

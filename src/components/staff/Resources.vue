@@ -255,7 +255,18 @@
 </template>
 
 <script>
+ const isNum = (rule, value, callback) => {
+      const age= /^[0-9]*$/
+      if (!age.test(value)) {
+        callback(new Error('请输入数字！'))
+      }else{
+        callback()
+      }
+    }
+
+
 export default {
+  
   inject: ["reload"],
   data() {
     return {
@@ -338,7 +349,12 @@ export default {
       //添加表单的验证规则对象
       addFormRules: {
         id: [{ required: true, message: "请输入物资ID", trigger: "blur" }],
-        name: [{ required: true, message: "请输入物资名称", trigger: "blur" }]
+        name: [{ required: true, message: "请输入物资名称", trigger: "blur" }],
+        num: [
+      { required: true, message: '请填入物资数量'},
+      { validator: isNum, trigger: 'blur' }
+
+    ]
       },
       //查询到的物资修改对象
       editForm: {
@@ -474,6 +490,7 @@ export default {
 
     //修改物资信息并且提交
     editResource() {
+      
       const _this = this;
 
       //可以添加用户

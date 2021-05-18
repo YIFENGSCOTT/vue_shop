@@ -289,7 +289,17 @@
 </template>
 
 <script>
+const isNum = (rule, value, callback) => {
+      const age= /^[0-9]*$/
+      if (!age.test(value)) {
+        callback(new Error('请输入数字！'))
+      }else{
+        callback()
+      }
+    }
+
 export default {
+  
   inject: ["reload"],
   data() {
     return {
@@ -340,6 +350,11 @@ export default {
       addFormRules: {
         id: [{ required: true, message: "请输入风险企业ID", trigger: "blur" }],
         name: [{ required: true, message: "请输入风险企业名称", trigger: "blur" }],
+        phone: [
+      { required: true, message: '请填入电话号码'},
+      { validator: isNum, trigger: 'blur' }
+
+    ]
       },
       //查询到的物资修改对象
       editForm: {
