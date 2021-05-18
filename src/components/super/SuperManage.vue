@@ -204,7 +204,7 @@
 
       <!-- 修改的对话框 -->
       <el-dialog
-        title="修改物资记录"
+        title="修改人员记录"
         :visible.sync="editDialogVisible"
         width="50%"
         label-width="auto"
