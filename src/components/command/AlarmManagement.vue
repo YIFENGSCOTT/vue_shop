@@ -391,11 +391,9 @@
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'info'
-        }).then(() => {
-          this.$refs.editForm.validate(valid => {
+        }).then(() => { this.$refs.editForm.validate(valid => {
             if (!valid) return;
-
-            const _this = this;
+                     const _this = this;
             let itemForm = JSON.parse(JSON.stringify(this.editForm));
             console.log(itemForm)
             let keywords = itemForm.id;
@@ -445,7 +443,7 @@
                 message: '提交成功!'
               });
             }
-          });
+        });
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -459,7 +457,8 @@
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'info'
-          }).then(() => {
+          }).then(() => { this.$refs.editForm.validate(valid => {
+            if (!valid) return;
             const _this = this;
             let itemForm = JSON.parse(JSON.stringify(this.editForm));
             console.log(itemForm)
@@ -510,6 +509,7 @@
                 message: '提交成功!'
               });
             }
+          });
           })
           .catch(() => {
             this.$message({
