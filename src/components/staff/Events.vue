@@ -399,22 +399,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.bread {
-  padding-top: 2%;
-  padding-left: 2%;
-}
 
 .el-card {
-  margin-top: 2%;
-  margin-left: 2%;
-  margin-bottom: 2%;
-  margin-right: 2%;
+  margin-top: 1%;
+  margin-left: 1%;
+  margin-bottom: 1%;
+  margin-right: 1%;
+
   background-color: rgba(255, 255, 255, 0.3);
   border: 0ch;
   border-radius: 25px;
-}
-.cover {
-  background-color: rgba(255, 255, 255, 0.3);
 }
 
 .tablecontainer {
@@ -428,7 +422,6 @@ export default {
   border-radius: 25px;
   min-height: 300px;
   min-width: 45%;
-  display: absolute;
   margin-right: 20px;
   padding-right: 20px;
 }
@@ -443,6 +436,11 @@ export default {
 }
 .cardscontainer {
   display: flex;
-  flex-wrap: nowrap;
 }
+
+
+.el-breadcrumb  /deep/  .el-breadcrumb__inner 
+      {
+        color: #ccc !important;
+    }
 </style>

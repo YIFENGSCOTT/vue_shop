@@ -53,80 +53,81 @@
         >
       </el-row>
 
-      <!-- 物资列表区域 -->
-      <el-table
-        ref="multipleTable"
-        :data="tableDataEnd"
-        tooltip-effect="dark"
-        style="width: 100%"
-        :default-sort="{ prop: 'id' }"
-      >
-        <el-table-column type="selection" width="55"> </el-table-column>
-        <el-table-column prop="id" label="ID" sortable="" width="70">
-        </el-table-column>
-        <el-table-column prop="name" label="物资名称" width="120">
-        </el-table-column>
-        <el-table-column prop="num" label="物资数量" width="80">
-        </el-table-column>
-        <el-table-column prop="type" label="物资类型" width="120">
-        </el-table-column>
-        <el-table-column prop="person" label="物资清点人" width="100">
-        </el-table-column>
-        <el-table-column prop="phone" label="物资清点人电话" width="120">
-        </el-table-column>
-        <el-table-column prop="seq" label="物资编号" width="80">
-        </el-table-column>
-        <el-table-column prop="date" label="物资清点时间" width="120">
-        </el-table-column>
+      <div class="tablecontainer">
+        <!-- 物资列表区域 -->
+        <el-table
+          ref="multipleTable"
+          :data="tableDataEnd"
+          tooltip-effect="dark"
+          style="width: 100%"
+          :default-sort="{ prop: 'id' }"
+        >
+          <el-table-column type="selection" width="55"> </el-table-column>
+          <el-table-column prop="id" label="ID" sortable="" width="70">
+          </el-table-column>
+          <el-table-column prop="name" label="物资名称" width="120">
+          </el-table-column>
+          <el-table-column prop="num" label="物资数量" width="80">
+          </el-table-column>
+          <el-table-column prop="type" label="物资类型" width="120">
+          </el-table-column>
+          <el-table-column prop="person" label="物资清点人" width="100">
+          </el-table-column>
+          <el-table-column prop="phone" label="物资清点人电话" width="120">
+          </el-table-column>
+          <el-table-column prop="seq" label="物资编号" width="80">
+          </el-table-column>
+          <el-table-column prop="date" label="物资清点时间" width="120">
+          </el-table-column>
 
-        <el-table-column label="操作" width="120">
-          <template slot-scope="scope">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="修改物资记录"
-              placement="top"
-              :enterable="false"
-            >
-              <!-- 修改按钮 -->
-              <el-button
-                type="primary"
-                icon="el-icon-edit"
-                circle
-                @click="
-                  showEditDialog(
-                    scope.row.id,
-                    scope.row.name,
-                    scope.row.num,
-                    scope.row.type,
-                    scope.row.person,
-                    scope.row.phone,
-                    scope.row.seq,
-                    scope.row.date
-                  )
-                "
-              ></el-button>
-            </el-tooltip>
+          <el-table-column label="操作" width="120">
+            <template slot-scope="scope">
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="修改物资记录"
+                placement="top"
+                :enterable="false"
+              >
+                <!-- 修改按钮 -->
+                <el-button
+                  type="primary"
+                  icon="el-icon-edit"
+                  circle
+                  @click="
+                    showEditDialog(
+                      scope.row.id,
+                      scope.row.name,
+                      scope.row.num,
+                      scope.row.type,
+                      scope.row.person,
+                      scope.row.phone,
+                      scope.row.seq,
+                      scope.row.date
+                    )
+                  "
+                ></el-button>
+              </el-tooltip>
 
-            <!-- 删除按钮 -->
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="删除物资记录"
-              placement="top"
-              :enterable="false"
-            >
-              <el-button
-                type="danger"
-                icon="el-icon-delete"
-                circle
-                @click="removeById(scope.row.id)"
-              ></el-button>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
-
+              <!-- 删除按钮 -->
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="删除物资记录"
+                placement="top"
+                :enterable="false"
+              >
+                <el-button
+                  type="danger"
+                  icon="el-icon-delete"
+                  circle
+                  @click="removeById(scope.row.id)"
+                ></el-button>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
       <!-- 分页区域 -->
       <el-pagination
         @size-change="handleSizeChange"
@@ -507,9 +508,9 @@ export default {
         {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
+          type: "warning",
         }
-      ).catch(err => err);
+      ).catch((err) => err);
       //如果确定，返回值就是“confirm”
       //如果取消，返回值就是“cancel”
       // console.log(confirmResult)
@@ -534,9 +535,34 @@ export default {
 
         this.$message.success("删除成功！");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+/**卡片的格式 */
+.el-card {
+  /* box-shadow: 0 1px 1px rgba(115, 171, 194, 0.15)!important; */
+  background: #ffffff60;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.3)
+  );
+  border-radius: 25px;
+}
+
+.tablecontainer{
+  background: white;
+  padding: 2%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  border-radius: 25px;
+}
+
+.el-breadcrumb  /deep/  .el-breadcrumb__inner 
+      {
+        color: #ccc !important;
+    }
+</style>

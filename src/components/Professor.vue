@@ -1,6 +1,9 @@
+
+
 <template>
   <el-container class="home-container">
     <!--头部区域-->
+    <img src="../assets/bg-exp.png" alt="" class="blur">
     <el-header>
       <div>
         <img src="../assets/logo.png" height="50px" width="50px" alt="" />
@@ -15,8 +18,8 @@
         <div class="toggle-button" @click="toggleCollapse">| | |</div>
         <!-- 侧边栏菜单区 -->
         <el-menu
-          background-color="#545c64"
-          text-color="#fff"
+          background-color="#ffffff60"
+          text-color="#606266"
           active-text-color="#409EFF"
           :collapse = "isCollapse"
           :collapse-transition="true"
@@ -42,29 +45,33 @@
             </template>
             </el-menu-item>
           </el-submenu>
+          
         </el-menu>
       </el-aside>
       <!--右侧内容主体-->
-      <el-main>
-        <!-- 路由占位符 -->
-        <router-view>
 
-        </router-view>
-      </el-main>
+      <div class="cover" style="margin-top: 20px; min-width: 70%">
+        <el-main>
+          <!-- 路由占位符 -->
+          <router-view class="cover">
+
+          </router-view>
+        </el-main>
+      </div>
     </el-container>
   </el-container>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       //是否折叠
       isCollapse: false
     }
   },
   methods: {
-    logout () {
+    logout() {
       window.sessionStorage.clear();
       this.$router.push("/login");
     },
@@ -83,7 +90,7 @@ export default {
 }
 
 .el-header {
-  background-color: #373d41;
+  background-color: #ffffff60;
   display: flex;
   justify-content: space-between;
   padding-left: 0;
@@ -97,27 +104,31 @@ export default {
       margin-left: 15px;
     }
   }
+  z-index: 2;
 }
 .el-aside {
-  background-color: #333744;
+  background-color: #ffffff60;
   .el-menu{
       border-right: none;
   }
-}
-.el-main {
-  background: white;
-  min-height: 80vh;
-  width: 60%;
-  background: linear-gradient(to right bottom,
-      rgba(255, 255, 255, 0.7),
-      rgba(255, 255, 255, 0.3));
   z-index: 2;
-  backdrop-filter: blur(2rem);
-  display: flex;
+  max-height: 500px;
+  border-radius: 25px;
+  display: absolute;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+
+.el-main {
+  background: #ffffff60;
+  z-index: 2;
+  border-radius: 25px;
+  min-width: 70%;
 }
 
 .toggle-button {
-  background-color: #4A5064;
+  background-color: #55555560;
   font-size: 10px;
   line-height: 24px;
   color: #fff;
@@ -126,4 +137,26 @@ export default {
   cursor: pointer;
 
 }
+.blur{
+  position: absolute;
+  top:-5%;
+  left: -5%;
+  right: -5%;
+  width:110%;
+  height: 110%;
+  object-fit: cover;
+  -webkit-filter: blur(10px); /* Chrome, Opera */
+}
+
+.cover {
+
+  z-index: 2;
+  border-radius: 25px;
+}
+
+.el-dialog {
+  border-radius: 25px;
+
+}
+
 </style>

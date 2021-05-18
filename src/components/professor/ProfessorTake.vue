@@ -35,6 +35,7 @@
         </el-col>
       </el-row>
 
+      <div class="tablecontainer">
       <!-- 信息列表区域 -->
       <el-table ref="multipleTable" :data="tableDataEnd" tooltip-effect="dark" style="width: 100%"
         :default-sort="{ prop: 'id' }">
@@ -87,6 +88,7 @@
           </template>
         </el-table-column>
       </el-table>
+      </div>
       <!-- id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state -->
       <!-- 分页区域 -->
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
@@ -143,9 +145,9 @@
       return {
         tableDataBegin: [{
             id: "1",
-            name: "自然灾害水旱灾害一级",
+            name: "自然灾害水旱灾害",
             num: "360",
-            type: "2",
+            type: "一级",
             creatTime: "2021-05-03 11:11:11",
             person: "桃桃",
             phone: "9011910826",
@@ -158,9 +160,9 @@
           },
           {
             id: "2",
-            name: "公交倒翻二级",
+            name: "公交倒翻",
             num: "1700",
-            type: "2",
+            type: "二级",
             creatTime: "2021-05-03 11:11:11",
             person: "苹苹",
             phone: "9039847561",
@@ -174,9 +176,9 @@
           },
           {
             id: "3",
-            name: "地震灾害五级",
+            name: "地震灾害",
             num: "1500",
-            type: "2",
+            type: "五级",
             creatTime: "2021-05-03 11:11:11",
             person: "苹苹",
             phone: "9039847561",
@@ -190,9 +192,9 @@
           },
           {
             id: "4",
-            name: "地震灾害五级",
+            name: "地震灾害",
             num: "600",
-            type: "1",
+            type: "五级",
             creatTime: "2021-05-03 11:11:11",
             person: "苹苹",
             phone: "9039847561",
@@ -206,9 +208,9 @@
           },
           {
             id: "5",
-            name: "矿泉水污染一级",
+            name: "矿泉水污染",
             num: "25",
-            type: "1",
+            type: "一级",
             creatTime: "2021-05-03 11:11:11",
             person: "桃桃",
             phone: "9011910826",
@@ -438,4 +440,20 @@
   };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+/**卡片的格式 */
+.el-card {
+  /* box-shadow: 0 1px 1px rgba(115, 171, 194, 0.15)!important; */
+  background: #ffffff60;
+  background: linear-gradient(to right bottom,
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.3));
+  border-radius: 25px;
+  
+}
+
+.el-breadcrumb  /deep/  .el-breadcrumb__inner 
+      {
+        color: rgb(96, 98, 102) !important;
+    }
+</style>
