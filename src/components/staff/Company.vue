@@ -495,6 +495,16 @@ export default {
     resetForm() {
       // this.addForm={}
       this.$refs.addForm.resetFields();
+            this.addForm= {
+        id:'100',
+        name:'',
+        address:'',
+        location:'',
+        person:'',
+        phone:'',
+        type:''
+      }
+      this.addressKeyword = "";
     },
     // 点击按钮，添加新的记录
     //尚未实现持久化
