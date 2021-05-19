@@ -10,48 +10,115 @@
       <source src="../assets/mp42.mp4" type="video/mp4" />
       您的浏览器不支持 video 标签。
     </video>
-    <div class="login_box">
-      <!-- 头像区域 -->
-      <!-- <div class="avatar_box">
-        <img src="../assets/logo.png" alt="" />
-      </div> -->
-      <!-- 登录区域 -->
-      <el-form
-        ref="loginFormRef"
-        :model="loginForm"
-        :rules="LoginFormRules"
-        class="login_form"
-      >
-        <!-- 用户名 -->
-        <h1 style="color: #ffffff70; font-size: 46px">欢迎登陆环境应急保护系统</h1>
-        <el-form-item prop="username" style="display: relative; margin-top: 100px; margin-bottom: 50px;">
-          <el-input
-            v-model="loginForm.username"
-            prefix-icon="el-icon-user"
-          ></el-input>
-        </el-form-item>
-        <!-- 密码 -->
-        <el-form-item prop="password" style="display: relative; margin-top: px; margin-bottom: 50px;">
-          <el-input
-            v-model="loginForm.password"
-            prefix-icon="el-icon-lock"
-            type="password"
-          ></el-input>
-        </el-form-item>
-        <!-- 按钮 -->
-        <el-form-item class="btns">
-          <el-button type="primary" @click="login">登录</el-button>
-          <el-button type="info" @click="resetLoginForm">重置</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
-  </div>
-</template>
+      <div class="login_box">
+            <!-- 头像区域 -->
+            <!-- <div class="avatar_box">
+              <img src="../assets/logo.png" alt="" />
+            </div> -->
+            <!-- 登录区域 -->
+            <el-form
+              ref="loginFormRef"
+              :model="loginForm"
+              :rules="LoginFormRules"
+              class="login_form"
+            >
+              <!-- 用户名 -->
+              <h1 style="color: #ffffff70; font-size: 46px">欢迎登陆环境应急保护系统</h1>
+              <el-form-item prop="username" style="display: relative; margin-top: 100px; margin-bottom: 50px;">
+                <el-input
+                  v-model="loginForm.username"
+                  prefix-icon="el-icon-user"
+                ></el-input>
+              </el-form-item>
+              <!-- 密码 -->
+              <el-form-item prop="password" style="display: relative; margin-top: px; margin-bottom: 50px;">
+                <el-input
+                  v-model="loginForm.password"
+                  prefix-icon="el-icon-lock"
+                  type="password"
+                ></el-input>
+              </el-form-item>
+              <!-- 按钮 -->
+              <el-form-item class="btns">
+                <el-button type="primary" @click="login">登录</el-button>
+                <el-button type="info" @click="resetLoginForm">重置</el-button>
+                <el-button @click="drawer = true" type="success" style="margin-left: 16px;">
+                  帮助信息
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+          <el-drawer
+              title="帮助信息"
+              :visible.sync="drawer"
+              size="45%">
+              <div>
+              <el-button @click="innerDrawer1 = true">超级管理员</el-button>
+              <el-drawer
+                  title="管理员帮助信息"
+                  :append-to-body="true"
+                  :before-close="handleClose"
+                  :visible.sync="innerDrawer1">
+                  <p>超级管理员登录后，可进行增加用户、修改用户状态、删除用户等操作。</p>
+                  <p>1.管理员可以通过左侧菜单进行页面跳转，也可以使用上方面包屑栏选择界面</p>
+                  <p>2.管理员在进行增加操作时，必须填完整必要信息，并且符合字数限制</p>
+                  <p>3.管理员在进行删除操作时，需进行确认操作，避免误删、错删</p>
+                  <p>4.管理员在进行搜索时，需按照用户名称进行搜索，其他搜索关键词无效</p>
+                  <p>5.管理员在页面并未显示新信息的时候可进行刷新操作</p>
+              </el-drawer>
+              <el-button @click="innerDrawer2 = true">工作人员</el-button>
+              <el-drawer
+                  title="工作人员帮助信息"
+                  :append-to-body="true"
+                  :before-close="handleClose"
+                  :visible.sync="innerDrawer2">
+                  <p>工作人员登录后，可进行物资维护、接报维护、事件维护等操作。</p>
+                  <p>1.工作人员可以通过左侧菜单进行页面跳转，也可以使用上方面包屑栏选择界面</p>
+                  <p>2.工作人员在进行增加操作时，必须填完整必要信息，并且符合字数限制</p>
+                  <p>3.工作人员在进行删除操作时，需进行确认操作，避免误删、错删</p>
+                  <p>4.工作人员在进行搜索时，需按照用户名称进行搜索，其他搜索关键词无效</p>
+                  <p>5.工作人员在页面并未显示新信息的时候可进行刷新操作</p>
+                  <p>6.工作人员无权修改已经被指挥人员或专家人员处理过的接报</p>
+                  </el-drawer>
+              <el-button @click="innerDrawer3 = true">指挥人员</el-button>
+              <el-drawer
+                  title="指挥人员帮助信息"
+                  :append-to-body="true"
+                  :before-close="handleClose"
+                  :visible.sync="innerDrawer3">
+                  <p>指挥人员登录后，可进行接报管理、紧急事件处理等操作。</p>
+                  <p>1.指挥人员可以通过左侧菜单进行页面跳转，也可以使用上方面包屑栏选择界面</p>
+                  <p>2.指挥人员在进行接报管理时，可以填写审批内容，但要注意字数限制</p>
+                  <p>3.指挥人员在进行接报管理时，无权进行接报内容的修改</p>
+                  <p>4.指挥人员在进行搜索时，需按照用户名称进行搜索，其他搜索关键词无效，并可以随时取消搜索</p>
+                  <p>5.指挥人员在进行接报管理时，无权修改已经被专家回复过的审批内容</p>
+                  <p>6.指挥人员在进行紧急事件处理时，必须填写调动人员和物资</p>
+                  </el-drawer>
+              <el-button @click="innerDrawer4 = true">专家人员</el-button>
+              <el-drawer
+                   title="专家帮助信息"
+                   :append-to-body="true"
+                   :before-close="handleClose"
+                   :visible.sync="innerDrawer4">
+                   <p>专家登录后，可进行接报审批操作。</p>
+                   <p>1.专家可以通过左侧菜单进行页面跳转，也可以使用上方面包屑栏选择界面</p>
+                   <p>2.专家在进行接报审批时，需填写审批内容，并注意字数限制</p>
+                   <p>3.专家在进行搜索时，需按照事件名称进行搜索，并可以随时取消搜索</p>
+                   </el-drawer>
+          </div>
+          </el-drawer>
+        </div>
+      </template>
 
 <script>
 export default {
   data() {
     return {
+      drawer: false,
+      innerDrawer1: false,
+      innerDrawer2: false,
+      innerDrawer3: false,
+      innerDrawer4: false,
       loginForm: {
         username: "admin",
         password: "123456",
@@ -125,7 +192,7 @@ export default {
         }
       });
     },
-  },
+}
 };
 </script>
 
