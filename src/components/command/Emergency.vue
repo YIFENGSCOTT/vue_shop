@@ -37,56 +37,56 @@
 
       <!-- 信息列表区域 -->
       <div class="tablecontainer">
-      <el-table :data="tableDataEnd" tooltip-effect="dark" style="width: 100%" :default-sort="{ prop: 'id' }">
-        <el-table-column type="selection" width="55"> </el-table-column>
-        <el-table-column prop="id" label="ID" sortable="" width="70">
-        </el-table-column>
-        <el-table-column prop="name" label="事件名称" width="120">
-        </el-table-column>
-        <el-table-column prop="num" label="事件接报编码" width="80">
-        </el-table-column>
-        <el-table-column prop="seq" label="流程编号" width="80">
-        </el-table-column>
-        <el-table-column prop="type" label="流程类型" width="120">
-        </el-table-column>
-        <el-table-column prop="creatTime" label="流程创建时间" width="120">
-        </el-table-column>
-        <el-table-column prop="person" label="报警人" width="100">
-        </el-table-column>
-        <el-table-column prop="phone" label="报警人联系电话" width="120">
-        </el-table-column>
-        <el-table-column prop="alarmTime" label="接报时间" width="120">
-        </el-table-column>
-        <el-table-column prop="enterprise" label="风险企业" width="120">
-        </el-table-column>
-        <el-table-column prop="lastModifyTime" label="流程最后修改时间" width="120">
-        </el-table-column>
-        <el-table-column prop="lastModifyPerson" label="最后更新者" width="120">
-        </el-table-column>
-        <el-table-column prop="state" label="流程状态" width="120">
-          <template slot-scope="scope">
-            <el-tag  v-if="scope.row.state == '已接报'">
-              已接报
-            </el-tag>
-            <el-tag type="danger" v-if="scope.row.state == '已移交专家'">
-              已移交专家
-            </el-tag>
-            <el-tag type="warning" v-if="scope.row.state == '专家已回复'">
-              专家已回复
-            </el-tag>
-            <el-tag type="success" v-if="scope.row.state == '已通过'">
-              已通过
-            </el-tag>
-            <el-tag type="success" v-if="scope.row.state == '事件已处理'">
-              事件已处理
-            </el-tag>
-          </template>
-        </el-table-column>
+        <el-table :data="tableDataEnd" tooltip-effect="dark" style="width: 100%" :default-sort="{ prop: 'id' }">
+          <el-table-column type="selection" width="55"> </el-table-column>
+          <el-table-column prop="id" label="ID" sortable="" width="70">
+          </el-table-column>
+          <el-table-column prop="name" label="事件名称" width="120">
+          </el-table-column>
+          <el-table-column prop="num" label="事件接报编码" width="80">
+          </el-table-column>
+          <el-table-column prop="seq" label="流程编号" width="80">
+          </el-table-column>
+          <el-table-column prop="type" label="流程类型" width="120">
+          </el-table-column>
+          <el-table-column prop="creatTime" label="流程创建时间" width="120">
+          </el-table-column>
+          <el-table-column prop="person" label="报警人" width="100">
+          </el-table-column>
+          <el-table-column prop="phone" label="报警人联系电话" width="120">
+          </el-table-column>
+          <el-table-column prop="alarmTime" label="接报时间" width="120">
+          </el-table-column>
+          <el-table-column prop="enterprise" label="风险企业" width="120">
+          </el-table-column>
+          <el-table-column prop="lastModifyTime" label="流程最后修改时间" width="120">
+          </el-table-column>
+          <el-table-column prop="lastModifyPerson" label="最后更新者" width="120">
+          </el-table-column>
+          <el-table-column prop="state" label="流程状态" width="120">
+            <template slot-scope="scope">
+              <el-tag v-if="scope.row.state == '已接报'">
+                已接报
+              </el-tag>
+              <el-tag type="danger" v-if="scope.row.state == '已移交专家'">
+                已移交专家
+              </el-tag>
+              <el-tag type="warning" v-if="scope.row.state == '专家已回复'">
+                专家已回复
+              </el-tag>
+              <el-tag type="success" v-if="scope.row.state == '已通过'">
+                已通过
+              </el-tag>
+              <el-tag type="success" v-if="scope.row.state == '事件已处理'">
+                事件已处理
+              </el-tag>
+            </template>
+          </el-table-column>
 
-        <el-table-column label="操作" width="120">
-          <template slot-scope="scope">
-            <el-tooltip class="item" effect="dark" content="填写调动" placement="top" :enterable="false">
-              <el-button type="primary" icon="el-icon-edit" circle @click="showEditDialog(
+          <el-table-column label="操作" width="120">
+            <template slot-scope="scope">
+              <el-tooltip class="item" effect="dark" content="填写调动" placement="top" :enterable="false">
+                <el-button type="primary" icon="el-icon-edit" circle @click="showEditDialog(
                 scope.row.id,
                 scope.row.name, 
                 scope.row.num,
@@ -106,10 +106,10 @@
                 scope.row.useResourceNum,
                 scope.row.x,
                 scope.row.y),change()"></el-button>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
       <!-- id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state -->
       <!-- 分页区域 -->
@@ -126,7 +126,8 @@
           <el-step title="接报维护"></el-step>
           <el-step title="接报审批"></el-step>
           <el-step title="专家介入"></el-step>
-          <el-step title="流程结束"></el-step>
+          <el-step title="审批完成"></el-step>
+          <el-step title="处理事件"></el-step>
         </el-steps>
 
         <el-form :model="editForm" ref="editForm" label-width="auto">
@@ -421,6 +422,8 @@
         let itemForm = JSON.parse(JSON.stringify(this.editForm));
         if (itemForm.state == "已通过") {
           this.activeIndex = 4
+        }else if (itemForm.state == "事件已处理") {
+          this.activeIndex = 5
         }
       },
 
@@ -448,12 +451,12 @@
                   if (value.id == keywords) {
                     _this.tableDataBegin.splice(index, 1)
                     _this.$set(itemForm, 'state', "事件已处理")
+                    this.activeIndex = 5
                     _this.$set(itemForm, 'lastModifyPerson', "指挥人员2")
-                    console.log(13123);
 
                     var date = new Date()
                     var y = date.getFullYear();
-                    var m = date.getMonth()+1;
+                    var m = date.getMonth() + 1;
                     m = m < 10 ? "0" + m : m;
                     var d = date.getDate();
                     var ho = date.getHours();
@@ -470,7 +473,7 @@
               _this.tableDataBegin.push(itemForm)
               // console.log(_this.tableDataBegin);
               //隐藏添加用户的对话框
-              this.editDialogVisible = false;
+              this.editDialogVisible = true;
               this.$message({
                 type: 'success',
                 message: '提交成功!'
@@ -504,18 +507,17 @@
   }
 </script>
 <style lang="less" scoped>
-.el-card {
-  /* box-shadow: 0 1px 1px rgba(115, 171, 194, 0.15)!important; */
-  background: #ffffff60;
-  background: linear-gradient(to right bottom,
-      rgba(255, 255, 255, 0.7),
-      rgba(255, 255, 255, 0.3));
-  border-radius: 25px;
-  
-}
+  .el-card {
+    /* box-shadow: 0 1px 1px rgba(115, 171, 194, 0.15)!important; */
+    background: #ffffff60;
+    background: linear-gradient(to right bottom,
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 0.3));
+    border-radius: 25px;
 
-.el-breadcrumb  /deep/  .el-breadcrumb__inner 
-      {
-        color: #ccc !important;
-    }
+  }
+
+  .el-breadcrumb /deep/ .el-breadcrumb__inner {
+    color: #ccc !important;
+  }
 </style>
