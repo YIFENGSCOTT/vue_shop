@@ -119,7 +119,8 @@
           <el-step title="接报维护"></el-step>
           <el-step title="接报审批"></el-step>
           <el-step title="专家介入"></el-step>
-          <el-step title="流程结束"></el-step>
+          <el-step title="审批完成"></el-step>
+          <el-step title="处理事件"></el-step>
         </el-steps>
 
         <el-form :model="editForm" :rules="modifyFormRules" ref="editForm" label-width="auto">
@@ -391,9 +392,10 @@
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'info'
-        }).then(() => { this.$refs.editForm.validate(valid => {
+        }).then(() => {
+          this.$refs.editForm.validate(valid => {
             if (!valid) return;
-                     const _this = this;
+            const _this = this;
             let itemForm = JSON.parse(JSON.stringify(this.editForm));
             console.log(itemForm)
             let keywords = itemForm.id;
@@ -443,7 +445,7 @@
                 message: '提交成功!'
               });
             }
-        });
+          });
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -457,59 +459,60 @@
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'info'
-          }).then(() => { this.$refs.editForm.validate(valid => {
-            if (!valid) return;
-            const _this = this;
-            let itemForm = JSON.parse(JSON.stringify(this.editForm));
-            console.log(itemForm)
-            let keywords = itemForm.id;
-            console.log(keywords)
+          }).then(() => {
+            this.$refs.editForm.validate(valid => {
+              if (!valid) return;
+              const _this = this;
+              let itemForm = JSON.parse(JSON.stringify(this.editForm));
+              console.log(itemForm)
+              let keywords = itemForm.id;
+              console.log(keywords)
 
-            if (itemForm.state == "已移交专家") {
-              // this.editDialogVisible = true;
-              this.$message({
-                type: 'error',
-                message: '已移交专家无法修改流程!'
-              });
-            } else {
-              this.tableDataBegin.forEach((value, index) => {
-                if (value.id) {
-                  if (value.id == keywords) {
-                    _this.tableDataBegin.splice(index, 1)
-                    _this.$set(itemForm, 'state', "已通过")
-                    this.activeIndex = 4
-                    _this.$set(itemForm, 'lastModifyPerson', "指挥人员1")
-                    console.log(13123);
+              if (itemForm.state == "已移交专家") {
+                // this.editDialogVisible = true;
+                this.$message({
+                  type: 'error',
+                  message: '已移交专家无法修改流程!'
+                });
+              } else {
+                this.tableDataBegin.forEach((value, index) => {
+                  if (value.id) {
+                    if (value.id == keywords) {
+                      _this.tableDataBegin.splice(index, 1)
+                      _this.$set(itemForm, 'state', "已通过")
+                      this.activeIndex = 4 
+                      _this.$set(itemForm, 'lastModifyPerson', "指挥人员1")
+                      console.log(13123);
 
-                    var date = new Date()
-                    console.log(date.toDateString())
-                    var y = date.getFullYear();
-                    var m = date.getMonth() + 1;
-                    m = m < 10 ? "0" + m : m; // 如果只有一位，则前面补零
+                      var date = new Date()
+                      console.log(date.toDateString())
+                      var y = date.getFullYear();
+                      var m = date.getMonth() + 1;
+                      m = m < 10 ? "0" + m : m; // 如果只有一位，则前面补零
 
-                    console.log(m);
-                    var d = date.getDate();
-                    var ho = date.getHours();
-                    ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
-                    var mi = date.getMinutes();
-                    mi = mi < 10 ? "0" + mi : mi; // 如果只有一位，则前面补零
-                    var se = date.getSeconds();
-                    se = se < 10 ? "0" + se : se; // 如果只有一位，则前面补零
-                    var currentTime = y + "-" + m + '-' + d + ' ' + ho + ':' + mi + ':' + se
-                    _this.$set(itemForm, "lastModifyTime", currentTime)
+                      console.log(m);
+                      var d = date.getDate();
+                      var ho = date.getHours();
+                      ho = ho < 10 ? "0" + ho : ho; // 如果只有一位，则前面补零
+                      var mi = date.getMinutes();
+                      mi = mi < 10 ? "0" + mi : mi; // 如果只有一位，则前面补零
+                      var se = date.getSeconds();
+                      se = se < 10 ? "0" + se : se; // 如果只有一位，则前面补零
+                      var currentTime = y + "-" + m + '-' + d + ' ' + ho + ':' + mi + ':' + se
+                      _this.$set(itemForm, "lastModifyTime", currentTime)
+                    }
                   }
-                }
-              });
-              _this.tableDataBegin.push(itemForm)
-              // console.log(_this.tableDataBegin);
-              //隐藏添加用户的对话框
-              this.editDialogVisible = true;
-              this.$message({
-                type: 'success',
-                message: '提交成功!'
-              });
-            }
-          });
+                });
+                _this.tableDataBegin.push(itemForm)
+                // console.log(_this.tableDataBegin);
+                //隐藏添加用户的对话框
+                this.editDialogVisible = true;
+                this.$message({
+                  type: 'success',
+                  message: '提交成功!'
+                });
+              }
+            });
           })
           .catch(() => {
             this.$message({
