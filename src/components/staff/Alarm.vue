@@ -194,8 +194,7 @@
           <el-step title="接报维护"></el-step>
           <el-step title="接报审批"></el-step>
           <el-step title="专家介入"></el-step>
-          <el-step title="审批完成"></el-step>
-          <el-step title="处理事件"></el-step>
+          <el-step title="流程结束"></el-step>
         </el-steps>
 
         <el-form :model="editForm" :rules="modifyFormRules" ref="editForm" label-width="auto">

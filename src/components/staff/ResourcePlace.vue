@@ -193,7 +193,7 @@
 
       <!-- 修改物资的对话框 -->
       <el-dialog
-        title="修改物资记录"
+        title="修改物资位置记录"
         :visible.sync="editDialogVisible"
         width="50%"
         label-width="auto"
@@ -467,7 +467,7 @@ export default {
         //隐藏添加用户的对话框
         this.addDialogVisible = false;
         //显示提示信息
-        this.$message.success("添加物资信息成功！");
+        this.$message.success("添加信息成功！");
       });
     },
     //展示编辑物资信息的对话框
