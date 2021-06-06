@@ -55,7 +55,7 @@
               <div>
               <el-button @click="innerDrawer1 = true">超级管理员</el-button>
               <el-drawer
-                  title="管理员帮助信息"
+                  title=""
                   :append-to-body="true"
                   :before-close="handleClose"
                   :visible.sync="innerDrawer1">
@@ -94,16 +94,17 @@
                   <p>5.指挥人员在进行接报管理时，无权修改已经被专家回复过的审批内容</p>
                   <p>6.指挥人员在进行紧急事件处理时，必须填写调动人员和物资</p>
                   </el-drawer>
-              <el-button @click="innerDrawer4 = true">专家人员</el-button>
+              <el-button @click="innerDrawer4 = true">ttmaxxx</el-button>
               <el-drawer
-                   title="专家帮助信息"
+                   title="感谢 ttmaxxx 对本项目的大力支持"
                    :append-to-body="true"
                    :before-close="handleClose"
-                   :visible.sync="innerDrawer4">
-                   <p>专家登录后，可进行接报审批操作。</p>
-                   <p>1.专家可以通过左侧菜单进行页面跳转，也可以使用上方面包屑栏选择界面</p>
-                   <p>2.专家在进行接报审批时，需填写审批内容，并注意字数限制</p>
-                   <p>3.专家在进行搜索时，需按照事件名称进行搜索，并可以随时取消搜索</p>
+                   :visible.sync="innerDrawer4"
+              >
+                   <h2>&nbsp;&nbsp; 🌟 &nbsp;&nbsp; ttmaxxx 是本项目的美术担当</h2>
+                   <p>&nbsp;&nbsp; 🌟 &nbsp;&nbsp;  ttmaxxx 是有天赋而且十分努力的画家。</p>
+                   <p>&nbsp;&nbsp; 🌟 &nbsp;&nbsp;  他的 Instagram 账号是 wangchuantingt.tmax，快去关注他！</p>
+                   <p>&nbsp;&nbsp; 🌟 &nbsp;&nbsp;  在用户名输入框中输入 ttmaxxx，之后在密码输入框中输入 666666，就可以看到 ttmaxxx 的部分作品哦～</p>
                    </el-drawer>
           </div>
           </el-drawer>
@@ -180,8 +181,8 @@ export default {
           // window.sessionStorage.setItem('token', res.data.token)
           this.$router.push("/commander");
         } else if (
-          this.loginForm.username == "professor" &&
-          this.loginForm.password == "123456"
+          this.loginForm.username == "ttmaxxx" &&
+          this.loginForm.password == "666666"
         ) {
           this.$message.success("登录成功");
           // console.log(res)

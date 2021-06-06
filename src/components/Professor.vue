@@ -32,20 +32,20 @@
               <!-- 图标 -->
               <i class="el-icon-info"></i>
               <!-- 文本 -->
-              <span>专家人员界面</span>
+              <span>ttmaxxx 的界面</span>
             </template>
 
             <!-- 二级菜单 -->
             <el-menu-item index="3-1">
               <template slot="title">
               <!-- 图标 -->
-              <i class="el-icon-phone-outline"></i>
+              <i class="el-icon-film"></i>
               <!-- 文本 -->
-              <span>专家接报</span>
+              <span>作品展示</span>
             </template>
             </el-menu-item>
           </el-submenu>
-          
+
         </el-menu>
       </el-aside>
       <!--右侧内容主体-->

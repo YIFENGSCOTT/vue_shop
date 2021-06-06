@@ -369,7 +369,23 @@ export default {
 
       }
     },
-    removeNode(node, data) {
+    async removeNode(node, data) {
+      const confirmResult = await this.$confirm(
+        "此操作将永久删除该记录, 是否继续?",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      ).catch((err) => err);
+      //如果确定，返回值就是“confirm”
+      //如果取消，返回值就是“cancel”
+      // console.log(confirmResult)
+      if (confirmResult != "confirm") {
+        return this.$message.info("已取消删除");
+      } else {
+        const _this = this;}
 
         console.log(data);
         this.$refs.theTree.remove(this.curNode)

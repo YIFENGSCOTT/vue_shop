@@ -4,154 +4,38 @@
     <!-- 面包屑导航区 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/professor' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>专家人员界面</el-breadcrumb-item>
-      <el-breadcrumb-item>专家接报处理</el-breadcrumb-item>
+      <el-breadcrumb-item>ttmaxxx 的部分作品</el-breadcrumb-item>
     </el-breadcrumb>
 
     <!-- 卡片视图区 -->
     <el-card class="box-card">
       <!-- 搜索与添加区 -->
       <!-- 栅格布局 -->
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <div>
-            <el-button round @click="toggleSelection()">取消搜索</el-button>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <el-tooltip class="item" effect="dark" content="根据事件名称模糊查询" placement="top">
-              <el-input placeholder="请输入事件名称" v-model="tableDataName">
-                <el-button slot="append" icon="el-icon-search" @click="doFilter"></el-button>
-              </el-input>
-            </el-tooltip>
-          </div>
-          <el-col> </el-col>
-        </el-col>
-        <el-col :span="6">
-          <div>
-            <!-- <el-button type="danger" round>删除</el-button> -->
-          </div>
-        </el-col>
-      </el-row>
 
-      <div class="tablecontainer">
-      <!-- 信息列表区域 -->
-      <el-table ref="multipleTable" :data="tableDataEnd" tooltip-effect="dark" style="width: 100%"
-        :default-sort="{ prop: 'id' }">
-        <el-table-column type="selection" width="55"> </el-table-column>
-        <el-table-column prop="id" label="ID" sortable="" width="70">
-        </el-table-column>
-        <el-table-column prop="name" label="事件名称" width="120">
-        </el-table-column>
-        <el-table-column prop="num" label="事件接报编码" width="80">
-        </el-table-column>
-        <el-table-column prop="seq" label="流程编号" width="80">
-        </el-table-column>
-        <el-table-column prop="type" label="流程类型" width="120">
-        </el-table-column>
-        <el-table-column prop="creatTime" label="流程创建时间" width="120">
-        </el-table-column>
-        <el-table-column prop="person" label="报警人" width="100">
-        </el-table-column>
-        <el-table-column prop="phone" label="报警人联系电话" width="120">
-        </el-table-column>
-        <el-table-column prop="alarmTime" label="接报时间" width="120">
-        </el-table-column>
-        <el-table-column prop="enterprise" label="风险企业" width="120">
-        </el-table-column>
-        <el-table-column prop="lastModifyTime" label="流程最后修改时间" width="120">
-        </el-table-column>
-        <el-table-column prop="lastModifyPerson" label="最后更新者" width="120">
-        </el-table-column>
-        <el-table-column prop="state" label="流程状态" width="120">
-          <template slot-scope="scope">
-            <el-tag  v-if="scope.row.state == '已接报'">
-              已接报
-            </el-tag>
-            <el-tag type="danger" v-if="scope.row.state == '已移交专家'">
-              已移交专家
-            </el-tag>
-            <el-tag type="warning" v-if="scope.row.state == '专家已回复'">
-              专家已回复
-            </el-tag>
-            <el-tag type="success" v-if="scope.row.state == '已通过'">
-              已通过
-            </el-tag>
-            <el-tag type="success" v-if="scope.row.state == '事件已处理'">
-              事件已处理
-            </el-tag>
-          </template>
-        </el-table-column>
 
-        <el-table-column label="操作" width="120">
-          <template slot-scope="scope">
-            <el-tooltip class="item" effect="dark" content="填写备注" placement="top" :enterable="false">
-              <el-button type="primary" icon="el-icon-edit" circle @click="showEditDialog(
-                scope.row.id,
-                scope.row.name, 
-                scope.row.num,
-                scope.row.seq,
-                scope.row.type,
-                scope.row.creatTime,
-                scope.row.person,
-                scope.row.phone,
-                scope.row.alarmTime,
-                scope.row.enterprise,
-                scope.row.lastModifyTime,
-                scope.row.lastModifyPerson,
-                scope.row.state),change()"></el-button>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
+      <div class="tablecontainer" >
+        <div style="">
+          <ul class="infinite-list" v-infinite-scroll="load" style="max-height: 600px; overflow:auto; list-style-type: none">
+            <li><img src="../../assets/ttmaxxx/1.jpg" style="height: 40%; width: 40%"></li>
+            <li><img src="../../assets/ttmaxxx/2.jpg" style="height: 40%; width: 40%"></li>
+            <li><img src="../../assets/ttmaxxx/3.jpg" style="height: 40%; width: 40%"></li>
+            <li><img src="../../assets/ttmaxxx/4.jpg" style="height: 40%; width: 40%"></li>
+            <li><img src="../../assets/ttmaxxx/5.jpg" style="height: 40%; width: 40%"></li>
+            <li><img src="../../assets/ttmaxxx/6.jpg" style="height: 40%; width: 40%"></li>
+            <li><img src="../../assets/ttmaxxx/7.jpg" style="height: 40%; width: 40%"></li>
+            <li><img src="../../assets/ttmaxxx/8.jpg" style="height: 40%; width: 40%"></li>
+            <li><img src="../../assets/ttmaxxx/9.jpg" style="height: 40%; width: 40%"></li>
+            <li><img src="../../assets/ttmaxxx/10.jpg" style="height: 40%; width: 40%"></li>
+            <li><img src="../../assets/ttmaxxx/11.jpg" style="height: 40%; width: 40%"></li>
+            <li><img src="../../assets/ttmaxxx/12.jpg" style="height: 40%; width: 40%"></li>
+            <li><img src="../../assets/ttmaxxx/13.jpg" style="height: 40%; width: 40%"></li>
+            <li><img src="../../assets/ttmaxxx/14.jpg" style="height: 40%; width: 40%"></li>
+            <li><img src="../../assets/ttmaxxx/15.jpg" style="height: 40%; width: 40%"></li>
+            <li><img src="../../assets/ttmaxxx/16.jpg" style="height: 40%; width: 40%"></li>
+          </ul>
+        </div>
       </div>
-      <!-- id, name, num, seq, type, creatTime, person, phone, alarmTime, enterprise, lastModifyTime, lastModifyPerson, state -->
-      <!-- 分页区域 -->
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-        :page-sizes="[1, 4, 8, 10]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
-        :total="totalItems">
-      </el-pagination>
 
-      <!-- 修改信息的对话框 -->
-      <el-dialog title="填写审批内容" :visible.sync="editDialogVisible" width="50%" label-width="auto" size="mini"
-        @close="editDialogClosed">
-        <!-- 内容主体区 -->
-        <el-steps :active="activeIndex" finish-status="success" align-center>
-          <el-step title="接报维护"></el-step>
-          <el-step title="接报审批"></el-step>
-          <el-step title="专家介入"></el-step>
-          <el-step title="审批完成"></el-step>
-          <el-step title="处理事件"></el-step>
-        </el-steps>
-
-        <el-form :model="editForm" :rules="modifyFormRules" ref="editForm" label-width="auto">
-          <el-form-item label="ID">
-            <el-input v-model="editForm.id" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="事件名称">
-            <el-input v-model="editForm.name" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="事件接报编码">
-            <el-input v-model="editForm.num" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="流程状态">
-            <el-input v-model="editForm.state" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="审批备注" prop="comments">
-            <el-input v-model="editForm.comments"></el-input>
-          </el-form-item>
-        </el-form>
-
-        <!-- 底部区域 -->
-        <span slot="footer" class="dialog-footer">
-          <el-col :span="13">
-            <el-button type="primary" @click="pass()">通 过</el-button>
-          </el-col>
-          <!-- <el-button @click="editDialogVisible = false">取 消</el-button> -->
-          <el-button @click="editDialogVisible = false, activeIndex = 1">确 定</el-button>
-        </span>
-      </el-dialog>
     </el-card>
   </div>
 </template>
@@ -394,7 +278,7 @@
       },
 
       pass() {
-        
+
         this.$confirm('确认通过该流程吗?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
@@ -447,7 +331,7 @@
               message: '提交成功!'
             });
             }
-          }); 
+          });
           })
           .catch(() => {
             this.$message({
@@ -469,10 +353,10 @@
       rgba(255, 255, 255, 0.7),
       rgba(255, 255, 255, 0.3));
   border-radius: 25px;
-  
+
 }
 
-.el-breadcrumb  /deep/  .el-breadcrumb__inner 
+.el-breadcrumb  /deep/  .el-breadcrumb__inner
       {
         color: rgb(96, 98, 102) !important;
     }

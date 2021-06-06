@@ -187,7 +187,7 @@
       </el-dialog>
 
       <!-- 修改信息的对话框 -->
-      <el-dialog title="填写审批内容" :visible.sync="editDialogVisible" width="50%" label-width="auto" size="mini"
+      <el-dialog title="查看接报详情" :visible.sync="editDialogVisible" width="50%" label-width="auto" size="mini"
         @close="editDialogClosed">
         <!-- 内容主体区 -->
         <el-steps :active="activeIndex" finish-status="success" align-center>
